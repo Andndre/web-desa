@@ -10,6 +10,10 @@
     pkgs.nodePackages.pnpm
     pkgs.bun
   ];
+  services.mysql = {
+    enable = true;
+    package = pkgs.mysql80;
+  };
   # Sets environment variables in the workspace
   env = {};
   idx = {
