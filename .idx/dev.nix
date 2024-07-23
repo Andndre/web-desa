@@ -9,10 +9,12 @@
     pkgs.yarn
     pkgs.nodePackages.pnpm
     pkgs.bun
+    pkgs.openssl.dev
   ];
   services.mysql = {
     enable = true;
-    package = pkgs.mysql80;
+    package = pkgs.mariadb;
+    
   };
   # Sets environment variables in the workspace
   env = {};
