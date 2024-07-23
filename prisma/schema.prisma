@@ -13,7 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   email    String @id
   password String
+}
+
+model master_agama {
+  id Int @id
+  nama String @db.VarChar(50)
 }
