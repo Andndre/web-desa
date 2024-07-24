@@ -19,6 +19,21 @@ model user {
 }
 
 model master_agama {
-  id Int @id
+  id   Int    @id
   nama String @db.VarChar(50)
+}
+
+model master_pekerjaan {
+  id   Int    @id
+  nama String @db.VarChar(50)
+}
+
+model master_pendidikan {
+  id   Int    @id
+  nama String @db.VarChar(50)
+}
+
+model master_golongan_darah {
+  id   Int    @id
+  nama String @db.VarChar(5)
 }
