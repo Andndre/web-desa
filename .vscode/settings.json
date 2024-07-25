@@ -5,5 +5,6 @@
     "editor.formatOnSave": true,
     "IDX.aI.enableInlineCompletion": true,
     "IDX.aI.enableCodebaseIndexing": true,
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "git.autofetch": true
 }

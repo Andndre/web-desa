@@ -19,69 +19,70 @@ model user {
 }
 
 model master_agama {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_pekerjaan {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_pendidikan {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_golongan_darah {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(5)
   penduduk penduduk[]
 }
 
 model master_penduduk_hubungan {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_penduduk_status_kawin {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
-model master_status {
-  id       Int        @id
+model master_penduduk_status {
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_penduduk_status_dasar {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
-model master_cacat {
-  id       Int        @id
+model master_disabilitas {
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_sakit_menahun {
-  id       Int        @id
+  id       Int        @id @default(autoincrement())
   nama     String     @db.VarChar(50)
   penduduk penduduk[]
 }
 
 model master_suku {
-  id       Int        @id
-  nama     String     @db.VarChar(50)
-  penduduk penduduk[]
+  id        Int        @id @default(autoincrement())
+  nama      String     @db.VarChar(50)
+  deskripsi String     @db.Text()
+  penduduk  penduduk[]
 }
 
 enum JenisKelamin {
@@ -109,12 +110,12 @@ model penduduk {
   golongan_darah   master_golongan_darah?        @relation(fields: [golongan_darah_id], references: [id])
   status_kawin     master_penduduk_status_kawin? @relation(fields: [status_kawin_id], references: [id])
   hubungan         master_penduduk_hubungan?     @relation(fields: [hubungan_id], references: [id])
-  status           master_status?                @relation(fields: [status_id], references: [id])
+  status           master_penduduk_status?       @relation(fields: [status_id], references: [id])
   status_dasar     master_penduduk_status_dasar? @relation(fields: [status_dasar_id], references: [id])
-  cacat            master_cacat?                 @relation(fields: [cacat_id], references: [id])
+  cacat            master_disabilitas?           @relation(fields: [cacat_id], references: [id])
   sakit_menahun    master_sakit_menahun?         @relation(fields: [sakit_menahun_id], references: [id])
   suku             master_suku?                  @relation(fields: [suku_id], references: [id])
-  kartu_keluarga   penduduk_kartu_keluarga      @relation(fields: [kk_id], references: [nomor_kk])
+  kartu_keluarga   penduduk_kartu_keluarga       @relation(fields: [kk_id], references: [nomor_kk])
 
   pekerjaan_id      Int?
   pendidikan_id     Int?
