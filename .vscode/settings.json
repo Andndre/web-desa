@@ -1,10 +1,18 @@
 {
-    "[prisma]": {
-        "editor.defaultFormatter": "Prisma.prisma"
-    },
-    "editor.formatOnSave": true,
-    "IDX.aI.enableInlineCompletion": true,
-    "IDX.aI.enableCodebaseIndexing": true,
-    "editor.mouseWheelZoom": true,
-    "git.autofetch": true
+  "[prisma]": {
+    // formatter untuk file schema prisma
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  // format ketika save
+  "editor.formatOnSave": true,
+  "IDX.aI.enableInlineCompletion": true,
+  "IDX.aI.enableCodebaseIndexing": true,
+  "editor.mouseWheelZoom": true,
+  "git.autofetch": true,
+  // formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // untuk tailwind
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

@@ -11,9 +11,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <DefaultLayout>
-        <ECommerce />
-      </DefaultLayout>
+      <h1 className="text-2xl font-bold">Landing page.</h1>
+      <a href="/dashboard" className="underline">
+        Pergi ke dashboard
+      </a>
     </>
   );
 }
