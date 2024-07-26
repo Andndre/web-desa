@@ -1,8 +1,7 @@
 "use client";
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 export default function DashboardLayout({
   children,
@@ -12,7 +11,7 @@ export default function DashboardLayout({
   const { status } = useSession();
 
   if (status === "unauthenticated") {
-    redirect("/auth/signin");
+    signIn();
   }
 
   return <DefaultLayout>{children}</DefaultLayout>;
