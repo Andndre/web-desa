@@ -1,14 +1,19 @@
 import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
+import { config } from "dotenv";
+
+config();
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const password = await hash("test", 12);
+  const password = await hash(process.env.ADMIN_PASSWORD || "password", 12);
 
   const user = await prisma.user.upsert({
-    where: { email: "admin-web-desa@gmail.com " },
-    update: {},
+    where: { email: "admin-web-desa@gmail.com" },
+    update: {
+      password: password,
+    },
     create: {
       email: "admin-web-desa@gmail.com",
       password: password,
