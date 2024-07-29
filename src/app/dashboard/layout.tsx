@@ -9,11 +9,17 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  const session = await auth() as {
+    user: {
+      name?: string;
+      email: string;
+      image?: string;
+    };
+  } | null;
 
   if (!session) {
     redirect("/auth/signin");
   }
 
-  return <DefaultLayout>{children}</DefaultLayout>;
+  return <DefaultLayout user={session.user}>{children}</DefaultLayout>;
 }

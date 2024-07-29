@@ -1,13 +1,21 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 
+interface IDefaultLayout {
+  children: React.ReactNode;
+  user: {
+    name?: string;
+    email: string;
+    image?: string;
+  }
+}
+
 export default function DefaultLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+  user
+}: IDefaultLayout) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
@@ -20,7 +28,7 @@ export default function DefaultLayout({
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col lg:ml-72.5">
           {/* <!-- ===== Header Start ===== --> */}
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+          <Header user={user} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}

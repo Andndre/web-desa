@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Metadata } from "next";
 import Signin from "@/components/Svgs/Signin";
 import Form from "./form";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Masuk ke Akun",

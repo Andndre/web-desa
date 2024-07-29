@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/services/db";
+import { prisma } from "@/lib/db";
 import { compare } from "bcrypt";
 
 export const {
@@ -86,6 +86,17 @@ export const {
           // TODO: pertimbangkan membuatkan akun ketika belum ada di database
           return false;
         }
+        
+        // update photo profil dan nama
+        await prisma.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            name: profile?.name,
+            image: profile?.picture,
+          },
+        });
       }
       return true;
     }

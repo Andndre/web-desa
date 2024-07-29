@@ -5,10 +5,17 @@ import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 
-const Header = (props: {
+interface IHeader {
+  user: {
+    name?: string;
+    email: string;
+    image?: string;
+  },
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
-}) => {
+}
+
+const Header = (props: IHeader) => {
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -118,7 +125,7 @@ const Header = (props: {
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser />
+          <DropdownUser name={props.user.name || props.user.email} image={props.user.image} />
           {/* <!-- User Area --> */}
         </div>
       </div>

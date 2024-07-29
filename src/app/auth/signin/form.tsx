@@ -17,11 +17,8 @@ export default function () {
     setLoading(true);
     setError("");
     const formData = new FormData(event.currentTarget);
-    console.log(formData);
     const response = await doCredentialsLogin(formData);
     setLoading(false);
-    console.log("yeay");
-    console.log(response);
     // jika berhasil login, redirect ke dashboard
     if (typeof response === "string") {
       router.push("/dashboard");
