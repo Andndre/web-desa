@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Metadata } from "next";
 import Signin from "@/components/Svgs/Signin";
 import Form from "./form";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -12,12 +11,6 @@ export const metadata: Metadata = {
 };
 
 const SignIn = async () => {
-  const session = await getServerSession();
-
-  if (session) {
-    redirect("/dashboard");
-  }
-
   return (
     <div className="min-h-screen bg-white dark:bg-boxdark">
       <div className="flex flex-wrap items-center">
