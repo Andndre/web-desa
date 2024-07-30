@@ -1,6 +1,6 @@
 "use client";
 
-import { doCredentialsLogin, doSocialLogin } from "@/app/actions";
+import { authActions } from "@/app/actions";
 import Error from "@/components/Alert/Error";
 import Google from "@/components/Svgs/Google";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ export default function () {
     setLoading(true);
     setError("");
     const formData = new FormData(event.currentTarget);
-    const response = await doCredentialsLogin(formData);
+    const response = await authActions.doCredentialsLogin(formData);
     setLoading(false);
     // jika berhasil login, redirect ke dashboard
     if (typeof response === "string") {
@@ -109,7 +109,7 @@ export default function () {
         </div>
       </form>
 
-      <form action={doSocialLogin}>
+      <form action={authActions.doSocialLogin}>
         <button
           name="action"
           value="google"
