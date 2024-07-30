@@ -4,7 +4,7 @@
     "editor.defaultFormatter": "Prisma.prisma"
   },
   // format ketika save
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "IDX.aI.enableInlineCompletion": true,
   "IDX.aI.enableCodebaseIndexing": true,
   "editor.mouseWheelZoom": true,

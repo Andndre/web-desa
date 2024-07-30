@@ -14,8 +14,8 @@ datasource db {
 }
 
 model user {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
   name     String?
   image    String?
   password String
@@ -94,31 +94,32 @@ enum JenisKelamin {
 }
 
 model penduduk {
-  nik              String                        @id @db.VarChar(16)
-  kk_id            String                        @db.VarChar(16)
-  nama             String                        @db.VarChar(50)
-  tempat_lahir     String?
-  tanggal_lahir    DateTime?
-  jenis_kelamin    JenisKelamin
-  agama_id         Int
-  alamat           String?
-  nomor_akta_lahir String?
-  foto_akta_lahir  String?
-  telepon          String?
-  created_at       DateTime                      @default(now())
-  updated_at       DateTime?
-  agama            master_agama                  @relation(fields: [agama_id], references: [id])
-  pekerjaan        master_pekerjaan?             @relation(fields: [pekerjaan_id], references: [id])
-  pendidikan       master_pendidikan?            @relation(fields: [pendidikan_id], references: [id])
-  golongan_darah   master_golongan_darah?        @relation(fields: [golongan_darah_id], references: [id])
-  status_kawin     master_penduduk_status_kawin? @relation(fields: [status_kawin_id], references: [id])
-  hubungan         master_penduduk_hubungan?     @relation(fields: [hubungan_id], references: [id])
-  status           master_penduduk_status?       @relation(fields: [status_id], references: [id])
-  status_dasar     master_penduduk_status_dasar? @relation(fields: [status_dasar_id], references: [id])
-  cacat            master_disabilitas?           @relation(fields: [cacat_id], references: [id])
-  sakit_menahun    master_sakit_menahun?         @relation(fields: [sakit_menahun_id], references: [id])
-  suku             master_suku?                  @relation(fields: [suku_id], references: [id])
-  kartu_keluarga   penduduk_kartu_keluarga       @relation(fields: [kk_id], references: [nomor_kk])
+  nik                   String                        @id @db.VarChar(16)
+  kk_id                 String                        @db.VarChar(16)
+  nama                  String                        @db.VarChar(50)
+  tempat_lahir          String?
+  tanggal_lahir         DateTime?
+  jenis_kelamin         JenisKelamin
+  agama_id              Int
+  alamat                String?
+  nomor_akta_lahir      String?
+  foto_akta_lahir       String?
+  telepon               String?
+  created_at            DateTime                      @default(now())
+  updated_at            DateTime?
+  agama                 master_agama                  @relation(fields: [agama_id], references: [id])
+  pekerjaan             master_pekerjaan?             @relation(fields: [pekerjaan_id], references: [id])
+  pendidikan            master_pendidikan?            @relation(fields: [pendidikan_id], references: [id])
+  golongan_darah        master_golongan_darah?        @relation(fields: [golongan_darah_id], references: [id])
+  status_kawin          master_penduduk_status_kawin? @relation(fields: [status_kawin_id], references: [id])
+  hubungan              master_penduduk_hubungan?     @relation(fields: [hubungan_id], references: [id])
+  status                master_penduduk_status?       @relation(fields: [status_id], references: [id])
+  status_dasar          master_penduduk_status_dasar? @relation(fields: [status_dasar_id], references: [id])
+  cacat                 master_disabilitas?           @relation(fields: [cacat_id], references: [id])
+  sakit_menahun         master_sakit_menahun?         @relation(fields: [sakit_menahun_id], references: [id])
+  suku                  master_suku?                  @relation(fields: [suku_id], references: [id])
+  kartu_keluarga        penduduk_kartu_keluarga       @relation(fields: [kk_id], references: [nomor_kk])
+  kartu_keluarga_kepala penduduk_kartu_keluarga?      @relation(name: "penduduk_kepala_keluarga")
 
   pekerjaan_id      Int?
   pendidikan_id     Int?
@@ -133,7 +134,9 @@ model penduduk {
 }
 
 model penduduk_kartu_keluarga {
-  nomor_kk            String     @id @db.VarChar(16)
-  nik_kepala_keluarga String     @db.VarChar(16)
-  penduduk            penduduk[]
+  nomor_kk            String  @id @db.VarChar(16)
+  nik_kepala_keluarga String? @unique @db.VarChar(16)
+
+  kepala_keluarga penduduk?  @relation(fields: [nik_kepala_keluarga], references: [nik], onDelete: Cascade, name: "penduduk_kepala_keluarga")
+  penduduk        penduduk[]
 }

@@ -1,14 +1,12 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { Home } from "react-feather";
-import { DatabaseIcon, MessageCircleQuestion } from "lucide-react";
+import { MapIcon, PersonStandingIcon } from "lucide-react";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -20,12 +18,12 @@ const menuGroups = [
     name: "MENU",
     menuItems: [
       {
-        icon: <Home size={18} />,
-        label: "Beranda Desa",
+        icon: <MapIcon size={18} />,
+        label: "Desa",
         route: "/dashboard",
       },
       {
-        icon: <DatabaseIcon size={18} />,
+        icon: <PersonStandingIcon size={18} />,
         label: "Kependudukan",
         route: "#",
         children: [
