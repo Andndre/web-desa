@@ -3,6 +3,14 @@
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
+export async function isKartuKeluargaExists(noKK: string) {
+  return !!(await prisma.penduduk_kartu_keluarga.findFirst({
+    where: {
+      nomor_kk: noKK,
+    },
+  }));
+}
+
 export async function searchKartuKeluarga(noKK: string) {
   return await prisma.penduduk_kartu_keluarga.findMany({
     where: {

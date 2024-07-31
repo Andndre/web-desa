@@ -1,5 +1,6 @@
 import { JenisKelamin } from "@prisma/client";
 import { z } from "zod";
+import { isKartuKeluargaExists } from "../data/kartuKeluargaData";
 
 export const tambahDataPendudukSchema = z.object({
   nama: z.string().trim().min(1, { message: "Nama harus diisi" }),
@@ -17,8 +18,15 @@ export const tambahDataPendudukSchema = z.object({
   agama_id: z.string().pipe(z.coerce.number()),
   kk_id: z
     .string()
-    .min(16, { message: "Nomor KK harus terdiri dari 16 digit" })
-    .max(16, { message: "Nomor KK harus terdiri dari 16 digit" }),
+    .length(16, { message: "Nomor KK harus terdiri dari 16 digit" })
+    .refine(
+      async (kk_id) => {
+        return await isKartuKeluargaExists(kk_id);
+      },
+      {
+        message: "Nomor KK tidak ditemukan dalam sistem",
+      }
+    ),
   alamat: z.string(),
   cacat_id: z
     .string()

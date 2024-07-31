@@ -79,7 +79,6 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
         name={name}
         value={value}
         onInput={async (value) => {
-          console.log(value.currentTarget.value);
           setValue(value.currentTarget.value);
           if (loading) return; // TODO: improve this handle
           setLoading(true);

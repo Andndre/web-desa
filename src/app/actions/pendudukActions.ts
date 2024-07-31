@@ -16,6 +16,5 @@ export async function tambahDataPenduduk(formData: FormData) {
     return true;
   }
 
-  console.log(parsed.error);
   return false;
 }
