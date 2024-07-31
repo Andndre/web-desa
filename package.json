@@ -12,6 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.17.0",
     "apexcharts": "^3.51.0",
     "bcrypt": "^5.1.1",
@@ -29,6 +30,7 @@
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18",
     "react-feather": "^2.0.10",
+    "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"

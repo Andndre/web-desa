@@ -3,6 +3,7 @@
 import { getDataKeluarga } from "@/app/data";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
 
 export default function KeluargaPage({
   searchParams,
@@ -71,71 +72,6 @@ export default function KeluargaPage({
       </div>
       <div className="pt-3"></div>
       {/* table */}
-      <div className="relative w-full overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right table-auto">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th className="px-6 py-3">No</th>
-              <th className="px-6 py-3">NIK</th>
-              <th className="px-6 py-3">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr className="bg-white border-b border-gray-3 dark:bg-black">
-                <td colSpan={5} className="px-6 py-4 text-center">
-                  Loading...
-                </td>
-              </tr>
-            ) : (
-              keluarga.map((p, index) => (
-                <tr
-                  key={index}
-                  className="bg-white border-b border-gray-3 dark:bg-black"
-                >
-                  <td className="px-6 py-4">{index + 1 + (page - 1) * take}</td>
-                  <td className="px-6 py-4">{p.nik_kepala_keluarga}</td>
-
-                  <td className="px-6 py-4">Action</td>
-                </tr>
-              ))
-            )}
-            {/* no data */}
-            {!loading && keluarga.length === 0 && (
-              <tr className="bg-white border-b border-stroke dark:bg-black">
-                <td colSpan={5} className="px-6 py-4 text-center">
-                  No data available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <p className="text-sm py-3 text-center">
-          Menampilkan {take} data pada halaman {page}
-        </p>
-      </div>
-      {/* end table */}
-      {/* pagination */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={handlePrevPage}
-          disabled={page === 1}
-          className={`px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 ${
-            page === 1 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Sebelumnya
-        </button>
-        <button
-          onClick={handleNextPage}
-          disabled={take != keluarga.length}
-          className={`px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-700 ${
-            take != keluarga.length ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          Berikutnya
-        </button>
-      </div>
     </div>
   );
 }
