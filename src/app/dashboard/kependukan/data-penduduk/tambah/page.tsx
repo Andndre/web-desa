@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Form from "./form";
-import { pendudukData } from "@/app/data";
+import { pendudukData } from "@/server/data";
 
 export default async function TambahPendudukPage() {
   const masters = await pendudukData.getMasters();

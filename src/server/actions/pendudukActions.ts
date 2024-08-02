@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { PendudukFormSchema } from "@/app/formschemas";
+import { PendudukFormSchema } from "@/server/actions/formschemas";
 
 export async function tambahDataPenduduk(formData: FormData) {
   const data: { [key: string]: any } = {};

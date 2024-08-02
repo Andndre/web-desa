@@ -1,9 +1,9 @@
 "use client";
 
-import { pendudukActions } from "@/app/actions";
-import { searchKartuKeluarga } from "@/app/data/kartuKeluargaData";
-import { MastersType } from "@/app/data/pendudukData";
-import { PendudukFormSchema } from "@/app/formschemas";
+import { pendudukActions } from "@/server/actions";
+import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
+import { MastersType } from "@/server/data/pendudukData";
+import { PendudukFormSchema } from "@/server/actions/formschemas";
 import { Input } from "@/components/FormElements/Input";
 import { Select } from "@/components/FormElements/Select";
 import { SelectSearch } from "@/components/FormElements/SelectSearch";
@@ -80,6 +80,8 @@ export default function Form({ masters }: IForm) {
             setValue("kk_id", value, { shouldValidate: true });
           }}
           searchfunction={async (value) => {
+            if (value.length < 16) return [];
+            // fungsi searchKartuKeluarga berjalan di sisi server
             const data = await searchKartuKeluarga(value);
             const result = [];
             for (const item of data) {
@@ -133,10 +135,9 @@ export default function Form({ masters }: IForm) {
           label="Alamat"
           {...register("alamat")}
           error={errors.alamat?.message}
-          required
         />
         <Select
-          label="Cacat"
+          label="Disabilitas"
           {...register("cacat_id")}
           error={errors.cacat_id?.message}
           required
@@ -215,7 +216,6 @@ export default function Form({ masters }: IForm) {
           label="Telepon"
           {...register("telepon")}
           error={errors.telepon?.message}
-          required
         />
         <button
           type="submit"

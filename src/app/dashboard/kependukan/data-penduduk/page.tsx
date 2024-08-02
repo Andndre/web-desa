@@ -1,6 +1,6 @@
 "use client";
 
-import { pendudukData } from "@/app/data";
+import { pendudukData } from "@/server/data";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
@@ -71,4 +71,3 @@ export default function PendudukPage() {
     </div>
   );
 }
-   

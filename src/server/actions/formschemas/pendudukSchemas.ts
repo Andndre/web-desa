@@ -1,6 +1,6 @@
 import { JenisKelamin } from "@prisma/client";
 import { z } from "zod";
-import { isKartuKeluargaExists } from "../data/kartuKeluargaData";
+import { isKartuKeluargaExists } from "@/server/data/kartuKeluargaData";
 
 export const tambahDataPendudukSchema = z.object({
   nama: z.string().trim().min(1, { message: "Nama harus diisi" }),
@@ -30,27 +30,35 @@ export const tambahDataPendudukSchema = z.object({
   alamat: z.string(),
   cacat_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Disabilitas harus diisi" })),
+    .pipe(z.coerce.number().min(1, { message: "Disabilitas harus diisi" })),
   hubungan_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Hubungan harus diisi" })),
+    .pipe(z.coerce.number().min(1, { message: "Hubungan harus diisi" })),
   golongan_darah_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Golongan darah harus diisi" })),
+    .pipe(z.coerce.number().min(1, { message: "Golongan darah harus diisi" })),
   sakit_menahun_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Sakit menahun harus diisi" })),
+    .pipe(z.coerce.number().min(1, { message: "Sakit menahun harus diisi" })),
   pekerjaan_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Pekerjaan harus diisi" })),
+    .pipe(z.coerce.number().min(1, { message: "Pekerjaan harus diisi" })),
   pendidikan_id: z
     .string()
-    .pipe(z.coerce.number({ message: "Pendidikan harus diisi" })),
-  nomor_akta_lahir: z.string(),
-  status_dasar_id: z.string().pipe(z.coerce.number()),
-  status_id: z.string().pipe(z.coerce.number()),
-  suku_id: z.string().pipe(z.coerce.number()),
-  status_kawin_id: z.string().pipe(z.coerce.number()),
+    .pipe(z.coerce.number().min(1, { message: "Pendidikan harus diisi" })),
+  nomor_akta_lahir: z.string({ message: "Nomor akta lahir harus diisi" }),
+  status_dasar_id: z
+    .string()
+    .pipe(z.coerce.number().min(1, { message: "Status dasar harus diisi" })),
+  status_id: z
+    .string()
+    .pipe(z.coerce.number().min(1, { message: "Status harus diisi" })),
+  suku_id: z
+    .string()
+    .pipe(z.coerce.number().min(1, { message: "Suku harus diisi" })),
+  status_kawin_id: z
+    .string()
+    .pipe(z.coerce.number().min(1, { message: "Status kawin harus diisi" })),
   telepon: z.string(),
 });
 

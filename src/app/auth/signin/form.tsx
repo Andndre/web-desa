@@ -1,6 +1,6 @@
 "use client";
 
-import { authActions } from "@/app/actions";
+import { authActions } from "@/server/actions";
 import Error from "@/components/Alert/Error";
 import Google from "@/components/Svgs/Google";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,6 @@ export default function () {
   return (
     <div>
       {/* error alert if there is an error */}
-      {/* {error ? <div>{error}</div> : null} */}
 
       <Error error={error} />
       <form onSubmit={handleFormSubmit}>
