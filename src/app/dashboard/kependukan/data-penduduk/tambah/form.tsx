@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { pendudukActions } from "@/server/actions";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
 import { MastersType } from "@/server/data/pendudukData";
@@ -9,12 +10,15 @@ import { Select } from "@/components/FormElements/Select";
 import { SelectSearch } from "@/components/FormElements/SelectSearch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import RightDrawer from "@/components/Drawer/RightDrawer";
 
 interface IForm {
   masters: MastersType;
 }
 
 export default function Form({ masters }: IForm) {
+  const [showDrawer, setShowDrawer] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -49,6 +53,20 @@ export default function Form({ masters }: IForm) {
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <RightDrawer
+        show={showDrawer}
+        closeFn={() => {
+          console.log("closing the drawer");
+          setShowDrawer(false);
+          console.log(showDrawer);
+        }}
+      >
+        <div>
+          <h3 className="font-medium text-black dark:text-white">
+            Formulir Penambahan Penduduk Baru
+          </h3>
+        </div>
+      </RightDrawer>
       <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
         <h3 className="font-medium text-black dark:text-white">
           Formulir Penambahan Penduduk Baru
@@ -80,7 +98,6 @@ export default function Form({ masters }: IForm) {
             setValue("kk_id", value, { shouldValidate: true });
           }}
           searchfunction={async (value) => {
-            if (value.length < 16) return [];
             // fungsi searchKartuKeluarga berjalan di sisi server
             const data = await searchKartuKeluarga(value);
             const result = [];
@@ -93,7 +110,9 @@ export default function Form({ masters }: IForm) {
             return result;
           }}
           actionactive={true}
-          actionfunction={() => {}}
+          actionfunction={() => {
+            setShowDrawer(true);
+          }}
         />
         <Select
           label="Jenis Kelamin"
