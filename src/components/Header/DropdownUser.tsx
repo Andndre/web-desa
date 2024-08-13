@@ -4,7 +4,12 @@ import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
 import { signOut } from "next-auth/react";
 
-const DropdownUser = () => {
+interface DropdownUserInterface {
+  name: string,
+  image?: string
+}
+
+const DropdownUser = ({ name, image }: DropdownUserInterface) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
@@ -16,16 +21,15 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            { name }
           </span>
-          <span className="block text-xs">UX Designer</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
+        <span className="h-12 w-12 rounded-full overflow-hidden object-cover object-center">
           <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={image || '/images/user/avatar.jpg'}
             style={{
               width: "auto",
               height: "auto",

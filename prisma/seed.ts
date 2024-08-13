@@ -8,14 +8,16 @@ const prisma = new PrismaClient();
 
 async function main() {
   const password = await hash(process.env.ADMIN_PASSWORD || "password", 12);
+  const email = process.env.ADMIN_EMAIL || "admin@gmail.com";
 
   const user = await prisma.user.upsert({
-    where: { email: "admin-web-desa@gmail.com" },
+    where: { email },
     update: {
+      email,
       password: password,
     },
     create: {
-      email: "admin-web-desa@gmail.com",
+      email,
       password: password,
     },
   });

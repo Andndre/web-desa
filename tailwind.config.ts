@@ -7,6 +7,9 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "rotate-180"
+  ],
   darkMode: "class",
   theme: {
     fontFamily: {

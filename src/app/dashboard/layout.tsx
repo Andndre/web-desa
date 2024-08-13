@@ -1,7 +1,7 @@
 "use server";
 
+import { auth } from "@/auth";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -9,11 +9,17 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession();
+  const session = await auth() as {
+    user: {
+      name?: string;
+      email: string;
+      image?: string;
+    };
+  } | null;
 
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/auth/signin");
   }
 
-  return <DefaultLayout>{children}</DefaultLayout>;
+  return <DefaultLayout user={session.user}>{children}</DefaultLayout>;
 }
