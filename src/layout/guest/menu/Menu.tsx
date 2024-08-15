@@ -7,7 +7,7 @@ import Link from "next/link";
 const ScrollLink = Scroll.Link;
 
 interface MenuItemProps {
-  to: string;
+  href: string;
   text: string;
   submenu?: MenuItemProps[];
 }
@@ -23,7 +23,7 @@ const Menu: FC<MenuProps> = ({ data, className }) => {
       {data.map((item, index) => (
         <MenuItem
           key={index}
-          href={item.to}
+          href={item.href}
           text={item.text}
           submenu={item.submenu}
         />
@@ -32,7 +32,7 @@ const Menu: FC<MenuProps> = ({ data, className }) => {
   );
 };
 
-const MenuItem: FC<MenuItemProps> = ({ to, text, submenu }) => {
+const MenuItem: FC<MenuItemProps> = ({ href, text, submenu }) => {
   const [active, setActive] = useState(false);
 
   return (
@@ -44,7 +44,7 @@ const MenuItem: FC<MenuItemProps> = ({ to, text, submenu }) => {
       ].join(" ")}
       onClick={() => (submenu ? setActive(!active) : null)}
     >
-      <MenuLink href={to} submenu={submenu}>
+      <MenuLink href={href} submenu={submenu}>
         {text}
       </MenuLink>
       {submenu && <MenuSub submenu={submenu} active={active} />}
@@ -53,21 +53,15 @@ const MenuItem: FC<MenuItemProps> = ({ to, text, submenu }) => {
 };
 
 interface MenuLinkProps {
-  to: string;
+  href: string;
   submenu?: MenuItemProps[];
   children: React.ReactNode;
 }
 
-const MenuLink: FC<MenuLinkProps> = ({ to, submenu, children }) => {
-  if (to.startsWith("#")) {
+const MenuLink: FC<MenuLinkProps> = ({ href, submenu, children }) => {
+  if (href.startsWith("#")) {
     return (
-      <ScrollLink
-        href={to}
-        href="#"
-        spy={true}
-        smooth={true}
-        className="menu-link"
-      >
+      <ScrollLink to={href} spy={true} smooth={true} className="menu-link">
         {children}
       </ScrollLink>
     );
@@ -78,13 +72,14 @@ const MenuLink: FC<MenuLinkProps> = ({ to, submenu, children }) => {
           href="toggle"
           onClick={(ev) => ev.preventDefault()}
           className="menu-link"
-          legacyBehavior>
+          legacyBehavior
+        >
           {children}
         </Link>
       );
     } else {
       return (
-        <Link href={to} className="menu-link" legacyBehavior>
+        <Link href={href} className="menu-link" legacyBehavior>
           {children}
         </Link>
       );
@@ -104,7 +99,7 @@ const MenuSub: FC<MenuSubProps> = ({ submenu, active }) => {
         {submenu.map((item, index) => (
           <MenuItem
             key={index}
-            href={item.to}
+            href={item.href}
             text={item.text}
             submenu={item.submenu}
           />

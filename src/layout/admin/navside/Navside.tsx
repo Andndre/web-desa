@@ -27,7 +27,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
 
   const checkMenuUrl = (data: any): any | undefined => {
     for (const node of data.subMenu) {
-      if (process.env.PUBLIC_URL + node.link === window.location.pathname) {
+      if (node.link === window.location.pathname) {
         return node;
       } else {
         const newNode = node.subMenu ? checkMenuUrl(node) : undefined;
@@ -60,13 +60,15 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
   return (
     <div className={appSidebarClass}>
       <div className="nk-apps-brand">
-        <Link href={`/`} className="logo-link" legacyBehavior>
-          <Image className="logo-light logo-img" src={LogoSmall} alt="logo" />
-          <Image
-            className="logo-dark logo-img"
-            src={LogoDark}
-            alt="logo-dark"
-          />
+        <Link href={`/`} legacyBehavior>
+          <div className="logo-link">
+            <Image className="logo-light logo-img" src={LogoSmall} alt="logo" />
+            <Image
+              className="logo-dark logo-img"
+              src={LogoDark}
+              alt="logo-dark"
+            />
+          </div>
         </Link>
       </div>
       <div className="nk-sidebar-element">
@@ -85,17 +87,16 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                           key={index}
                           id={"page" + index}
                         >
-                          <Link
-                            href="#link"
-                            className="nk-menu-link nk-menu-switch"
-                            onClick={(ev) => {
-                              ev.preventDefault();
-                              setMenuTab(item.heading ?? "Invalid Menu");
-                            }}
-                            legacyBehavior>
-                            <span className="nk-menu-icon">
+                          <Link href="#link" legacyBehavior>
+                            <a
+                              onClick={(ev) => {
+                                ev.preventDefault();
+                                setMenuTab(item.heading ?? "Invalid Menu");
+                              }}
+                              className="nk-menu-icon nk-menu-link nk-menu-switch"
+                            >
                               <Icon name={item.icon}></Icon>
-                            </span>
+                            </a>
                           </Link>
                         </li>
                       </React.Fragment>
@@ -109,17 +110,16 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                   }`}
                   id="componentTooltip"
                 >
-                  <Link
-                    href="#link"
-                    className="nk-menu-link nk-menu-switch"
-                    onClick={(ev) => {
-                      ev.preventDefault();
-                      setMenuTab("Components");
-                    }}
-                    legacyBehavior>
-                    <span className="nk-menu-icon">
+                  <Link href="#link" legacyBehavior>
+                    <a
+                      className="nk-menu-icon nk-menu-link nk-menu-switch"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        setMenuTab("Components");
+                      }}
+                    >
                       <Icon name="layers"></Icon>
-                    </span>
+                    </a>
                   </Link>
                 </li>
               </ul>
@@ -131,10 +131,12 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                   id="settingsTooltip"
                   onClick={themeUpdate.sidebarVisibility}
                 >
-                  <Link href={`/user-profile-setting`} className="nk-menu-link" legacyBehavior>
-                    <span className="nk-menu-icon">
-                      <Icon name="setting"></Icon>
-                    </span>
+                  <Link href={`/user-profile-setting`} legacyBehavior>
+                    <a className="nk-menu-link">
+                      <span className="nk-menu-icon">
+                        <Icon name="setting"></Icon>
+                      </span>
+                    </a>
                   </Link>
                 </li>
               </ul>
@@ -177,16 +179,25 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                   <LinkItem link="/user-profile-activity" icon="activity-alt">
                     Login Activity
                   </LinkItem>
+                  <LinkItem
+                    link="#"
+                    icon={theme.skin === "dark" ? "moon" : "sun"}
+                    onClick={(ev: any) => {
+                      ev.preventDefault();
+                      themeUpdate.skin(
+                        theme.skin === "dark" ? "light" : "dark"
+                      );
+                    }}
+                  >
+                    {theme.skin === "dark" ? "Light Mode" : "Dark Mode"}
+                  </LinkItem>
                 </LinkList>
               </div>
               <div className="dropdown-inner">
                 <LinkList>
-                  <Link href={`/auth-login`} passHref>
-
-                    <Icon name="signout"></Icon>
-                    <span>Sign Out</span>
-
-                  </Link>
+                  <LinkItem link="/api/auth/signout" icon="signout">
+                    Sign Out
+                  </LinkItem>
                 </LinkList>
               </div>
             </DropdownMenu>

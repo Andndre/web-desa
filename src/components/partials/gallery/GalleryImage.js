@@ -9,25 +9,28 @@ const ImageContainer = ({ img }) => {
   };
   return (
     <Link
-      className="gallery-image popup-image"
+      className="d-content"
       onClick={(ev) => {
         ev.preventDefault();
         toggle();
       }}
       href="#gallery"
-      legacyBehavior>
-      <img className="w-100 rounded-top" src={img} alt="" />
-      <Modal isOpen={open} toggle={toggle} size="large">
-        <button type="button" className="mfp-close" onClick={toggle}>
-          ×
-        </button>
-        <img
-          className="w-100 rounded-top"
-          style={{ height: "100%" }}
-          src={img}
-          alt=""
-        />
-      </Modal>
+      legacyBehavior
+    >
+      <div className="gallery-image popup-image">
+        <img className="w-100 rounded-top" src={img} alt="" />
+        <Modal isOpen={open} toggle={toggle} size="large">
+          <button type="button" className="mfp-close" onClick={toggle}>
+            ×
+          </button>
+          <img
+            className="w-100 rounded-top"
+            style={{ height: "100%" }}
+            src={img}
+            alt=""
+          />
+        </Modal>
+      </div>
     </Link>
   );
 };

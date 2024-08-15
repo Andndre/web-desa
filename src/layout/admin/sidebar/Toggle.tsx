@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from "@/components/icon/Icon";
+import Link from "next/link";
 
 interface ToggleProps {
   className?: string;

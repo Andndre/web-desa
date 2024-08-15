@@ -6,20 +6,12 @@ import Link from "next/link";
 export const LinkItem = ({ ...props }) => {
   return (
     <li>
-      {props.tag !== "a" ? (
-        <Link href={process.env.PUBLIC_URL + props.link} {...props} legacyBehavior>
+      <Link href={props.link} legacyBehavior>
+        <a {...props}>
           {props.icon ? <Icon name={props.icon} /> : null}{" "}
           <span>{props.text || props.children}</span>
-        </Link>
-      ) : (
-        <Link
-          href={process.env.PUBLIC_URL + props.link}
-          onClick={(ev) => ev.preventDefault()}
-          legacyBehavior>
-          {props.icon ? <Icon name={props.icon} /> : null}{" "}
-          <span>{props.text || props.children}</span>
-        </Link>
-      )}
+        </a>
+      </Link>
     </li>
   );
 };

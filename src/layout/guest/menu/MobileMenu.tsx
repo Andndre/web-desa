@@ -183,20 +183,15 @@ const MenuItem: FC<MenuItemProps> = ({
   return (
     <li className={menuItemClass} onClick={(e) => toggleActionSidebar(e)}>
       {link.startsWith("#") ? (
-        <ScrollLink
-          href={link}
-          href="#"
-          spy={true}
-          smooth={true}
-          className="menu-link"
-        >
+        <ScrollLink to={link} spy={true} smooth={true} className="menu-link">
           <span className="menu-text">{text}</span>
         </ScrollLink>
       ) : (
         <Link
           href={process.env.NEXT_PUBLIC_URL + link}
           className={`menu-link${sub ? " menu-toggle" : ""}`}
-          legacyBehavior>
+          legacyBehavior
+        >
           <span className="menu-text">{text}</span>
         </Link>
       )}

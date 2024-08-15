@@ -127,9 +127,11 @@ export const BackTo = ({ className, link, icon, ...props }: BackToProps) => {
   const classes = `back-to${className ? " " + className : ""}`;
   return (
     <div className="nk-block-head-sub">
-      <Link className={classes} href={process.env.PUBLIC_URL + link} legacyBehavior>
-        <Icon name={icon} />
-        <span>{props.children}</span>
+      <Link href={link} legacyBehavior>
+        <div className={classes}>
+          <Icon name={icon} />
+          <span>{props.children}</span>
+        </div>
       </Link>
     </div>
   );

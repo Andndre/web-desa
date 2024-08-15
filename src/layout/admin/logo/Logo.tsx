@@ -8,8 +8,22 @@ import Image from "next/image";
 const Logo = () => {
   return (
     <Link href={`/`} className="logo-link" legacyBehavior>
-      <Image className="logo-light logo-img" src={LogoLight2x} alt="logo" />
-      <Image className="logo-dark logo-img" src={LogoDark2x} alt="logo" />
+      <a>
+        <Image
+          className="logo-light logo-img"
+          src={LogoLight2x}
+          alt="logo"
+          width={130}
+          height={40}
+        />
+        <Image
+          className="logo-dark logo-img"
+          src={LogoDark2x}
+          alt="logo"
+          width={130}
+          height={40}
+        />
+      </a>
     </Link>
   );
 };

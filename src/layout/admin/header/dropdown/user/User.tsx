@@ -62,8 +62,17 @@ const User = () => {
             >
               Login Activity
             </LinkItem>
-            <li>
-              <Link
+            <LinkItem
+              link="#"
+              icon={theme.skin === "dark" ? "moon" : "sun"}
+              onClick={(ev: any) => {
+                ev.preventDefault();
+                themeUpdate.skin(theme.skin === "dark" ? "light" : "dark");
+              }}
+            >
+              {theme.skin === "dark" ? "Light Mode" : "Dark Mode"}
+            </LinkItem>
+            {/* <a
                 className={`dark-switch ${
                   theme.skin === "dark" ? "active" : ""
                 }`}
@@ -72,7 +81,7 @@ const User = () => {
                   ev.preventDefault();
                   themeUpdate.skin(theme.skin === "dark" ? "light" : "dark");
                 }}
-                legacyBehavior>
+              >
                 {theme.skin === "dark" ? (
                   <>
                     <em className="icon ni ni-sun"></em>
@@ -84,16 +93,14 @@ const User = () => {
                     <span>Dark Mode</span>
                   </>
                 )}
-              </Link>
-            </li>
+              </a> */}
           </LinkList>
         </div>
         <div className="dropdown-inner">
           <LinkList>
-            <a href={`/auth-login`}>
-              <Icon name="signout"></Icon>
-              <span>Sign Out</span>
-            </a>
+            <LinkItem link="/logout" icon="signout" onClick={toggle}>
+              Sign Out
+            </LinkItem>
           </LinkList>
         </div>
       </DropdownMenu>

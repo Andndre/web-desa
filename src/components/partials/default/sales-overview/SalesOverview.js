@@ -34,10 +34,12 @@ const SalesOverview = () => {
                 onClick={(ev) => ev.preventDefault()}
                 className="btn btn-primary btn-dim d-none d-sm-inline-flex"
               >
-                <Icon className="d-none d-sm-inline" name="download-cloud" />
-                <span>
-                  <span className="d-none d-md-inline">Download</span> Report
-                </span>
+                <div>
+                  <Icon className="d-none d-sm-inline" name="download-cloud" />
+                  <span>
+                    <span className="d-none d-md-inline">Download</span> Report
+                  </span>
+                </div>
               </Link>
               <Link
                 href="#toggle"

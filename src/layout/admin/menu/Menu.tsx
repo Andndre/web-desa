@@ -155,38 +155,36 @@ const MenuItem: React.FC<MenuSubProps> = ({
   const menuItemClass = classNames({
     "nk-menu-item": true,
     "has-sub": subMenu,
-    "active current-page": currentUrl === process.env.PUBLIC_URL + link,
+    "active current-page": currentUrl === link,
   });
 
   return (
     <li className={menuItemClass} onClick={toggleActionSidebar}>
       {newTab ? (
-        <Link
-          href={process.env.PUBLIC_URL + link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="nk-menu-link"
-          legacyBehavior>
-          {icon && (
-            <span className="nk-menu-icon">
-              <Icon name={icon} />
-            </span>
-          )}
-          <span className="nk-menu-text">{text}</span>
+        <Link href={link} target="_blank" legacyBehavior>
+          <a className="nk-menu-link" rel="noopener noreferrer">
+            {icon && (
+              <span className="nk-menu-icon">
+                <Icon name={icon} />
+              </span>
+            )}
+            <span className="nk-menu-text">{text}</span>
+          </a>
         </Link>
       ) : (
-        <Link
-          href={process.env.PUBLIC_URL + link}
-          className={`nk-menu-link${subMenu ? " nk-menu-toggle" : ""}`}
-          onClick={subMenu ? menuToggle : undefined}
-          legacyBehavior>
-          {icon && (
-            <span className="nk-menu-icon">
-              <Icon name={icon} />
-            </span>
-          )}
-          <span className="nk-menu-text">{text}</span>
-          {badge && <span className="nk-menu-badge">{badge}</span>}
+        <Link href={link} legacyBehavior>
+          <a
+            className={`nk-menu-link${subMenu ? " nk-menu-toggle" : ""}`}
+            onClick={subMenu ? menuToggle : undefined}
+          >
+            {icon && (
+              <span className="nk-menu-icon">
+                <Icon name={icon} />
+              </span>
+            )}
+            <span className="nk-menu-text">{text}</span>
+            {badge && <span className="nk-menu-badge">{badge}</span>}
+          </a>
         </Link>
       )}
       {subMenu && (

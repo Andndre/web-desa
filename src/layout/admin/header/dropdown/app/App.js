@@ -25,45 +25,55 @@ const AppDropdown = () => {
           <ul className="list-apps">
             <li>
               <Link href={`/`} onClick={toggle} legacyBehavior>
-                <span className="list-apps-media">
-                  <Icon
-                    name="dashlite"
-                    className="bg-primary text-white"
-                  ></Icon>
-                </span>
-                <span className="list-apps-title">Dashboard</span>
+                <div>
+                  <span className="list-apps-media">
+                    <Icon
+                      name="dashlite"
+                      className="bg-primary text-white"
+                    ></Icon>
+                  </span>
+                  <span className="list-apps-title">Dashboard</span>
+                </div>
               </Link>
             </li>
             <li>
               <Link href={`/app-chat`} onClick={toggle} legacyBehavior>
-                <span className="list-apps-media">
-                  <Icon name="dashlite" className="bg-info-dim"></Icon>
-                </span>
-                <span className="list-apps-title">Chats</span>
+                <div>
+                  <span className="list-apps-media">
+                    <Icon name="dashlite" className="bg-info-dim"></Icon>
+                  </span>
+                  <span className="list-apps-title">Chats</span>
+                </div>
               </Link>
             </li>
             <li>
               <Link href={`/app-messages`} onClick={toggle} legacyBehavior>
-                <span className="list-apps-media">
-                  <Icon name="dashlite" className="bg-success-dim"></Icon>
-                </span>
-                <span className="list-apps-title">Messages</span>
+                <div>
+                  <span className="list-apps-media">
+                    <Icon name="dashlite" className="bg-success-dim"></Icon>
+                  </span>
+                  <span className="list-apps-title">Messages</span>
+                </div>
               </Link>
             </li>
             <li>
               <Link href={`/app-calender`} onClick={toggle} legacyBehavior>
-                <span className="list-apps-media">
-                  <Icon name="dashlite" className="bg-danger-dim"></Icon>
-                </span>
-                <span className="list-apps-title">Calender</span>
+                <div>
+                  <span className="list-apps-media">
+                    <Icon name="dashlite" className="bg-danger-dim"></Icon>
+                  </span>
+                  <span className="list-apps-title">Calender</span>
+                </div>
               </Link>
             </li>
             <li>
               <Link href={`/components`} onClick={toggle} legacyBehavior>
-                <span className="list-apps-media">
-                  <Icon name="dashlite" className="bg-secondary-dim"></Icon>
-                </span>
-                <span className="list-apps-title">Components</span>
+                <div>
+                  <span className="list-apps-media">
+                    <Icon name="dashlite" className="bg-secondary-dim"></Icon>
+                  </span>
+                  <span className="list-apps-title">Components</span>
+                </div>
               </Link>
             </li>
           </ul>
