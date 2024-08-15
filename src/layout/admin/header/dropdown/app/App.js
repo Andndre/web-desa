@@ -24,7 +24,7 @@ const AppDropdown = () => {
         <div className="dropdown-body">
           <ul className="list-apps">
             <li>
-              <Link href={`/`} onClick={toggle}>
+              <Link href={`/`} onClick={toggle} legacyBehavior>
                 <span className="list-apps-media">
                   <Icon
                     name="dashlite"
@@ -35,7 +35,7 @@ const AppDropdown = () => {
               </Link>
             </li>
             <li>
-              <Link href={`/app-chat`} onClick={toggle}>
+              <Link href={`/app-chat`} onClick={toggle} legacyBehavior>
                 <span className="list-apps-media">
                   <Icon name="dashlite" className="bg-info-dim"></Icon>
                 </span>
@@ -43,7 +43,7 @@ const AppDropdown = () => {
               </Link>
             </li>
             <li>
-              <Link href={`/app-messages`} onClick={toggle}>
+              <Link href={`/app-messages`} onClick={toggle} legacyBehavior>
                 <span className="list-apps-media">
                   <Icon name="dashlite" className="bg-success-dim"></Icon>
                 </span>
@@ -51,7 +51,7 @@ const AppDropdown = () => {
               </Link>
             </li>
             <li>
-              <Link href={`/app-calender`} onClick={toggle}>
+              <Link href={`/app-calender`} onClick={toggle} legacyBehavior>
                 <span className="list-apps-media">
                   <Icon name="dashlite" className="bg-danger-dim"></Icon>
                 </span>
@@ -59,7 +59,7 @@ const AppDropdown = () => {
               </Link>
             </li>
             <li>
-              <Link href={`/components`} onClick={toggle}>
+              <Link href={`/components`} onClick={toggle} legacyBehavior>
                 <span className="list-apps-media">
                   <Icon name="dashlite" className="bg-secondary-dim"></Icon>
                 </span>

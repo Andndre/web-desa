@@ -78,13 +78,13 @@ const MenuLink: FC<MenuLinkProps> = ({ to, submenu, children }) => {
           href="toggle"
           onClick={(ev) => ev.preventDefault()}
           className="menu-link"
-        >
+          legacyBehavior>
           {children}
         </Link>
       );
     } else {
       return (
-        <Link href={to} className="menu-link">
+        <Link href={to} className="menu-link" legacyBehavior>
           {children}
         </Link>
       );

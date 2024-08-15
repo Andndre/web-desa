@@ -7,7 +7,7 @@ export const LinkItem = ({ ...props }) => {
   return (
     <li>
       {props.tag !== "a" ? (
-        <Link href={process.env.PUBLIC_URL + props.link} {...props}>
+        <Link href={process.env.PUBLIC_URL + props.link} {...props} legacyBehavior>
           {props.icon ? <Icon name={props.icon} /> : null}{" "}
           <span>{props.text || props.children}</span>
         </Link>
@@ -15,7 +15,7 @@ export const LinkItem = ({ ...props }) => {
         <Link
           href={process.env.PUBLIC_URL + props.link}
           onClick={(ev) => ev.preventDefault()}
-        >
+          legacyBehavior>
           {props.icon ? <Icon name={props.icon} /> : null}{" "}
           <span>{props.text || props.children}</span>
         </Link>

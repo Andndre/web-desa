@@ -196,7 +196,7 @@ const MenuItem: FC<MenuItemProps> = ({
         <Link
           href={process.env.NEXT_PUBLIC_URL + link}
           className={`menu-link${sub ? " menu-toggle" : ""}`}
-        >
+          legacyBehavior>
           <span className="menu-text">{text}</span>
         </Link>
       )}

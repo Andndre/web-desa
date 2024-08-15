@@ -152,7 +152,7 @@ const Profile = () => {
                   href="#"
                   className="hover:text-primary"
                   aria-label="social-icon"
-                >
+                  legacyBehavior>
                   <svg
                     className="fill-current"
                     width="22"
@@ -178,7 +178,7 @@ const Profile = () => {
                   href="#"
                   className="hover:text-primary"
                   aria-label="social-icon"
-                >
+                  legacyBehavior>
                   <svg
                     className="fill-current"
                     width="23"
@@ -209,7 +209,7 @@ const Profile = () => {
                   href="#"
                   className="hover:text-primary"
                   aria-label="social-icon"
-                >
+                  legacyBehavior>
                   <svg
                     className="fill-current"
                     width="23"
@@ -240,7 +240,7 @@ const Profile = () => {
                   href="#"
                   className="hover:text-primary"
                   aria-label="social-icon"
-                >
+                  legacyBehavior>
                   <svg
                     className="fill-current"
                     width="22"
@@ -266,7 +266,7 @@ const Profile = () => {
                   href="#"
                   className="hover:text-primary"
                   aria-label="social-icon"
-                >
+                  legacyBehavior>
                   <svg
                     className="fill-current"
                     width="23"

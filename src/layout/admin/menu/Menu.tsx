@@ -166,7 +166,7 @@ const MenuItem: React.FC<MenuSubProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           className="nk-menu-link"
-        >
+          legacyBehavior>
           {icon && (
             <span className="nk-menu-icon">
               <Icon name={icon} />
@@ -179,7 +179,7 @@ const MenuItem: React.FC<MenuSubProps> = ({
           href={process.env.PUBLIC_URL + link}
           className={`nk-menu-link${subMenu ? " nk-menu-toggle" : ""}`}
           onClick={subMenu ? menuToggle : undefined}
-        >
+          legacyBehavior>
           {icon && (
             <span className="nk-menu-icon">
               <Icon name={icon} />

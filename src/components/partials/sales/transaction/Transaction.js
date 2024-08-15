@@ -108,7 +108,7 @@ const TransactionTable = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>Paid</span>
                 </Link>
               </li>
@@ -121,7 +121,7 @@ const TransactionTable = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>Pending</span>
                 </Link>
               </li>
@@ -134,7 +134,7 @@ const TransactionTable = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>All</span>
                 </Link>
               </li>
@@ -171,7 +171,7 @@ const TransactionTable = () => {
             <DataTableItem key={idx}>
               <DataTableRow>
                 <span className="tb-lead">
-                  <Link href="#order">{item.order}</Link>
+                  <Link href="#order" legacyBehavior>{item.order}</Link>
                 </span>
               </DataTableRow>
               <DataTableRow size="sm">

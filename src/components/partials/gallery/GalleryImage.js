@@ -15,7 +15,7 @@ const ImageContainer = ({ img }) => {
         toggle();
       }}
       href="#gallery"
-    >
+      legacyBehavior>
       <img className="w-100 rounded-top" src={img} alt="" />
       <Modal isOpen={open} toggle={toggle} size="large">
         <button type="button" className="mfp-close" onClick={toggle}>

@@ -54,7 +54,7 @@ const OrderActivity = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>Buy</span>
                 </Link>
               </li>
@@ -67,7 +67,7 @@ const OrderActivity = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>Sell</span>
                 </Link>
               </li>
@@ -80,7 +80,7 @@ const OrderActivity = () => {
                   onClick={(ev) => {
                     ev.preventDefault();
                   }}
-                >
+                  legacyBehavior>
                   <span>All</span>
                 </Link>
               </li>

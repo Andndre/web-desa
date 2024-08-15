@@ -60,7 +60,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
   return (
     <div className={appSidebarClass}>
       <div className="nk-apps-brand">
-        <Link href={`/`} className="logo-link">
+        <Link href={`/`} className="logo-link" legacyBehavior>
           <Image className="logo-light logo-img" src={LogoSmall} alt="logo" />
           <Image
             className="logo-dark logo-img"
@@ -92,7 +92,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                               ev.preventDefault();
                               setMenuTab(item.heading ?? "Invalid Menu");
                             }}
-                          >
+                            legacyBehavior>
                             <span className="nk-menu-icon">
                               <Icon name={item.icon}></Icon>
                             </span>
@@ -116,7 +116,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                       ev.preventDefault();
                       setMenuTab("Components");
                     }}
-                  >
+                    legacyBehavior>
                     <span className="nk-menu-icon">
                       <Icon name="layers"></Icon>
                     </span>
@@ -131,7 +131,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
                   id="settingsTooltip"
                   onClick={themeUpdate.sidebarVisibility}
                 >
-                  <Link href={`/user-profile-setting`} className="nk-menu-link">
+                  <Link href={`/user-profile-setting`} className="nk-menu-link" legacyBehavior>
                     <span className="nk-menu-icon">
                       <Icon name="setting"></Icon>
                     </span>
@@ -182,10 +182,10 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
               <div className="dropdown-inner">
                 <LinkList>
                   <Link href={`/auth-login`} passHref>
-                    <a>
-                      <Icon name="signout"></Icon>
-                      <span>Sign Out</span>
-                    </a>
+
+                    <Icon name="signout"></Icon>
+                    <span>Sign Out</span>
+
                   </Link>
                 </LinkList>
               </div>

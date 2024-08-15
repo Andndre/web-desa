@@ -13,7 +13,7 @@ const Support = () => {
             <h6 className="title">Support Requests</h6>
           </CardTitle>
           <div className="card-tools">
-            <Link href=f={`/app-messages`} className="link">
+            <Link href={`/app-messages`} className="link">
               All Tickets
             </Link>
           </div>

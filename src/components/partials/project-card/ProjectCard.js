@@ -31,7 +31,7 @@ export const ProjectHead = ({ color, initial, title, subtitle }) => {
           ev.preventDefault();
         }}
         className="project-title"
-      >
+        legacyBehavior>
         <UserAvatar className="sq" theme={color} text={initial} />
         <div className="project-info">
           <h6 className="title">{title}</h6>
@@ -50,7 +50,7 @@ export const ProjectHead = ({ color, initial, title, subtitle }) => {
                 onClick={(ev) => {
                   ev.preventDefault();
                 }}
-              >
+                legacyBehavior>
                 <Icon name="eye"></Icon>
                 <span>View Project</span>
               </Link>
@@ -61,7 +61,7 @@ export const ProjectHead = ({ color, initial, title, subtitle }) => {
                 onClick={(ev) => {
                   ev.preventDefault();
                 }}
-              >
+                legacyBehavior>
                 <Icon name="edit"></Icon>
                 <span>Edit Project</span>
               </Link>
@@ -72,7 +72,7 @@ export const ProjectHead = ({ color, initial, title, subtitle }) => {
                 onClick={(ev) => {
                   ev.preventDefault();
                 }}
-              >
+                legacyBehavior>
                 <Icon name="check-round-cut"></Icon>
                 <span>Mark As Done</span>
               </Link>

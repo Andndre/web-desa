@@ -72,7 +72,7 @@ const User = () => {
                   ev.preventDefault();
                   themeUpdate.skin(theme.skin === "dark" ? "light" : "dark");
                 }}
-              >
+                legacyBehavior>
                 {theme.skin === "dark" ? (
                   <>
                     <em className="icon ni ni-sun"></em>
