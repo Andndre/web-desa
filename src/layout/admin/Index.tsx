@@ -13,7 +13,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
-      <AppRoot>
+      <AppRoot className="has-sidebar">
         <Sidebar fixed />
         <AppMain>
           <AppWrap>

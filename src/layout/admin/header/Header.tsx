@@ -10,6 +10,7 @@ import Logo from "../logo/Logo";
 import { Icon } from "../../../components/Component";
 
 import { useThemeUpdate } from "../provider/Theme";
+import User from "./dropdown/user/User";
 
 const Header = ({ fixed }: { fixed?: boolean }) => {
   const themeUpdate = useThemeUpdate();
@@ -43,17 +44,14 @@ const Header = ({ fixed }: { fixed?: boolean }) => {
           </div>
           <div className="nk-header-tools">
             <ul className="nk-quick-nav">
-              <li className="chats-dropdown hide-mb-xs">
-                {/* <ChatDropdown /> */}
-                test
+              {/* <li className="chats-dropdown hide-mb-xs">
+                <ChatDropdown />
               </li>
               <li className="notification-dropdown">
-                {/* <Notification /> */}
-                test
-              </li>
+                <Notification />
+              </li> */}
               <li className="user-dropdown">
-                {/* <User /> */}
-                test
+                <User />
               </li>
             </ul>
           </div>

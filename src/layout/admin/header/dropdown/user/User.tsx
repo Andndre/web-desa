@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
-import { Icon } from "@/components/Component";
 import { LinkList, LinkItem } from "@/components/links/Links";
 import UserAvatar from "@/components/user/UserAvatar";
 import { useTheme, useThemeUpdate } from "@/layout/admin/provider/Theme";
-import Link from "next/link";
 
 const User = () => {
   const theme = useTheme();
@@ -98,7 +96,7 @@ const User = () => {
         </div>
         <div className="dropdown-inner">
           <LinkList>
-            <LinkItem link="/logout" icon="signout" onClick={toggle}>
+            <LinkItem link="/api/auth/signout" icon="signout" onClick={toggle}>
               Sign Out
             </LinkItem>
           </LinkList>

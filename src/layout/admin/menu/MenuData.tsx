@@ -48,40 +48,40 @@ const menu: Menu[] = [
     ],
   },
   {
-    heading: "Applications",
+    heading: "Pusat Data Desa",
     icon: "menu-circled",
     subMenu: [
       {
-        text: "Mailbox",
-        icon: "inbox-fill",
-        link: "/app-inbox",
+        text: "Data Penduduk",
+        icon: "users-fill",
+        link: "/dashboard/kependudukan/data-penduduk",
       },
-      {
-        text: "Messages",
-        icon: "chat-fill",
-        link: "/app-messages",
-      },
-      {
-        text: "Chats / Messenger",
-        icon: "chat-circle-fill",
-        link: "/app-chat",
-      },
-      {
-        text: "Calendar",
-        icon: "calender-date-fill",
-        link: "/app-calender",
-      },
-      {
-        text: "Kanban",
-        icon: "template-fill",
-        link: "/app-kanban",
-      },
-      {
-        text: "File Manager",
-        icon: "folder",
-        link: "/app-file-manager",
-        badge: "new",
-      },
+      // {
+      //   text: "Messages",
+      //   icon: "chat-fill",
+      //   link: "/app-messages",
+      // },
+      // {
+      //   text: "Chats / Messenger",
+      //   icon: "chat-circle-fill",
+      //   link: "/app-chat",
+      // },
+      // {
+      //   text: "Calendar",
+      //   icon: "calender-date-fill",
+      //   link: "/app-calender",
+      // },
+      // {
+      //   text: "Kanban",
+      //   icon: "template-fill",
+      //   link: "/app-kanban",
+      // },
+      // {
+      //   text: "File Manager",
+      //   icon: "folder",
+      //   link: "/app-file-manager",
+      //   badge: "new",
+      // },
     ],
   },
   {
