@@ -1,7 +1,7 @@
 "use client";
 
 import { pendudukData } from "@/server/data";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Link from "next/link";
 import { useState } from "react";
 import DataTable from "react-data-table-component";
 
@@ -38,13 +38,12 @@ export default function PendudukPage() {
 
   return (
     <div className="mx-auto max-w-242.5">
-      <Breadcrumb pageName="Data Penduduk" description="Data Penduduk Desa" />
-      <a
+      <Link
         href="/dashboard/kependukan/data-penduduk/tambah"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Tambah data
-      </a>
+      </Link>
       <div className="pt-3"></div>
       <DataTable
         title="Data Penduduk"

@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import Layout from "@/layout/admin/Index";
 import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
@@ -9,7 +9,7 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth() as {
+  const session = (await auth()) as {
     user: {
       name?: string;
       email: string;
@@ -21,5 +21,5 @@ export default async function DashboardLayout({
     redirect("/auth/signin");
   }
 
-  return <DefaultLayout user={session.user}>{children}</DefaultLayout>;
+  return <Layout>{children}</Layout>;
 }

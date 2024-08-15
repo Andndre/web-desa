@@ -1,7 +1,5 @@
-import "jsvectormap/dist/jsvectormap.css";
-import "flatpickr/dist/flatpickr.min.css";
-import "@/css/style.css";
 import { Providers } from "./providers";
+import "@/assets/scss/dashlite.scss";
 
 export default function RootLayout({
   children,
@@ -10,10 +8,8 @@ export default function RootLayout({
 }>) {
   return (
     <Providers>
-      <html lang="en">
-        <body suppressHydrationWarning={true}>
-          <div className="dark:bg-boxdark-2 dark:text-bodydark">{children}</div>
-        </body>
+      <html lang="id">
+        <body suppressHydrationWarning={true}>{children}</body>
       </html>
     </Providers>
   );

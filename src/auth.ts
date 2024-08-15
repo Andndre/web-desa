@@ -38,7 +38,7 @@ export const {
       },
       async authorize(credentials) {
         if (credentials?.email == null || credentials?.password == null) {
-          throw new Error("Invalid credentials");
+          throw new Error("No email or password");
         }
         try {
           const input = credentials as {
@@ -61,7 +61,8 @@ export const {
             email: user.email,
           };
         } catch (error) {
-          throw new Error("Something went wrong");
+          console.error(error);
+          throw new Error("Invalid credentials");
         }
       },
     }),

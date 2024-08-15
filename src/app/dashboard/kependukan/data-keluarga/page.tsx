@@ -1,7 +1,6 @@
 "use client";
 
-import { getDataKeluarga } from "@/app/data";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import { kartuKeluargaData } from "@/server/data";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 
@@ -18,7 +17,7 @@ export default function KeluargaPage({
     searchParams.take ? parseInt(searchParams.take) : 10
   );
   const [keluarga, setKeluarga] = useState<
-    Awaited<ReturnType<typeof getDataKeluarga>>
+    Awaited<ReturnType<typeof kartuKeluargaData.getDataKeluarga>>
   >([]);
 
   async function fetchKeluarga() {
@@ -63,12 +62,12 @@ export default function KeluargaPage({
             </option>
           ))}
         </select>
-        <a
+        <Link
           href="/dashboard/kependukan/data-keluarga/tambah"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Tambah data
-        </a>
+        </Link>
       </div>
       <div className="pt-3"></div>
       {/* table */}
