@@ -23,7 +23,7 @@ function TablePenduduk() {
     setLoading(false);
   }
 
-  const renderItem = (item: any) => {
+  const renderItem = <T extends object>(item: T) => {
     return (
       <>
         {Object.entries(item).map(([key, value]) => (
@@ -69,11 +69,6 @@ function TablePenduduk() {
               name: "Nama",
               selector: (row) => row.nama,
               sortable: true,
-            },
-            {
-              name: "Tanggal Lahir",
-              selector: (row) =>
-                row.tanggal_lahir?.toLocaleDateString() || "Tidak Ada",
             },
             {
               name: "Jenis Kelamin",

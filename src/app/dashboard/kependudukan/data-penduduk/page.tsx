@@ -1,8 +1,6 @@
 "use client";
 
-import { pendudukData } from "@/server/data";
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Content from "@/layout/admin/content/Content";
 import {
   Block,
@@ -14,33 +12,17 @@ import {
 } from "@/components/block/Block";
 import Button from "@/components/button/Button";
 import Icon from "@/components/icon/Icon";
-import {
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
-} from "reactstrap";
+import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import { Col, Row } from "@/components/grid/Grid";
 import TablePenduduk from "./table-penduduk";
 
-type PendudukData = Awaited<ReturnType<typeof pendudukData.getDataPenduduk>>;
-type PendudukDataRow = PendudukData[number];
-
 export default function PendudukPage() {
-  const [data, setData] = useState<PendudukData>([]);
-  const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(10);
-  const [loading, setLoading] = useState(false);
   const [sm, updateSm] = useState(false);
+  const [showOffcanvas, setShowOffcanvas] = useState(true);
 
-  async function fetchPenduduk(page: number) {
-    setLoading(true);
-    const result = await pendudukData.getDataPenduduk(page, perPage);
-    const total = await pendudukData.getTotalPenduduk();
-    setTotalRows(total);
-    setData(result);
-    setLoading(false);
-  }
+  useEffect(() => {
+    console.log(showOffcanvas);
+  }, [showOffcanvas]);
 
   return (
     <Content>
@@ -69,66 +51,26 @@ export default function PendudukPage() {
                 style={{ display: sm ? "block" : "none" }}
               >
                 <ul className="nk-block-tools g-3">
-                  <li>
-                    <UncontrolledDropdown>
-                      <DropdownToggle
-                        tag="a"
-                        className="dropdown-toggle btn btn-white btn-dim btn-outline-light"
-                      >
-                        <Icon
-                          className="d-none d-sm-inline"
-                          name="calender-date"
-                        />
-                        <span>
-                          <span className="d-none d-md-inline">Last</span> 30
-                          Days
-                        </span>
-                        <Icon className="dd-indc" name="chevron-right" />
-                      </DropdownToggle>
-                      <DropdownMenu end>
-                        <ul className="link-list-opt no-bdr">
-                          <li>
-                            <DropdownItem
-                              tag="a"
-                              onClick={(ev) => {
-                                ev.preventDefault();
-                              }}
-                              href="#!"
-                            >
-                              <span>Last 30 days</span>
-                            </DropdownItem>
-                          </li>
-                          <li>
-                            <DropdownItem
-                              tag="a"
-                              onClick={(ev) => {
-                                ev.preventDefault();
-                              }}
-                              href="#dropdownitem"
-                            >
-                              <span>Last 6 months</span>
-                            </DropdownItem>
-                          </li>
-                          <li>
-                            <DropdownItem
-                              tag="a"
-                              onClick={(ev) => {
-                                ev.preventDefault();
-                              }}
-                              href="#dropdownitem"
-                            >
-                              <span>Last 3 weeks</span>
-                            </DropdownItem>
-                          </li>
-                        </ul>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  </li>
                   <li className="nk-block-tools-opt">
-                    <Button color="primary">
+                    <Button
+                      color="primary"
+                      onClick={() => setShowOffcanvas(!showOffcanvas)}
+                    >
                       <Icon name="plus" />
                       <span>Tambah Data</span>
                     </Button>
+                    <Offcanvas
+                      direction="end"
+                      isOpen={showOffcanvas}
+                      toggle={() => setShowOffcanvas(!showOffcanvas)}
+                    >
+                      <OffcanvasHeader
+                        toggle={() => setShowOffcanvas(!showOffcanvas)}
+                      >
+                        Tambah Data Penduduk
+                      </OffcanvasHeader>
+                      <OffcanvasBody>hello</OffcanvasBody>
+                    </Offcanvas>
                   </li>
                 </ul>
               </div>
@@ -139,81 +81,10 @@ export default function PendudukPage() {
       <Block>
         <Row className="g-gs">
           <Col xxl={8}>
-            <TablePenduduk/>
+            <TablePenduduk />
           </Col>
         </Row>
       </Block>
     </Content>
   );
 }
-
-// import { pendudukData } from "@/server/data";
-// import Link from "next/link";
-// import { useState } from "react";
-// import DataTable from "react-data-table-component";
-
-// type PendudukData = Awaited<ReturnType<typeof pendudukData.getDataPenduduk>>;
-// type PendudukDataRow = PendudukData[number];
-
-// export default function PendudukPage() {
-//   const [data, setData] = useState<PendudukData>([]);
-
-//   const [totalRows, setTotalRows] = useState(0);
-//   const [perPage, setPerPage] = useState(10);
-//   const [loading, setLoading] = useState(false);
-
-//   async function fetchPenduduk(page: number) {
-//     setLoading(true);
-//     const result = await pendudukData.getDataPenduduk(page, perPage);
-//     const total = await pendudukData.getTotalPenduduk();
-//     setTotalRows(total);
-//     setData(result);
-//     setLoading(false);
-//   }
-
-//   const handlePageChange = (page: number) => {
-//     fetchPenduduk(page);
-//   };
-
-//   const handlePerRowsChange = async (newPerPage: number, page: number) => {
-//     setLoading(true);
-//     const result = await pendudukData.getDataPenduduk(page, perPage);
-//     setPerPage(newPerPage);
-//     setData(result);
-//     setLoading(false);
-//   };
-
-//   return (
-//     <div className="mx-auto max-w-242.5">
-//       <Link
-//         href="/dashboard/kependukan/data-penduduk/tambah"
-//         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-//       >
-//         Tambah data
-//       </Link>
-//       <div className="pt-3"></div>
-//       <DataTable
-//         title="Data Penduduk"
-//         columns={[
-//           {
-//             name: "Nama",
-//             selector: (row: PendudukDataRow) => row.nama,
-//             sortable: true,
-//           },
-//           {
-//             name: "Jenis Kelamin",
-//             selector: (row: PendudukDataRow) => row.jenis_kelamin,
-//             sortable: true,
-//           },
-//         ]}
-//         data={data}
-//         progressPending={loading}
-//         pagination
-//         paginationServer
-//         paginationTotalRows={totalRows}
-//         onChangeRowsPerPage={handlePerRowsChange}
-//         onChangePage={handlePageChange}
-//       />
-//     </div>
-//   );
-// }
