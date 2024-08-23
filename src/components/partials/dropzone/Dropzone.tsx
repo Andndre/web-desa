@@ -1,8 +1,20 @@
 import React from "react";
 
-const DropzoneContainer = (props) => {
+interface DropzoneContainerProps {
+  input: React.ReactNode;
+  previews: React.
+ReactNode;
+  submitButton: React.ReactNode;
+  files: File[];
+  extra: {
+    maxFiles: number;
+  };
+}
+
+const DropzoneContainer: React.FC<DropzoneContainerProps> = (props) => {
   const {
     input,
+
     previews,
     submitButton,
     files,
@@ -10,7 +22,6 @@ const DropzoneContainer = (props) => {
   } = props;
   return (
     <div
-      //className="dropzone upload-zone small bg-lighter my-2 dz-clickable"
       style={{ overflow: "hidden" }}
     >
       {previews}

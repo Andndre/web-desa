@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import {
   trafficChannelData,
@@ -5,9 +7,16 @@ import {
   trafficChannelDataSet3,
   trafficChannelDataSet4,
 } from "../../charts/analytic/DefaultData";
-import { DropdownToggle, DropdownMenu, UncontrolledDropdown, DropdownItem } from "reactstrap";
-import { Icon, DataTableHead, DataTableRow, DataTableItem } from "../../../Component";
+import {
+  DropdownToggle,
+  DropdownMenu,
+  UncontrolledDropdown,
+  DropdownItem,
+} from "reactstrap";
+import Icon from "@/components/icon/Icon";
+
 import { WPCharts } from "../../charts/analytic/DefaultCharts";
+import { DataTableHead, DataTableItem, DataTableRow } from "@/components/table/DataTable";
 
 const TrafficChannel = () => {
   const [dd, setdd] = useState("30");
@@ -121,7 +130,7 @@ const TrafficChannel = () => {
               </DataTableRow>
               <DataTableRow className="nk-tb-trend text-end">
                 <div className="traffic-channel-ck ms-auto">
-                  <WPCharts data={item.chart}></WPCharts>
+                  <WPCharts data={item.chart} className={undefined}></WPCharts>
                 </div>
               </DataTableRow>
             </DataTableItem>

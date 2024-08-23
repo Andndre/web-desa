@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { SessionDoughnut } from "../../charts/analytic/DefaultCharts";
 import { DropdownToggle, DropdownMenu, UncontrolledDropdown, DropdownItem } from "reactstrap";

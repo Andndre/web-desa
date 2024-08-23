@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { DropdownToggle, DropdownMenu, UncontrolledDropdown, DropdownItem } from "reactstrap";
 import { TCDoughnut } from "../../charts/analytic/DefaultCharts";

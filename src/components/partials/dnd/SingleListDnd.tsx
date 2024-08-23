@@ -1,19 +1,27 @@
+"use client";
+
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  ResponderProvided,
+} from "react-beautiful-dnd";
 import { dndDataSet1 } from "./Data";
 
 const SingleListDnd = () => {
   const [dndSet1, setDndSet1] = useState(dndDataSet1);
 
-  const handleOnDragEnd = (result) => {
-    const { destination } = result;
+  const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
+    const { source, destination } = result;
     // dropped outside the list
     if (!destination) {
       return;
     } else {
       const items = Array.from(dndSet1);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
+      const [reorderedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reorderedItem);
 
       setDndSet1(items);
     }

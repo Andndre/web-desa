@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState } from "react";
 import { AudienceLineChart } from "../../charts/analytic/DefaultCharts";
 import { Icon } from "../../../Component";
+import Link from "next/link";
 
 const AudienceOverview = () => {
   const [auOverview, setAuOverview] = useState("month-1");

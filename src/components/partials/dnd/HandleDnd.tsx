@@ -1,26 +1,44 @@
+"use client";
+
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  ResponderProvided,
+} from "react-beautiful-dnd";
 import { dndDataSet1, dndDataSet2 } from "./Data";
 
-const DragHandleDnd = () => {
-  const [dndSet1, setDndSet1] = useState(dndDataSet1);
-  const [dndSet2, setDndSet2] = useState(dndDataSet2);
+interface Item {
+  id: string;
+  text: string;
+}
 
-  const move = (source, destination, droppableSource, droppableDestination) => {
+const DragHandleDnd = () => {
+  const [dndSet1, setDndSet1] = useState<Item[]>(dndDataSet1);
+  const [dndSet2, setDndSet2] = useState<Item[]>(dndDataSet2);
+
+  const move = (
+    source: Item[],
+    destination: Item[],
+    droppableSource: { index: number; droppableId: string },
+    droppableDestination: { index: number; droppableId: string }
+  ) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
 
     destClone.splice(droppableDestination.index, 0, removed);
 
-    const result = {};
+    const result: { [key: string]: Item[] } = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
 
     return result;
   };
 
-  const getList = (id) => {
+  const getList = (id: string) => {
     if (id === "droppable1") {
       return dndSet1;
     } else {
@@ -28,7 +46,7 @@ const DragHandleDnd = () => {
     }
   };
 
-  const handleOnDragEnd = (result) => {
+  const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
     const { source, destination } = result;
     // dropped outside the list
     if (!destination) {
@@ -39,22 +57,27 @@ const DragHandleDnd = () => {
       if (source.droppableId === "droppable1") {
         const items = Array.from(dndSet1);
         const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-
+        items.splice(destination.index, 0, reorderedItem);
         setDndSet1(items);
       } else {
         const items = Array.from(dndSet2);
         const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
+        items.splice(destination.index, 0, reorderedItem);
 
         setDndSet2(items);
       }
     } else {
-      const result = move(getList(source.droppableId), getList(destination.droppableId), source, destination);
+      const result = move(
+        getList(source.droppableId),
+        getList(destination.droppableId),
+        source,
+        destination
+      );
       setDndSet1(result.droppable1);
       setDndSet2(result.droppable2);
     }
   };
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="droppable1">
@@ -69,7 +92,10 @@ const DragHandleDnd = () => {
                       {...provided.draggableProps}
                       className="p-3 bg-white border border-light round-lg mb-3 dnd-handle"
                     >
-                      <span {...provided.dragHandleProps} className="handle"></span>
+                      <span
+                        {...provided.dragHandleProps}
+                        className="handle"
+                      ></span>
                       <span>{item.text}</span>
                     </div>
                   )}
@@ -92,7 +118,10 @@ const DragHandleDnd = () => {
                       {...provided.draggableProps}
                       className="p-3 bg-white border border-light round-lg mb-3 dnd-handle"
                     >
-                      <span {...provided.dragHandleProps} className="handle"></span>
+                      <span
+                        {...provided.dragHandleProps}
+                        className="handle"
+                      ></span>
                       <span>{item.text}</span>
                     </div>
                   )}

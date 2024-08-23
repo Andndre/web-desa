@@ -6,7 +6,6 @@ import {
   Progress,
   Badge,
 } from "reactstrap";
-import { PreviewCard } from "@/component/Component";
 import { setDeadlineDays } from "@/utils/Utils";
 import UserAvatar from "@/component/user/UserAvatar";
 import Icon from "@/component/icon/Icon";
@@ -14,11 +13,11 @@ import Link from "next/link";
 
 export const ProjectCard = ({ ...props }) => {
   return (
-    <React.Fragment>
+    <>
       <PreviewCard className="h-100">
         <div className="project">{props.children}</div>
       </PreviewCard>
-    </React.Fragment>
+    </>
   );
 };
 

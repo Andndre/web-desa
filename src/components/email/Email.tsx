@@ -1,6 +1,10 @@
 import React from "react";
 
-export const EmailWrapper = ({ ...props }) => {
+interface EmailWrapperProps {
+  children: React.ReactNode
+}
+
+export const EmailWrapper = ({ ...props }: EmailWrapperProps) => {
   return (
     <table className="email-wraper">
       <tbody>
@@ -12,7 +16,11 @@ export const EmailWrapper = ({ ...props }) => {
   );
 };
 
-export const EmailHeader = ({ ...props }) => {
+interface EmailHeaderProps {
+  children: React.ReactNode
+}
+
+export const EmailHeader = ({ ...props }: EmailHeaderProps) => {
   return (
     <table className="email-header">
       <tbody>
@@ -24,7 +32,12 @@ export const EmailHeader = ({ ...props }) => {
   );
 };
 
-export const EmailBody = ({ centered, ...props }) => {
+interface EmailBodyProps {
+  centered: boolean,
+  children: React.ReactNode
+}
+
+export const EmailBody = ({ centered, ...props }: EmailBodyProps) => {
   return (
     <table className={`email-body ${centered ? "text-center" : ""}`}>
       <tbody>{props.children}</tbody>
@@ -32,7 +45,12 @@ export const EmailBody = ({ centered, ...props }) => {
   );
 };
 
-export const EmailBodyContent = ({ className, ...props }) => {
+interface EmailBodyContentProps {
+  className: string, 
+  children: React.ReactNode
+}
+
+export const EmailBodyContent = ({ className, ...props }: EmailBodyContentProps) => {
   return (
     <tr>
       <td className={`${className ? className : ""}`}>{props.children}</td>
@@ -40,7 +58,11 @@ export const EmailBodyContent = ({ className, ...props }) => {
   );
 };
 
-export const EmailFooter = ({ ...props }) => {
+interface EmailFooterProps {
+  children: React.ReactNode
+}
+
+export const EmailFooter = ({ ...props }: EmailFooterProps) => {
   return (
     <table className="email-footer">
       <tbody>

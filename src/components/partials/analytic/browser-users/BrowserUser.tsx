@@ -1,66 +1,67 @@
-import React, { useEffect, useState } from "react";
-import { pagePerUserData, pagePerUserDataSet2, pagePerUserDataSet3 } from "../../charts/analytic/DefaultData";
-import { DataTableRow, DataTableHead, DataTableItem } from "../../../table/DataTable";
-import { DropdownToggle, DropdownMenu, UncontrolledDropdown, DropdownItem } from "reactstrap";
+"use client";
 
-const PageViewer = () => {
-  const [pageViewer, setPageViewer] = useState("30");
-  const [data, setData] = useState(pagePerUserData);
+import React, { useEffect, useState } from "react";
+import { browserUserData, browserUserDataSet2, browserUserDataSet3 } from "../../charts/analytic/DefaultData";
+import { DropdownItem, UncontrolledDropdown, DropdownToggle, DropdownMenu } from "reactstrap";
+import { DataTableRow, DataTableHead, DataTableItem } from "../../../table/DataTable";
+import Progress from "../../../progress/Progress";
+import Icon from "../../../icon/Icon";
+
+const BrowserUser = () => {
+  const [browser, setBrowser] = useState("30");
+  const [data, setData] = useState(browserUserData);
   useEffect(() => {
     let newData;
-    if (pageViewer === "7") {
-      newData = pagePerUserDataSet2;
-    } else if (pageViewer === "15") {
-      newData = pagePerUserDataSet3;
+    if (browser === "7") {
+      newData = browserUserDataSet2;
+    } else if (browser === "15") {
+      newData = browserUserDataSet3;
     } else {
-      newData = pagePerUserData;
+      newData = browserUserData;
     }
     setData(newData);
-  }, [pageViewer]);
+  }, [browser]);
   return (
     <React.Fragment>
       <div className="card-inner mb-n2">
         <div className="card-title-group">
           <div className="card-title card-title-sm">
-            <h6 className="title">Page View by Users</h6>
+            <h6 className="title">Browser Used by Users</h6>
           </div>
           <UncontrolledDropdown className="dropdown">
             <DropdownToggle className="dropdown-toggle dropdown-indicator btn btn-sm btn-outline-light btn-white">
-              {pageViewer} Days
+              {browser} Days
             </DropdownToggle>
-            <DropdownMenu end className=" dropdown-menu-xs">
+            <DropdownMenu end className="dropdown-menu-xs">
               <ul className="link-list-opt no-bdr">
-                <li className={pageViewer === "7" ? "active" : ""}>
+                <li className={browser === "7" ? "active" : ""}>
                   <DropdownItem
-                    tag="a"
                     href="#dropdownitem"
                     onClick={(e) => {
                       e.preventDefault();
-                      setPageViewer("7");
+                      setBrowser("7");
                     }}
                   >
                     <span>7 Days</span>
                   </DropdownItem>
                 </li>
-                <li className={pageViewer === "15" ? "active" : ""}>
+                <li className={browser === "15" ? "active" : ""}>
                   <DropdownItem
-                    tag="a"
                     href="#dropdownitem"
                     onClick={(e) => {
                       e.preventDefault();
-                      setPageViewer("15");
+                      setBrowser("15");
                     }}
                   >
                     <span>15 Days</span>
                   </DropdownItem>
                 </li>
-                <li className={pageViewer === "30" ? "active" : ""}>
+                <li className={browser === "30" ? "active" : ""}>
                   <DropdownItem
-                    tag="a"
                     href="#dropdownitem"
                     onClick={(e) => {
                       e.preventDefault();
-                      setPageViewer("30");
+                      setBrowser("30");
                     }}
                   >
                     <span>30 Days</span>
@@ -71,27 +72,41 @@ const PageViewer = () => {
           </UncontrolledDropdown>
         </div>
       </div>
-      <div className="nk-tb-list is-compact">
-        <DataTableHead className="nk-tb-item nk-tb-head">
+
+      <div className="nk-tb-list is-loose">
+        <DataTableHead>
           <DataTableRow>
-            <span>Page</span>
+            <span>Browser</span>
           </DataTableRow>
           <DataTableRow className="text-end">
-            <span>Page Views</span>
+            <span>Users</span>
+          </DataTableRow>
+          <DataTableRow>
+            <span>% Users</span>
+          </DataTableRow>
+          <DataTableRow className="tb-col-sm text-end">
+            <span>Bounce Rate</span>
           </DataTableRow>
         </DataTableHead>
         {data.map((item) => {
           return (
             <DataTableItem key={item.id}>
               <DataTableRow>
-                <span className="tb-sub">
-                  <span>{item.link}</span>
-                </span>
+                <div className="icon-text">
+                  <Icon className={`text-${item.theme}`} name="globe"></Icon>
+                  <span className="tb-lead">{item.browser}</span>
+                </div>
               </DataTableRow>
               <DataTableRow className="text-end">
                 <span className="tb-sub tb-amount">
-                  <span>{item.views}</span>
+                  <span>{item.users}</span>
                 </span>
+              </DataTableRow>
+              <DataTableRow>
+                <Progress value={Number(item.userPercentage)} size="md" className="progress-alt bg-transparent" />
+              </DataTableRow>
+              <DataTableRow className="tb-col-sm text-end">
+                <span className="tb-sub">{item.bounceRate}%</span>
               </DataTableRow>
             </DataTableItem>
           );
@@ -100,4 +115,4 @@ const PageViewer = () => {
     </React.Fragment>
   );
 };
-export default PageViewer;
+export default BrowserUser;

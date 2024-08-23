@@ -1,7 +1,24 @@
 import React from "react";
 import classNames from "classnames";
 
-const Button = ({ color, size, className, outline, disabled, ...props }) => {
+interface ButtonProps {
+  color?: string;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  outline?: boolean;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
+}
+
+const Button = ({
+  color = "primary",
+  size = "md",
+  className = "",
+  outline = false,
+  disabled = false,
+  ...props
+}: ButtonProps) => {
   const buttonClass = classNames({
     btn: true,
     [`btn-${color}`]: !outline,
@@ -10,10 +27,12 @@ const Button = ({ color, size, className, outline, disabled, ...props }) => {
     disabled: disabled,
     [`${className}`]: className,
   });
+
   return (
     <button className={buttonClass} {...props}>
       {props.children}
     </button>
   );
 };
+
 export default Button;

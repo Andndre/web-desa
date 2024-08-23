@@ -2,7 +2,15 @@ import React from "react";
 import { basicData } from "./TableData";
 import classNames from "classnames";
 
-const Table = ({ headColor, striped, border, hover, responsive }) => {
+interface TableProps{
+  headColor?: string;
+  striped?: boolean;
+  border?: boolean;
+  hover?: boolean;
+  responsive?: boolean;
+}
+
+const Table = ({ headColor, striped, border, hover, responsive }: TableProps) => {
   const tableClass = classNames({
     table: true,
     "table-bordered": border,

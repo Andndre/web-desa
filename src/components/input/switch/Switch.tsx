@@ -12,7 +12,7 @@ const InputSwitch = ({ label, id, checked }: InputSwitchProps) => {
   const [inputCheck, setCheck] = useState(checked ? true : false);
 
   return (
-    <React.Fragment>
+    <>
       <input
         type="checkbox"
         className="custom-control-input"
@@ -23,7 +23,7 @@ const InputSwitch = ({ label, id, checked }: InputSwitchProps) => {
       <label className="custom-control-label" htmlFor={id}>
         {label}
       </label>
-    </React.Fragment>
+    </>
   );
 };
 

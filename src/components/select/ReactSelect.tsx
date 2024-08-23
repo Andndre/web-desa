@@ -1,11 +1,17 @@
 import React from "react";
 import Select from "react-select";
 
-const RSelect = ({ ...props }) => {
+interface RSelectProps {
+  className?: string;
+}
+
+const RSelect = ({ ...props }: RSelectProps) => {
   return (
     <div className="form-control-select">
       <Select
-        className={`react-select-container ${props.className ? props.className : ""}`}
+        className={`react-select-container ${
+          props.className ? props.className : ""
+        }`}
         classNamePrefix="react-select"
         {...props}
       />

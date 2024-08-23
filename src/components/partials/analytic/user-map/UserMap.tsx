@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Map } from "../../charts/analytic/DefaultCharts";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";

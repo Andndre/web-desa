@@ -1,7 +1,17 @@
 import React from "react";
 import classnames from "classnames";
 
-export const Col = ({ sm, lg, md, xxl, size, className, ...props }) => {
+interface ColProps {
+  sm?: number;
+  lg?: number;
+  md?: number;
+  xxl?: number;
+  size?: number;
+  className?: string;
+  children: React.ReactNode;
+}
+
+export const Col = ({ sm, lg, md, xxl, size, className, ...props }: ColProps) => {
   var classNames = classnames({
     [`col-sm-${sm}`]: sm,
     [`col-lg-${lg}`]: lg,
@@ -12,7 +22,13 @@ export const Col = ({ sm, lg, md, xxl, size, className, ...props }) => {
   });
   return <div className={classNames}>{props.children}</div>;
 };
-export const Row = ({ className, ...props }) => {
+
+interface RowProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+export const Row = ({ className, ...props }: RowProps) => {
   const rowClass = classnames({
     row: true,
     [`${className}`]: className,

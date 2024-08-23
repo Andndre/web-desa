@@ -7,7 +7,7 @@ import Toggle from "../sidebar/Toggle";
 // import Notification from "./dropdown/notification/Notification";
 // import ChatDropdown from "./dropdown/chat/Chat";
 import Logo from "../logo/Logo";
-import { Icon } from "../../../components/Component";
+import Icon from "@/components/icon/Icon";
 
 import { useThemeUpdate } from "../provider/Theme";
 import User from "./dropdown/user/User";

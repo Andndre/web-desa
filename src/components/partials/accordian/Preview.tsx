@@ -3,10 +3,14 @@
 import React, { useState } from "react";
 import { Collapse } from "reactstrap";
 
-const Accordion = ({ className, variation }) => {
+interface AccordionProps {
+  className: string;
+  variation: number;
+}
+const Accordion = ({ className, variation }: AccordionProps) => {
   const [isOpen, setIsOpen] = useState("1");
 
-  const toggleCollapse = (param) => {
+  const toggleCollapse = (param: string) => {
     if (param === isOpen) {
       setIsOpen("0");
     } else {
@@ -16,15 +20,13 @@ const Accordion = ({ className, variation }) => {
 
   return (
     <div
-      className={[
-        `accordion${variation ? " accordion-s" + variation : ""}${
-          className ? " " + className : ""
-        }`,
-      ]}
+      className={`accordion${variation ? " accordion-s" + variation : ""}${
+        className ? " " + className : ""
+      }`}
     >
       <div className="accordion-item">
         <div
-          className={[`accordion-head${isOpen !== "1" ? " collapsed" : ""}`]}
+          className={`accordion-head${isOpen !== "1" ? " collapsed" : ""}`}
           onClick={() => toggleCollapse("1")}
         >
           <h6 className="title">What is Dashlite?</h6>
@@ -55,7 +57,7 @@ const Accordion = ({ className, variation }) => {
       </div>
       <div className="accordion-item">
         <div
-          className={[`accordion-head${isOpen !== "2" ? " collapsed" : ""}`]}
+          className={`accordion-head${isOpen !== "2" ? " collapsed" : ""}`}
           onClick={() => toggleCollapse("2")}
         >
           <h6 className="title">
@@ -88,7 +90,7 @@ const Accordion = ({ className, variation }) => {
       </div>
       <div className="accordion-item">
         <div
-          className={[`accordion-head${isOpen !== "3" ? " collapsed" : ""}`]}
+          className={`accordion-head${isOpen !== "3" ? " collapsed" : ""}`}
           onClick={() => toggleCollapse("3")}
         >
           <h6 className="title">
@@ -121,7 +123,7 @@ const Accordion = ({ className, variation }) => {
       </div>
       <div className="accordion-item">
         <div
-          className={[`accordion-head${isOpen !== "4" ? " collapsed" : ""}`]}
+          className={`accordion-head${isOpen !== "4" ? " collapsed" : ""}`}
           onClick={() => toggleCollapse("4")}
         >
           <h6 className="title">What are the benefits of using Dashlite?</h6>

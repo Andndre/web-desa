@@ -9,8 +9,15 @@ import {
 } from "reactstrap";
 import Icon from "../icon/Icon";
 import Button from "../button/Button";
+import Link from "next/link";
 
-export const SpecialTable = ({ action, isCompact, data }) => {
+interface SpecialTableProps{
+  action?: boolean;
+  isCompact?: boolean;
+  data?: any;
+}
+
+export const SpecialTable = ({ action, isCompact, data }: SpecialTableProps) => {
   const DropdownTrans = () => {
     return (
       <UncontrolledDropdown>
@@ -94,7 +101,7 @@ export const SpecialTable = ({ action, isCompact, data }) => {
       </thead>
       <tbody>
         {data
-          ? data.map((item) => {
+          ? data.map((item: any) => {
               return (
                 <tr key={item.id} className="tb-tnx-item">
                   <td className="tb-tnx-id">

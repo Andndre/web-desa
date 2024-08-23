@@ -2,25 +2,62 @@ import React from "react";
 import { Pagination, PaginationLink, PaginationItem } from "reactstrap";
 import Icon from "../icon/Icon";
 
-const PaginationComponent = ({ itemPerPage, totalItems, paginate, currentPage }) => {
-  const pageNumbers = [];
+interface PaginationComponentProps {
+  itemPerPage: number;
+  totalItems: number;
+  paginate: (page: number) => void;
+  currentPage: number;
+}
+
+const PaginationComponent = ({
+  itemPerPage,
+  totalItems,
+  paginate,
+  currentPage,
+}: PaginationComponentProps) => {
+  const pageNumbers: number[] = [];
 
   for (let i = 1; i <= Math.ceil(totalItems / itemPerPage); i++) {
     pageNumbers.push(i);
   }
 
   const paginationNumber = () => {
-    if(pageNumbers.length <= 5){
+    if (pageNumbers.length <= 5) {
       return pageNumbers;
-    }else if(pageNumbers.length >= 5 && currentPage <= 4){
-      return [1,2,3,4,5,'...',pageNumbers[pageNumbers.length - 1]];
-    }else if(pageNumbers.length >= 5 && currentPage >= pageNumbers[pageNumbers.length - 4]){
-      return [1,'...',pageNumbers[pageNumbers.length - 5],pageNumbers[pageNumbers.length - 4],pageNumbers[pageNumbers.length - 3],pageNumbers[pageNumbers.length - 2],pageNumbers[pageNumbers.length - 1]];
-    }else if(pageNumbers.length > 5 && currentPage > 4 && currentPage < pageNumbers[pageNumbers.length - 4]){
-      return [1,'...',currentPage-1,currentPage,currentPage+1,'...',pageNumbers[pageNumbers.length - 1]];
+    } else if (pageNumbers.length >= 5 && currentPage <= 4) {
+      return [1, 2, 3, 4, 5, "...", pageNumbers[pageNumbers.length - 1]];
+    } else if (
+      pageNumbers.length >= 5 &&
+      currentPage >= pageNumbers[pageNumbers.length - 4]
+    ) {
+      return [
+        1,
+        "...",
+        pageNumbers[pageNumbers.length - 5],
+        pageNumbers[pageNumbers.length - 4],
+        pageNumbers[pageNumbers.length - 3],
+        pageNumbers[pageNumbers.length - 2],
+        pageNumbers[pageNumbers.length - 1],
+      ];
+    } else if (
+      pageNumbers.length > 5 &&
+      currentPage > 4 &&
+      currentPage < pageNumbers[pageNumbers.length - 4]
+    ) {
+      return [
+        1,
+        "...",
+        currentPage - 1,
+        currentPage,
+        currentPage + 1,
+        "...",
+        pageNumbers[pageNumbers.length - 1],
+      ];
     }
+
+    return [];
   };
-  
+
   let paginationItms = paginationNumber();
 
   const firstPage = () => {
@@ -67,21 +104,29 @@ const PaginationComponent = ({ itemPerPage, totalItems, paginate, currentPage })
       </PaginationItem>
       {paginationItms.map((item) => {
         return (
-          <PaginationItem  disabled={isNaN(item)} className={`d-none d-sm-block ${currentPage === item ? "active" : ""}`} key={item}>
+          <PaginationItem
+            disabled={isNaN(+item)}
+            className={`d-none d-sm-block ${
+              currentPage === item ? "active" : ""
+            }`}
+            key={item}
+          >
             <PaginationLink
-                  tag="a"
-                  href="#pageitem"
+              tag="a"
+              href="#pageitem"
               onClick={(ev) => {
                 ev.preventDefault();
-                    paginate(item);
+                paginate(+item);
               }}
             >
-                  {item}
+              {item}
             </PaginationLink>
           </PaginationItem>
         );
       })}
-      <PaginationItem disabled={pageNumbers[pageNumbers.length - 1] === currentPage}>
+      <PaginationItem
+        disabled={pageNumbers[pageNumbers.length - 1] === currentPage}
+      >
         <PaginationLink
           className="page-link-next"
           onClick={(ev) => {
@@ -93,7 +138,9 @@ const PaginationComponent = ({ itemPerPage, totalItems, paginate, currentPage })
           <Icon name="chevron-right" />
         </PaginationLink>
       </PaginationItem>
-      <PaginationItem disabled={pageNumbers[pageNumbers.length - 1] === currentPage}>
+      <PaginationItem
+        disabled={pageNumbers[pageNumbers.length - 1] === currentPage}
+      >
         <PaginationLink
           className="page-link-next"
           onClick={(ev) => {

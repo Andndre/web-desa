@@ -1,9 +1,14 @@
 import React from "react";
 import SimpleBar from "simplebar-react";
 
-const Sidebar = ({ toggleState, ...props }) => {
+interface SidebarProps {
+  toggleState: boolean;
+  children: React.ReactNode;
+}
+
+const Sidebar = ({ toggleState, ...props }: SidebarProps) => {
   return (
-    <React.Fragment>
+    <>
       <div
         className={`card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl ${
           toggleState && "content-active"
@@ -12,7 +17,8 @@ const Sidebar = ({ toggleState, ...props }) => {
       >
         <SimpleBar className="card-inner-group">{props.children}</SimpleBar>
       </div>
-    </React.Fragment>
+    </>
   );
 };
+
 export default Sidebar;

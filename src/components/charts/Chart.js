@@ -4,6 +4,8 @@ import { Line, Bar, Pie, PolarArea, Doughnut } from "react-chartjs-2";
 import { Chart, CategoryScale, LinearScale, BarElement, PointElement, LineElement, RadialLinearScale, Tooltip, Filler, Legend, } from "chart.js";
 Chart.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, RadialLinearScale, Tooltip, Filler, Legend,);
 
+
+
 export const LineChartExample = ({ data, legend }) => {
   return (
     <Line
