@@ -1,6 +1,10 @@
-import React from "react";
+interface ContentProps {
+  page?: string;
+  children: React.ReactNode;
+  nomx?: boolean;
+}
 
-const Content = ({ ...props }) => {
+const Content: React.FC<ContentProps> = ({ ...props }) => {
   return (
     <div className="nk-content">
       <div className="container-fluid">
@@ -8,7 +12,13 @@ const Content = ({ ...props }) => {
           <div className="nk-content-body">
             {!props.page ? props.children : null}
             {props.page === "component" ? (
-              <div className={`components-preview wide-md ${!props.nomx ? "mx-auto" : ""}`}>{props.children}</div>
+              <div
+                className={`components-preview wide-md ${
+                  !props.nomx ? "mx-auto" : ""
+                }`}
+              >
+                {props.children}
+              </div>
             ) : null}
           </div>
         </div>
@@ -16,4 +26,5 @@ const Content = ({ ...props }) => {
     </div>
   );
 };
+
 export default Content;

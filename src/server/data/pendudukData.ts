@@ -15,6 +15,70 @@ export async function getDataPenduduk(
   const penduduk = await prisma.penduduk.findMany({
     skip: (page - 1) * searchPerPage,
     take: searchPerPage,
+    select: {
+      nama: true,
+      nik: true,
+      jenis_kelamin: true,
+      agama: {
+        select: {
+          nama: true,
+        },
+      },
+      hubungan: {
+        select: {
+          nama: true,
+        },
+      },
+      status: {
+        select: {
+          nama: true,
+        },
+      },
+      cacat: {
+        select: {
+          nama: true,
+        },
+      },
+      golongan_darah: {
+        select: {
+          nama: true,
+        },
+      },
+      pekerjaan: {
+        select: {
+          nama: true,
+        },
+      },
+      pendidikan: {
+        select: {
+          nama: true,
+        },
+      },
+      status_kawin: {
+        select: {
+          nama: true,
+        },
+      },
+      status_dasar: {
+        select: {
+          nama: true,
+        },
+      },
+      sakit_menahun: {
+        select: {
+          nama: true,
+        },
+      },
+      suku: {
+        select: {
+          nama: true,
+        },
+      },
+      tempat_lahir: true,
+      tanggal_lahir: true,
+      alamat: true,
+      telepon: true,
+    },
   });
   return penduduk;
 }

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import LogoSmall from "@/images/logo-small.png";
 import LogoDark from "@/images/logo-dark-small.png";
 import SimpleBar from "simplebar-react";
-import menu from "../menu/MenuData";
+import menu, { Menu, SubMenuItem } from "../menu/MenuData";
 import classNames from "classnames";
 import { Dropdown, DropdownMenu, DropdownToggle } from "reactstrap";
 import Link from "next/link";
@@ -27,7 +27,8 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
   const [menuTab, setMenuTab] = useState<string>("Dashboards");
   const [isOpen, setOpen] = useState<boolean>(false);
 
-  const checkMenuUrl = (data: any): any | undefined => {
+  const checkMenuUrl = (data: Menu): SubMenuItem | undefined => {
+    if (!data.subMenu) return undefined;
     for (const node of data.subMenu) {
       if (node.link === window.location.pathname) {
         return node;

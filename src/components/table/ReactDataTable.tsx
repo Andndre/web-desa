@@ -5,22 +5,15 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import exportFromJSON from "export-from-json";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { Col, Modal, ModalBody, Row, Button } from "reactstrap";
-import { DataTablePagination } from "../Component";
+import DataTablePagination from "@/components/pagination/DataTablePagination";
+import { TableProps } from "react-data-table-component/dist/DataTable/types";
+import { TableData, renderData } from "@/lib/utils";
 
-// Define the type for your data
-interface Data {
-  name: string;
-  company: string;
-  gender: string;
-  startDate: string;
-  salary: string;
+interface ExportProps<T> {
+  data: T[];
 }
 
-interface ExportProps {
-  data: Data[];
-}
-
-const Export: React.FC<ExportProps> = ({ data }) => {
+const Export = <T extends object>({ data }: ExportProps<T>) => {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -31,17 +24,25 @@ const Export: React.FC<ExportProps> = ({ data }) => {
 
   const fileName = "user-data";
 
+  const formattedData = data.map((item) => {
+    return Object.entries(item).reduce((acc, [key, value]) => {
+      acc[key] = renderData(value);
+      return acc;
+    }, {} as any);
+  });
+
   const exportCSV = () => {
     const exportType = exportFromJSON.types.csv;
-    exportFromJSON({ data, fileName, exportType });
+    exportFromJSON({ data: formattedData, fileName, exportType });
   };
 
   const exportExcel = () => {
     const exportType = exportFromJSON.types.xls;
-    exportFromJSON({ data, fileName, exportType });
+    exportFromJSON({ data: formattedData, fileName, exportType });
   };
 
   const copyToClipboard = () => {
+    navigator.clipboard.writeText(JSON.stringify(formattedData));
     setModal(true);
   };
 
@@ -80,84 +81,39 @@ const Export: React.FC<ExportProps> = ({ data }) => {
         size="sm"
       >
         <ModalBody className="text-center m-2">
-          <h5>Copied to clipboard</h5>
+          <h5>Tersalin ke Clipboard</h5>
         </ModalBody>
         <div className="p-3 bg-light">
-          <div className="text-center">
-            Copied {data.length} rows to clipboard
-          </div>
+          <div className="text-center">{data.length} data disalin!</div>
         </div>
       </Modal>
     </React.Fragment>
   );
 };
 
-interface ExpandableRowProps {
-  data: Data;
+// Use generic type T for the data
+interface ExpandableRowProps<T extends object> {
+  data: T;
 }
 
-const ExpandableRowComponent: React.FC<ExpandableRowProps> = ({ data }) => {
-  return (
-    <ul className="dtr-details p-2 border-bottom ms-1">
-      <li className="d-block d-sm-none">
-        <span className="dtr-title">Company</span>{" "}
-        <span className="dtr-data">{data.company}</span>
-      </li>
-      <li className="d-block d-sm-none">
-        <span className="dtr-title ">Gender</span>{" "}
-        <span className="dtr-data">{data.gender}</span>
-      </li>
-      <li>
-        <span className="dtr-title">Start Date</span>{" "}
-        <span className="dtr-data">{data.startDate}</span>
-      </li>
-      <li>
-        <span className="dtr-title">Salary</span>{" "}
-        <span className="dtr-data">{data.salary}</span>
-      </li>
-    </ul>
-  );
-};
-
-interface CustomCheckboxProps extends React.HTMLProps<HTMLInputElement> {
-  onClick: () => void;
-}
-
-const CustomCheckbox = React.forwardRef<HTMLInputElement, CustomCheckboxProps>(
-  ({ onClick, ...rest }, ref) => (
-    <div className="custom-control custom-control-sm custom-checkbox notext">
-      <input
-        id={rest.name}
-        type="checkbox"
-        className="custom-control-input"
-        ref={ref}
-        onClick={onClick}
-        {...rest}
-      />
-      <label className="custom-control-label" htmlFor={rest.name} />
-    </div>
-  )
-);
-
-interface ReactDataTableProps {
-  data: Data[];
-  columns: TableColumn<Data>[];
-  pagination?: boolean;
-  actions?: boolean;
-  className?: string;
-  selectableRows?: boolean;
-  expandableRows?: boolean;
-}
-
-const ReactDataTable: React.FC<ReactDataTableProps> = ({
+const ReactDataTableServerSide = <T extends object>({
   data,
   columns,
-  pagination,
+  progressPending,
   actions,
   className,
   selectableRows,
   expandableRows,
-}) => {
+  paginationTotalRows,
+  onChangeRowsPerPage,
+  onSelectedRowsChange,
+  paginationServer,
+  pagination,
+  onChangePage,
+  expandableRowsComponent,
+  onRowClicked,
+  conditionalRowStyles,
+}: TableProps<T>) => {
   const [tableData, setTableData] = useState(data);
   const [searchText, setSearchText] = useState("");
   const [rowsPerPageS, setRowsPerPage] = useState(10);
@@ -167,15 +123,17 @@ const ReactDataTable: React.FC<ReactDataTableProps> = ({
     let defaultData = tableData;
     if (searchText !== "") {
       defaultData = data.filter((item) => {
-        return item.name.toLowerCase().includes(searchText.toLowerCase());
+        return Object.values(item)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchText.toLowerCase());
       });
       setTableData(defaultData);
     } else {
       setTableData(data);
     }
-  }, [searchText, data]); // Added data as a dependency
+  }, [searchText, data]);
 
-  // function to change the design view under 1200 px
   const viewChange = () => {
     if (window.innerWidth < 960 && expandableRows) {
       setMobileView(true);
@@ -190,7 +148,7 @@ const ReactDataTable: React.FC<ReactDataTableProps> = ({
     return () => {
       window.removeEventListener("resize", viewChange);
     };
-  }, [expandableRows]); // Added expandableRows as a dependency
+  }, [expandableRows]);
 
   return (
     <div
@@ -205,7 +163,7 @@ const ReactDataTable: React.FC<ReactDataTableProps> = ({
               <input
                 type="search"
                 className="form-control form-control-sm"
-                placeholder="Search by name"
+                placeholder="Search"
                 onChange={(ev) => setSearchText(ev.target.value)}
               />
             </label>
@@ -244,18 +202,26 @@ const ReactDataTable: React.FC<ReactDataTableProps> = ({
         data={tableData}
         columns={columns}
         className={className}
+        progressPending={progressPending}
         selectableRows={selectableRows}
-        // selectableRowsComponent={CustomCheckbox}
-        expandableRowsComponent={ExpandableRowComponent}
+        paginationTotalRows={paginationTotalRows}
+        onChangePage={onChangePage}
+        onChangeRowsPerPage={onChangeRowsPerPage}
+        onSelectedRowsChange={onSelectedRowsChange}
+        selectableRowsSingle
+        onRowClicked={onRowClicked}
         expandableRows={mobileView}
-        noDataComponent={<div className="p-2">There are no records found</div>}
+        expandableRowsComponent={expandableRowsComponent}
+        noDataComponent={<div className="p-2">Tidak ada data</div>}
         sortIcon={
           <div>
             <span>&darr;</span>
             <span>&uarr;</span>
           </div>
         }
+        paginationServer={paginationServer}
         pagination={pagination}
+        conditionalRowStyles={conditionalRowStyles}
         paginationComponent={({
           currentPage,
           rowsPerPage,
@@ -278,4 +244,4 @@ const ReactDataTable: React.FC<ReactDataTableProps> = ({
   );
 };
 
-export default ReactDataTable;
+export default ReactDataTableServerSide;
