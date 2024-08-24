@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Content from "@/layout/admin/content/Content";
 import {
   Block,
@@ -10,19 +7,14 @@ import {
   BlockHeadContent,
   BlockTitle,
 } from "@/components/block/Block";
-import Button from "@/components/button/Button";
-import Icon from "@/components/icon/Icon";
-import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import { Col, Row } from "@/components/grid/Grid";
 import TablePenduduk from "./table-penduduk";
+import { pendudukData } from "@/server/data";
+import FormTambahToggle from "./form-tambah-toggle";
+import { HeadActionItem, HeadActionResponsive } from "@/components/block/HeadActionResponsive";
 
-export default function PendudukPage() {
-  const [sm, updateSm] = useState(false);
-  const [showOffcanvas, setShowOffcanvas] = useState(true);
-
-  useEffect(() => {
-    console.log(showOffcanvas);
-  }, [showOffcanvas]);
+export default async function PendudukPage() {
+  const masters = await pendudukData.getMasters();
 
   return (
     <Content>
@@ -37,15 +29,12 @@ export default function PendudukPage() {
             </BlockDes>
           </BlockHeadContent>
           <BlockHeadContent>
-            <div className="toggle-wrap nk-block-tools-toggle">
-              <Button
-                className={`btn-icon btn-trigger toggle-expand me-n1 ${
-                  sm ? "active" : ""
-                }`}
-                onClick={() => updateSm(!sm)}
-              >
-                <Icon name="more-v" />
-              </Button>
+            <HeadActionResponsive>
+              <HeadActionItem>
+                <FormTambahToggle masters={masters} />
+              </HeadActionItem>
+            </HeadActionResponsive>
+            {/* <div className="toggle-wrap nk-block-tools-toggle">
               <div
                 className="toggle-expand-content"
                 style={{ display: sm ? "block" : "none" }}
@@ -69,12 +58,14 @@ export default function PendudukPage() {
                       >
                         Tambah Data Penduduk
                       </OffcanvasHeader>
-                      <OffcanvasBody>hello</OffcanvasBody>
+                      <OffcanvasBody>
+                        <FormWrapperServer />
+                      </OffcanvasBody>
                     </Offcanvas>
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
           </BlockHeadContent>
         </BlockBetween>
       </BlockHead>

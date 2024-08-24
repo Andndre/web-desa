@@ -16,30 +16,29 @@ export const Select = forwardRef<HTMLSelectElement, Props>(function Select(
   ref
 ) {
   return (
-    <fieldset className={`flex flex-col ${className ? className : ""}`}>
-      <label
-        htmlFor={name}
-        className="mb-3 block text-sm font-medium text-black dark:text-white"
-      >
+    <fieldset className={`form-group ${className ? className : ""}`}>
+      <label htmlFor={name} className="form-label form-label">
         {label}
         {required && <span className="text-danger">*</span>}
       </label>
-      <select
-        ref={ref}
-        id={name}
-        name={name}
-        {...rest}
-        className="w-full rounded-lg border-[1.5px] border-primary bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-      >
-        <option key="" value="">
-          Choose an option...
-        </option>
-        {options.map((option) => (
-          <option key={option.id} value={option.id}>
-            {option.nama}
+      <div className="form-control-wrap">
+        <select
+          ref={ref}
+          id={name}
+          name={name}
+          {...rest}
+          className="form-control"
+        >
+          <option key="" value="">
+            Pilih...
           </option>
-        ))}
-      </select>
+          {options.map((option) => (
+            <option key={option.id} value={option.id}>
+              {option.nama}
+            </option>
+          ))}
+        </select>
+      </div>
       {error && <span className="text-sm text-danger">{error}</span>}
     </fieldset>
   );

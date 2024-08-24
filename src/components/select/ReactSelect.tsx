@@ -1,22 +1,29 @@
-import React from "react";
-import Select from "react-select";
+import React, { forwardRef } from "react";
+import Select, {
+  GroupBase,
+  OptionsOrGroups,
+  SelectInstance,
+} from "react-select";
 
-interface RSelectProps {
+interface RSelectProps<T> {
   className?: string;
+  options?: OptionsOrGroups<T, GroupBase<T>>;
+  name?: string;
 }
 
-const RSelect = ({ ...props }: RSelectProps) => {
-  return (
-    <div className="form-control-select">
+const RSelect = forwardRef<SelectInstance<unknown>, RSelectProps<unknown>>(
+  (props, ref) => {
+    return (
       <Select
+        ref={ref}
         className={`react-select-container ${
           props.className ? props.className : ""
         }`}
         classNamePrefix="react-select"
         {...props}
       />
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default RSelect;
