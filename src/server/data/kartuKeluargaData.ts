@@ -54,13 +54,52 @@ export async function updateKepalaKeluargaKartuKeluarga(
   });
 }
 
-export async function getDataPenduduk(page: number, take: number) {
-  return await prisma.penduduk.findMany({
+export async function getDataKeluarga(page: number, take: number) {
+  return await prisma.penduduk_kartu_keluarga.findMany({
+    include: {
+      kepala_keluarga: {
+        select: {
+          nama: true,
+        },
+      },
+    },
     skip: (page - 1) * take,
     take,
   });
 }
 
-export async function getTotalPenduduk() {
-  return await prisma.penduduk.count();
+export async function getTotalKeluarga() {
+  return await prisma.penduduk_kartu_keluarga.count();
+}
+
+export async function getDetailKartuKeluarga(nomor_kk: string) {
+  return await prisma.penduduk_kartu_keluarga.findUnique({
+    where: {
+      nomor_kk: nomor_kk,
+    },
+    include: {
+      penduduk: true,
+      kepala_keluarga: true,
+    },
+  });
+}
+
+export type DetailKartuKeluargaResponse = Exclude<
+  Awaited<ReturnType<typeof getDetailKartuKeluarga>>,
+  null
+>;
+
+export async function applyUrutan(dataNew: DetailKartuKeluargaResponse["penduduk"]) {
+  await prisma.$transaction(async (tx) => {
+    for (let i = 0; i < dataNew.length; i++) {
+      await tx.penduduk.update({
+        where: {
+          nik: dataNew[i].nik,
+        },
+        data: {
+          urutan: dataNew[i].urutan,
+        },
+      });
+    }
+  });
 }

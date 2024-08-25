@@ -105,6 +105,7 @@ model penduduk {
   nomor_akta_lahir      String?
   foto_akta_lahir       String?
   telepon               String?
+  urutan                Int                           @default(0)
   created_at            DateTime                      @default(now())
   updated_at            DateTime?
   agama                 master_agama                  @relation(fields: [agama_id], references: [id])
