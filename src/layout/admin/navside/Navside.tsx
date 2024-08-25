@@ -47,7 +47,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
         setMenuTab(item.heading ?? "Invalid Menu");
       }
     });
-  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   useEffect(() => {
     setCurrentMenuTab(menuTab);

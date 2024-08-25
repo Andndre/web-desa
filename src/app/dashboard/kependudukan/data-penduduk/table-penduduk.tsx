@@ -16,8 +16,12 @@ function TablePenduduk() {
 
   async function fetchPenduduk(page: number) {
     setLoading(true);
-    const result = await pendudukData.getDataPenduduk(page, perPage);
-    const total = await pendudukData.getTotalPenduduk();
+
+    const [result, total] = await Promise.all([
+      pendudukData.getDataPenduduk(page, perPage),
+      pendudukData.getTotalPenduduk(),
+    ]);
+    
     setTotalRows(total);
     setData(result);
     setLoading(false);

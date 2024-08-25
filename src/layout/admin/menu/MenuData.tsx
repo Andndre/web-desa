@@ -56,6 +56,11 @@ const menu: Menu[] = [
         icon: "users-fill",
         link: "/dashboard/kependudukan/data-penduduk",
       },
+      {
+        text: "Data Keluarga",
+        icon: "users-fill",
+        link: "/dashboard/kependudukan/data-keluarga",
+      },
       // {
       //   text: "Messages",
       //   icon: "chat-fill",

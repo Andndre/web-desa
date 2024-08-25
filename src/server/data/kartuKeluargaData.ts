@@ -26,7 +26,7 @@ export async function searchKartuKeluarga(noKK: string) {
         },
       },
     },
-    take: 10
+    take: 10,
   });
 }
 
@@ -52,4 +52,15 @@ export async function updateKepalaKeluargaKartuKeluarga(
       nik_kepala_keluarga,
     },
   });
+}
+
+export async function getDataPenduduk(page: number, take: number) {
+  return await prisma.penduduk.findMany({
+    skip: (page - 1) * take,
+    take,
+  });
+}
+
+export async function getTotalPenduduk() {
+  return await prisma.penduduk.count();
 }

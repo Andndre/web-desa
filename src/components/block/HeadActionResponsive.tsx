@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Button from "@/components/button/Button";
 import Icon from "@/components/icon/Icon";
+import { Button } from "reactstrap";
 
 export function HeadActionResponsive({
   children,
@@ -14,6 +14,7 @@ export function HeadActionResponsive({
   return (
     <div className="toggle-wrap nk-block-tools-toggle">
       <Button
+        color=""
         className={`btn-icon btn-trigger toggle-expand me-n1 ${
           sm ? "active" : ""
         }`}
@@ -25,9 +26,7 @@ export function HeadActionResponsive({
         className="toggle-expand-content"
         style={{ display: sm ? "block" : "none" }}
       >
-        <ul className="nk-block-tools g-3">
-          {children}
-        </ul>
+        <ul className="nk-block-tools g-3">{children}</ul>
       </div>
     </div>
   );

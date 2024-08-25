@@ -25,5 +25,6 @@
     "**/*.crswap": true,
     "node_modules": true
   },
-  "editor.linkedEditing": true
+  "editor.linkedEditing": true,
+  "editor.codeActionsOnSave": { "source.addMissingImports": "always" }
 }
