@@ -8,6 +8,7 @@ import classNames from "classnames";
 import Toggle from "@/layout/admin/sidebar/Toggle";
 
 import { useThemeUpdate } from "../provider/Theme";
+import { usePathname } from "next/navigation";
 
 interface MenuSubProps extends SubMenuItem {
   sidebarToggle?: (e: React.MouseEvent) => void;
@@ -31,9 +32,7 @@ const MenuItem: React.FC<MenuSubProps> = ({
   mobileView,
   badge,
 }) => {
-  let currentUrl =
-    typeof window !== "undefined" ? window.location.pathname : "";
-
+  let currentUrl = usePathname();
   const toggleActionSidebar = (e: React.MouseEvent) => {
     if (!subMenu && !newTab && mobileView && sidebarToggle) {
       sidebarToggle(e);
@@ -232,7 +231,6 @@ const Menu: React.FC<MenuProps> = ({
   mobileView,
 }) => {
   const themeUpdate = useThemeUpdate();
-
   const menuItem = menu.find((item) => item.heading === currentMenuTab);
 
   return (

@@ -78,7 +78,11 @@ export async function getDetailKartuKeluarga(nomor_kk: string) {
       nomor_kk: nomor_kk,
     },
     include: {
-      penduduk: true,
+      penduduk: {
+        orderBy: {
+          urutan: "asc",
+        }
+      },
       kepala_keluarga: true,
     },
   });

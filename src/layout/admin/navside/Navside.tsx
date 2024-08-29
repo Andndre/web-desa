@@ -17,9 +17,10 @@ import { usePathname } from "next/navigation";
 
 interface NavsideProps {
   setCurrentMenuTab: (menuTab: string) => void;
+  setLoading: () => void;
 }
 
-const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
+const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab, setLoading }) => {
   const theme = useTheme();
   const themeUpdate = useThemeUpdate();
   const pathname = usePathname();
@@ -28,9 +29,10 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   const checkMenuUrl = (data: Menu): SubMenuItem | undefined => {
+    console.log("checkMenu");
     if (!data.subMenu) return undefined;
     for (const node of data.subMenu) {
-      if (node.link === window.location.pathname) {
+      if (node.link === pathname) {
         return node;
       } else {
         const newNode = node.subMenu ? checkMenuUrl(node) : undefined;
@@ -39,15 +41,23 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
     }
   };
 
-  useEffect(() => {
+  function loadMenu() {
     let found;
-    menu.forEach((item) => {
+    menu.map((item) => {
+      console.log("started check menu url");
       found = checkMenuUrl(item);
+      console.log("ended check menu url");
       if (found !== undefined) {
         setMenuTab(item.heading ?? "Invalid Menu");
       }
     });
-  }, [pathname]);
+  }
+
+  useEffect(() => {
+    console.log("use effect");
+    loadMenu();
+    setLoading();
+  }, []);
 
   useEffect(() => {
     setCurrentMenuTab(menuTab);
@@ -80,51 +90,30 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab }) => {
             <div className="nk-sidebar-menu">
               <ul className="nk-menu apps-menu">
                 {menu.map((item, index) => {
-                  if (item.heading !== "Components") {
-                    return (
-                      <React.Fragment key={index}>
-                        <li
-                          className={`nk-menu-item ${
-                            item.heading === menuTab ? "active" : ""
-                          }`}
-                          key={index}
-                          id={"page" + index}
-                        >
-                          <Link href="#link" legacyBehavior>
-                            <a
-                              onClick={(ev) => {
-                                ev.preventDefault();
-                                setMenuTab(item.heading ?? "Invalid Menu");
-                              }}
-                              className="nk-menu-icon nk-menu-link nk-menu-switch"
-                            >
-                              <Icon name={item.icon}></Icon>
-                            </a>
-                          </Link>
-                        </li>
-                      </React.Fragment>
-                    );
-                  } else return null;
+                  return (
+                    <React.Fragment key={index}>
+                      <li
+                        className={`nk-menu-item ${
+                          item.heading === menuTab ? "active" : ""
+                        }`}
+                        key={index}
+                        id={"page" + index}
+                      >
+                        <Link href="#link" legacyBehavior>
+                          <a
+                            onClick={(ev) => {
+                              ev.preventDefault();
+                              setMenuTab(item.heading ?? "Invalid Menu");
+                            }}
+                            className="nk-menu-icon nk-menu-link nk-menu-switch"
+                          >
+                            <Icon name={item.icon}></Icon>
+                          </a>
+                        </Link>
+                      </li>
+                    </React.Fragment>
+                  );
                 })}
-                <li className="nk-menu-hr"></li>
-                <li
-                  className={`nk-menu-item ${
-                    "Components" === menuTab ? "active" : ""
-                  }`}
-                  id="componentTooltip"
-                >
-                  <Link href="#link" legacyBehavior>
-                    <a
-                      className="nk-menu-icon nk-menu-link nk-menu-switch"
-                      onClick={(ev) => {
-                        ev.preventDefault();
-                        setMenuTab("Components");
-                      }}
-                    >
-                      <Icon name="layers"></Icon>
-                    </a>
-                  </Link>
-                </li>
               </ul>
             </div>
             <div className="nk-sidebar-footer">

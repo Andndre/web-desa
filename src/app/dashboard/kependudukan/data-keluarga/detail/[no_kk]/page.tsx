@@ -6,15 +6,16 @@ import {
   BlockDes,
   Block,
 } from "@/components/block/Block";
+import { Col, Row } from "@/components/grid/Grid";
+import Content from "@/layout/admin/content/Content";
+import { kartuKeluargaData, pendudukData } from "@/server/data";
+import React from "react";
+import TableAnggotaKeluarga from "./table-anggota-keluarga";
+import FormTambahToggle from "./form-tambah-toogle";
 import {
   HeadActionResponsive,
   HeadActionItem,
 } from "@/components/block/HeadActionResponsive";
-import { Col, Row } from "@/components/grid/Grid";
-import Content from "@/layout/admin/content/Content";
-import { kartuKeluargaData } from "@/server/data";
-import React from "react";
-import TableAnggotaKeluarga from "./table-anggota-keluarga";
 
 interface DetailKeluargaProps {
   params: { no_kk: string };
@@ -22,9 +23,10 @@ interface DetailKeluargaProps {
 
 async function DetailKeluarga({ params: { no_kk } }: DetailKeluargaProps) {
   const dataKeluarga = await kartuKeluargaData.getDetailKartuKeluarga(no_kk);
+  const masters = await pendudukData.getMasters();
 
   if (!dataKeluarga) {
-    return <div>404</div>;
+    return <Content>404</Content>;
   }
 
   return (
@@ -42,8 +44,7 @@ async function DetailKeluarga({ params: { no_kk } }: DetailKeluargaProps) {
           <BlockHeadContent>
             <HeadActionResponsive>
               <HeadActionItem>
-                {/* <FormTambahToggle masters={masters} /> */}
-                back button
+                <FormTambahToggle nomor_kk={no_kk} masters={masters} />
               </HeadActionItem>
             </HeadActionResponsive>
           </BlockHeadContent>

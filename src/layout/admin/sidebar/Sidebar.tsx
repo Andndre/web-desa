@@ -16,6 +16,7 @@ const Sidebar = ({
   className?: string;
 }) => {
   const [currentMenuTab, setCurrentMenuTab] = useState("Dashboards");
+  const [loading, setLoading] = useState(true);
 
   const theme = useTheme();
   const themeUpdate = useThemeUpdate();
@@ -38,16 +39,41 @@ const Sidebar = ({
   return (
     <>
       <div className={compClass}>
-        <Navside setCurrentMenuTab={setCurrentMenuTab} />
-        <div className={mainClass}>
-          <SimpleBar className="nk-sidebar-inner">
-            <Menu
-              mobileView={false}
-              sidebarToggle={themeUpdate.sidebarVisibility}
-              currentMenuTab={currentMenuTab}
-            />
-          </SimpleBar>
-        </div>
+        {loading && (
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 10,
+              background: "white",
+              top: "0",
+              left: "0",
+              right: "0",
+              bottom: "0",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
+        <>
+          <Navside
+            setCurrentMenuTab={setCurrentMenuTab}
+            setLoading={() => setLoading(false)}
+          />
+          <div className={mainClass}>
+            <SimpleBar className="nk-sidebar-inner">
+              <Menu
+                mobileView={false}
+                sidebarToggle={themeUpdate.sidebarVisibility}
+                currentMenuTab={currentMenuTab}
+              />
+            </SimpleBar>
+          </div>
+        </>
       </div>
       {theme.sidebarVisibility && (
         <div
