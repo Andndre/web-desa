@@ -1,7 +1,10 @@
 "use client";
 
 import { Col, Row } from "@/components/grid/Grid";
-import ReactDataTableServerSide from "@/components/table/ReactDataTable";
+import ReactDataTableServerSide, {
+  Export,
+  Refresh,
+} from "@/components/table/ReactDataTable";
 import { renderData, renderKey } from "@/lib/utils";
 import { type PendudukData, pendudukData } from "@/server/data";
 import React, { useState } from "react";
@@ -13,15 +16,16 @@ function TablePenduduk() {
   const [perPage, setPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [page, setPage] = useState(1);
 
-  async function fetchPenduduk(page: number) {
+  async function fetchPenduduk() {
     setLoading(true);
 
     const [result, total] = await Promise.all([
       pendudukData.getDataPenduduk(page, perPage),
       pendudukData.getTotalPenduduk(),
     ]);
-    
+
     setTotalRows(total);
     setData(result);
     setLoading(false);
@@ -48,7 +52,8 @@ function TablePenduduk() {
   };
 
   const handlePageChange = (page: number) => {
-    fetchPenduduk(page);
+    setPage(page);
+    fetchPenduduk();
   };
 
   const handlePerRowsChange = async (newPerPage: number, page: number) => {
@@ -67,6 +72,11 @@ function TablePenduduk() {
             {
               name: "NIK",
               selector: (row) => row.nik,
+              sortable: true,
+            },
+            {
+              name: "NO KK",
+              selector: (row) => row.kk_id,
               sortable: true,
             },
             {
@@ -103,7 +113,11 @@ function TablePenduduk() {
           paginationTotalRows={totalRows}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
-          actions
+          actions={
+            <>
+              <Export data={data} /> <Refresh refreshData={fetchPenduduk} />{" "}
+            </>
+          }
           conditionalRowStyles={[
             {
               when: (row) => row.nik == selectedItem,

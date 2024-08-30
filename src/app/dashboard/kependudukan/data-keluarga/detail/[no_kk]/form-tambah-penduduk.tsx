@@ -21,9 +21,9 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<PendudukFormSchema.DataPendudukFormSchemaInputType>({
+  } = useForm<PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType>({
     resolver: zodResolver(
-      PendudukFormSchema.tambahDataPendudukSchema,
+      PendudukFormSchema.tambahDataPendudukTanpaKKSchema,
       {},
       { raw: true }
     ),
@@ -31,14 +31,17 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
   });
 
   const onSubmit: SubmitHandler<
-    PendudukFormSchema.DataPendudukFormSchemaInputType
+    PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType
   > = async (data) => {
+    console.log("submitting");
     const formData = new FormData();
 
     for (const key in data) {
       formData.append(
         key,
-        data[key as keyof PendudukFormSchema.DataPendudukFormSchemaInputType]
+        data[
+          key as keyof PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType
+        ]
       );
     }
 
@@ -47,10 +50,11 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
     const success = await pendudukActions.tambahDataPenduduk(formData);
     reset();
     if (success) {
+      alert("Berhasil");
       // reload page
       window.location.reload();
     } else {
-      alert("Gagal")
+      alert("Gagal");
     }
   };
 
@@ -68,32 +72,6 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
         error={errors.nik?.message}
         required
       />
-      {/* <SelectSearch
-        label="Nomor Kartu Keluarga"
-        {...register("kk_id")}
-        error={errors.kk_id?.message}
-        required
-        actiontitle="Tambah Data"
-        setvalue={(value: string) => {
-          setValue("kk_id", value, { shouldValidate: true });
-        }}
-        searchfunction={async (value) => {
-          // fungsi searchKartuKeluarga berjalan di sisi server
-          const data = await searchKartuKeluarga(value);
-          const result = [];
-          for (const item of data) {
-            result.push({
-              id: item.nomor_kk,
-              nama: item.kepala_keluarga?.nama || "Tidak diketahui",
-            });
-          }
-          return result;
-        }}
-        actionactive={true}
-        actionfunction={() => {
-          // setShowDrawer(true);
-        }}
-      /> */}
       <Select
         label="Jenis Kelamin"
         {...register("jenis_kelamin")}

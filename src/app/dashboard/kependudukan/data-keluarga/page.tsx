@@ -13,6 +13,7 @@ import {
 import { Col, Row } from "@/components/grid/Grid";
 import Content from "@/layout/admin/content/Content";
 import TableKeluarga from "./table-keluarga";
+import FormTambahToggle from "./form-tambah-toggle";
 
 export default function KeluargaPage() {
   return (
@@ -30,8 +31,7 @@ export default function KeluargaPage() {
           <BlockHeadContent>
             <HeadActionResponsive>
               <HeadActionItem>
-                {/* <FormTambahToggle masters={masters} /> */}
-                test
+                <FormTambahToggle />
               </HeadActionItem>
             </HeadActionResponsive>
           </BlockHeadContent>

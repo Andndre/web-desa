@@ -76,6 +76,12 @@ function TableAnggotaKeluarga({ data }: TableAnggotaKeluargaProps) {
               <span className="overline-title">Jenis Kelamin</span>
             </th>
             <th>
+              <span className="overline-title">Peran</span>
+            </th>
+            <th>
+              <span className="overline-title">Aksi</span>
+            </th>
+            <th>
               <span className="overline-title"></span>
             </th>
           </tr>
@@ -88,6 +94,10 @@ function TableAnggotaKeluarga({ data }: TableAnggotaKeluargaProps) {
                 <td>{anggota.nama}</td>
                 <td>{anggota.nik}</td>
                 <td>{anggota.jenis_kelamin}</td>
+                <td>
+                  {anggota.hubungan?.nama || "BELUM DIATUR"}{" "}
+                  {i == 0 && " | KEPALA KELUARGA"}
+                </td>
                 <td>
                   {i != 0 && (
                     <Button

@@ -81,7 +81,20 @@ export async function getDetailKartuKeluarga(nomor_kk: string) {
       penduduk: {
         orderBy: {
           urutan: "asc",
-        }
+        },
+        include: {
+          hubungan: true,
+          status_dasar: true,
+          status: true,
+          status_kawin: true,
+          cacat: true,
+          golongan_darah: true,
+          agama: true,
+          suku: true,
+          sakit_menahun: true,
+          pekerjaan: true,
+          pendidikan: true,
+        },
       },
       kepala_keluarga: true,
     },
@@ -93,8 +106,30 @@ export type DetailKartuKeluargaResponse = Exclude<
   null
 >;
 
-export async function applyUrutan(dataNew: DetailKartuKeluargaResponse["penduduk"]) {
+export async function applyUrutan(
+  dataNew: DetailKartuKeluargaResponse["penduduk"]
+) {
   await prisma.$transaction(async (tx) => {
+    // update kepala keluarga ke anggota keluarga teratas
+    const p = await tx.penduduk.findUnique({
+      where: {
+        nik: dataNew[0].nik,
+      },
+      select: {
+        kk_id: true,
+      },
+    });
+    // if not found, cancel transaction
+    if (!p) return;
+    await tx.penduduk_kartu_keluarga.update({
+      where: {
+        nomor_kk: p.kk_id,
+      },
+      data: {
+        nik_kepala_keluarga: dataNew[0].nik,
+      },
+    });
+    // update urutan
     for (let i = 0; i < dataNew.length; i++) {
       await tx.penduduk.update({
         where: {

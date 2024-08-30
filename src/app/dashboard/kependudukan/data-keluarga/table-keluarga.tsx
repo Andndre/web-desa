@@ -1,19 +1,23 @@
 "use client";
 
 import Icon from "@/components/icon/Icon";
-import ReactDataTableServerSide from "@/components/table/ReactDataTable";
+import ReactDataTableServerSide, {
+  Export,
+  Refresh,
+} from "@/components/table/ReactDataTable";
 import { renderKey, renderData } from "@/lib/utils";
 import { KeluargaData, kartuKeluargaData } from "@/server/data";
+import Link from "next/link";
 import { useState } from "react";
-import { Button } from "reactstrap";
 
 function TableKeluarga() {
   const [data, setData] = useState<KeluargaData>([]);
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
-  async function fetchKeluarga(page: number) {
+  async function fetchKeluarga() {
     setLoading(true);
 
     const [result, total] = await Promise.all([
@@ -41,7 +45,8 @@ function TableKeluarga() {
   };
 
   const handlePageChange = (page: number) => {
-    fetchKeluarga(page);
+    setPage(page);
+    fetchKeluarga();
   };
 
   const handlePerRowsChange = async (newPerPage: number, page: number) => {
@@ -64,19 +69,19 @@ function TableKeluarga() {
           name: "Kepala Keluarga",
           selector: (row) => row.kepala_keluarga?.nama || "Belum Ada",
           sortable: true,
-          
         },
         {
           name: "Aksi",
           cell: (row) => {
             return (
-              <Button
+              <Link
                 href={`/dashboard/kependudukan/data-keluarga/detail/${row.nomor_kk}`}
                 color="warning"
-                size="sm"
               >
-                <Icon name="edit-fill" />
-              </Button>
+                <div className="btn btn-sm btn-warning">
+                  <Icon name="edit-fill" />
+                </div>
+              </Link>
             );
           },
         },
@@ -94,7 +99,7 @@ function TableKeluarga() {
       paginationTotalRows={totalRows}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
-      actions
+      actions={<><Export data={data} /> <Refresh refreshData={fetchKeluarga} /> </>}
     />
   );
 }

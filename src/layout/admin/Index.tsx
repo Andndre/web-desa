@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import Sidebar from "@/layout/admin/sidebar/Sidebar";
 import Header from "@/layout/admin/header/Header";
 import Footer from "@/layout/admin/footer/Footer";

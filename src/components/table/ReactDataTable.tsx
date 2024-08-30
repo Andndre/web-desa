@@ -8,12 +8,13 @@ import { Col, Modal, ModalBody, Row, Button } from "reactstrap";
 import DataTablePagination from "@/components/pagination/DataTablePagination";
 import { TableProps } from "react-data-table-component/dist/DataTable/types";
 import { TableData, renderData } from "@/lib/utils";
+import Icon from "../icon/Icon";
 
 interface ExportProps<T> {
   data: T[];
 }
 
-const Export = <T extends object>({ data }: ExportProps<T>) => {
+export const Export = <T extends object>({ data }: ExportProps<T>) => {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -41,60 +42,56 @@ const Export = <T extends object>({ data }: ExportProps<T>) => {
     exportFromJSON({ data: formattedData, fileName, exportType });
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(JSON.stringify(formattedData));
-    setModal(true);
-  };
-
   return (
-    <React.Fragment>
-      <div className="dt-export-buttons d-flex align-center">
-        <div className="dt-export-title d-none d-md-inline-block">Export</div>
-        <div className="dt-buttons btn-group flex-wrap">
-          <CopyToClipboard text={JSON.stringify(data)}>
-            <Button
-              className="buttons-copy buttons-html5"
-              onClick={() => copyToClipboard()}
-            >
-              <span>Copy</span>
-            </Button>
-          </CopyToClipboard>{" "}
-          <button
-            className="btn btn-secondary buttons-csv buttons-html5"
-            type="button"
-            onClick={() => exportCSV()}
-          >
-            <span>CSV</span>
-          </button>{" "}
-          <button
-            className="btn btn-secondary buttons-excel buttons-html5"
-            type="button"
-            onClick={() => exportExcel()}
-          >
-            <span>Excel</span>
-          </button>{" "}
-        </div>
+    <>
+      <div className="dt-export-title d-none d-md-inline-block">Unduh</div>
+      <div className="dt-buttons btn-group flex-wrap">
+        <button
+          className="btn btn-secondary buttons-csv buttons-html5"
+          type="button"
+          onClick={() => exportCSV()}
+        >
+          <span>CSV</span>
+        </button>{" "}
+        <button
+          className="btn btn-secondary buttons-excel buttons-html5"
+          type="button"
+          onClick={() => exportExcel()}
+        >
+          <span>Excel</span>
+        </button>{" "}
       </div>
-      <Modal
-        isOpen={modal}
-        className="modal-dialog-centered text-center"
-        size="sm"
-      >
-        <ModalBody className="text-center m-2">
-          <h5>Tersalin ke Clipboard</h5>
-        </ModalBody>
-        <div className="p-3 bg-light">
-          <div className="text-center">{data.length} data disalin!</div>
-        </div>
-      </Modal>
-    </React.Fragment>
+    </>
   );
 };
 
-// Use generic type T for the data
-interface ExpandableRowProps<T extends object> {
-  data: T;
+interface RefreshProps {
+  refreshData: () => Promise<void>;
 }
+
+export const Refresh = ({ refreshData }: RefreshProps) => {
+  const [loading, setLoading] = useState(false);
+  // refresh button, if it is clicked, loading is true, and the button icon is replaced by loading spinner
+  const refresh = async () => {
+    setLoading(true);
+    await refreshData();
+    setLoading(false);
+  };
+  return (
+    <>
+      <div className="dt-export-title d-none d-md-inline-block">Segarkan</div>
+      <div className="dt-buttons btn-group flex-wrap">
+        <Button
+          className="buttons-html5"
+          onClick={() => refresh()}
+          disabled={loading}
+        >
+          <Icon name="reload" />
+        </Button>
+      </div>
+    </>
+  );
+};
 
 const ReactDataTableServerSide = <T extends object>({
   data,
@@ -172,10 +169,12 @@ const ReactDataTableServerSide = <T extends object>({
         <Col className="col-5 text-end" sm="8">
           <div className="datatable-filter">
             <div className="d-flex justify-content-end g-2">
-              {actions && <Export data={data} />}
+              <div className="dt-export-buttons d-flex align-center">
+                {actions}
+              </div>
               <div className="dataTables_length" id="DataTables_Table_0_length">
                 <label>
-                  <span className="d-none d-sm-inline-block">Show</span>
+                  <span className="d-none d-sm-inline-block">Tampilkan</span>
                   <div className="form-control-select">
                     {" "}
                     <select

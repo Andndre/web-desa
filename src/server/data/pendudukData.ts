@@ -18,6 +18,7 @@ export async function getDataPenduduk(
     select: {
       nama: true,
       nik: true,
+      kk_id: true,
       jenis_kelamin: true,
       agama: {
         select: {
