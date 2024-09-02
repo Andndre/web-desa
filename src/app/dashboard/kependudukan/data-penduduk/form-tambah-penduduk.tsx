@@ -257,12 +257,13 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
         {...register("telepon")}
         error={errors.telepon?.message}
       />
-      <Button type="submit" className="btn-primary btn-sm">
-        {isSubmitting ? (
-          <Spinner size="sm" color="light" />
-        ) : (
-          "Tambah Data Penduduk"
-        )}
+      <Button
+        type="submit"
+        color="primary"
+        disabled={isSubmitting}
+        className="w-100 text-center d-flex align-items-center justify-content-center"
+      >
+        {isSubmitting ? <Spinner size="sm" color="light" /> : "Simpan"}
       </Button>
     </Form>
   );

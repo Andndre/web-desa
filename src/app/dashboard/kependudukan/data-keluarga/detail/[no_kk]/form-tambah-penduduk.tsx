@@ -9,7 +9,7 @@ import { MastersType } from "@/server/data/pendudukData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Form } from "reactstrap";
+import { Button, Form, Spinner } from "reactstrap";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
@@ -234,8 +234,13 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
         {...register("telepon")}
         error={errors.telepon?.message}
       />
-      <Button type="submit" className="btn-primary btn-sm">
-        {isSubmitting ? "Loading..." : "Tambah Data"}
+      <Button
+        type="submit"
+        color="primary"
+        disabled={isSubmitting}
+        className="w-100 text-center d-flex align-items-center justify-content-center"
+      >
+        {isSubmitting ? <Spinner size="sm" color="light" /> : "Simpan"}
       </Button>
     </Form>
   );
