@@ -6,14 +6,18 @@ import { KKFormSchema } from "@/server/actions/formschemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Form } from "reactstrap";
+import { toast } from "react-toastify";
+import { Button, Form, Spinner } from "reactstrap";
 
-function FormTambahPenduduk() {
+export interface IFormTambahPenduduk {
+  toggleDrawer: () => void;
+}
+
+function FormTambahPenduduk({ toggleDrawer }: IFormTambahPenduduk) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<KKFormSchema.DataKKFormSchemaInputType>({
     resolver: zodResolver(KKFormSchema.tambahDataKKSchema, {}, { raw: true }),
     defaultValues: {},
@@ -31,9 +35,20 @@ function FormTambahPenduduk() {
       );
     }
 
-    const success = await kkActions.tambahDataKK(formData);
-    reset();
-    if (success) alert("Data berhasil ditambahkan");
+    await toast.promise(kkActions.tambahDataKK(formData), {
+      pending: "Menambahkan data kartu keluarga...",
+      success: {
+        render() {
+          toggleDrawer();
+          return "Kartu Keluarga berhasil ditambahkan";
+        },
+      },
+      error: {
+        render() {
+          return "Terjadi kesalahan saat menambahkan Kartu Keluarga";
+        },
+      },
+    });
   };
 
   return (
@@ -44,8 +59,13 @@ function FormTambahPenduduk() {
         error={errors.kk_id?.message}
         required
       />
-      <Button type="submit" className="btn-primary btn-sm">
-        {isSubmitting ? "Loading..." : "Tambah Data"}
+      <Button
+        type="submit"
+        color="primary"
+        disabled={isSubmitting}
+        className="w-100 text-center d-flex align-items-center justify-content-center"
+      >
+        {isSubmitting ? <Spinner size="sm" color="light" /> : "Simpan"}
       </Button>
     </Form>
   );

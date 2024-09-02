@@ -8,12 +8,15 @@ import FormTambahPenduduk from "./form-tambah-kk";
 
 function FormTambahToggle() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  function toggleDrawer() {
+    setShowOffcanvas(!showOffcanvas);
+  }
 
   return (
     <>
       <Button color="primary" onClick={() => setShowOffcanvas(!showOffcanvas)}>
         <Icon name="plus" />
-        <span>Tambah Data</span>
+        <span>Tambah Kartu Keluarga</span>
       </Button>
       <Offcanvas
         direction="end"
@@ -24,7 +27,7 @@ function FormTambahToggle() {
           Tambah Data Kartu Keluarga
         </OffcanvasHeader>
         <OffcanvasBody>
-          <FormTambahPenduduk />
+          <FormTambahPenduduk toggleDrawer={toggleDrawer} />
         </OffcanvasBody>
       </Offcanvas>
     </>
