@@ -1,7 +1,16 @@
-const Loader = () => {
+interface ILoader {
+  customHeight?: string;
+}
+
+const Loader = ({ customHeight }: ILoader) => {
   return (
-    <div className="flex h-screen items-center justify-center bg-white dark:bg-black">
-      <div className="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ height: customHeight || "100vh" }}
+    >
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     </div>
   );
 };

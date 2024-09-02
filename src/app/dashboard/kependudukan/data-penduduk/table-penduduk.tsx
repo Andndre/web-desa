@@ -1,9 +1,11 @@
 "use client";
 
 import { Col, Row } from "@/components/grid/Grid";
+import Icon from "@/components/icon/Icon";
 import ReactDataTableServerSide, {
   Export,
   Refresh,
+  ToggleDetailButton,
 } from "@/components/table/ReactDataTable";
 import { renderData, renderKey } from "@/lib/utils";
 import { type PendudukData, pendudukData } from "@/server/data";
@@ -17,6 +19,11 @@ function TablePenduduk() {
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
   const [page, setPage] = useState(1);
+
+  const [showDetailPenduduk, setShowDetailPenduduk] = useState(false);
+  function toggleShowDetailPenduduk() {
+    setShowDetailPenduduk(!showDetailPenduduk);
+  }
 
   async function fetchPenduduk() {
     setLoading(true);
@@ -66,7 +73,7 @@ function TablePenduduk() {
 
   return (
     <Row className="g-gs">
-      <Col lg={8}>
+      <Col lg={showDetailPenduduk ? 8 : 12}>
         <ReactDataTableServerSide
           columns={[
             {
@@ -118,9 +125,17 @@ function TablePenduduk() {
               <Export data={data} /> <Refresh refreshData={fetchPenduduk} />{" "}
             </>
           }
+          actionsAfter={
+            <>
+              <ToggleDetailButton
+                show={showDetailPenduduk}
+                toggleDetail={toggleShowDetailPenduduk}
+              />
+            </>
+          }
           conditionalRowStyles={[
             {
-              when: (row) => row.nik == selectedItem,
+              when: (row) => showDetailPenduduk && row.nik == selectedItem,
               style: {
                 backgroundColor: "#0fac8124",
               },
@@ -128,12 +143,22 @@ function TablePenduduk() {
           ]}
         />
       </Col>
-      <Col lg={4} className="d-none d-lg-block">
-        <Card>
-          <CardHeader>Detail Penduduk</CardHeader>
-          <CardBody>{renderSelectedItem()}</CardBody>
-        </Card>
-      </Col>
+      {showDetailPenduduk && (
+        <Col lg={4} className="d-none d-lg-block">
+          <Card>
+            <CardHeader className="d-flex justify-content-between align-items-center">
+              Detail Penduduk
+              <button
+                className="bg-transparent p-0 btn shadow-none"
+                onClick={toggleShowDetailPenduduk}
+              >
+                <Icon name="cross" />
+              </button>
+            </CardHeader>
+            <CardBody>{renderSelectedItem()}</CardBody>
+          </Card>
+        </Col>
+      )}
     </Row>
   );
 }

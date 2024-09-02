@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useState } from "react";
+import { Masters } from "./page";
 import {
   Block,
   BlockBetween,
@@ -9,31 +11,35 @@ import {
   BlockTitle,
 } from "@/components/block/Block";
 import {
-  HeadActionResponsive,
   HeadActionItem,
+  HeadActionResponsive,
 } from "@/components/block/HeadActionResponsive";
 import { Col, Row } from "@/components/grid/Grid";
 import Content from "@/layout/admin/content/Content";
-import TableKeluarga from "./table-keluarga";
 import FormTambahToggle from "./form-tambah-toggle";
+import TablePenduduk from "./table-penduduk";
 
-export default function KeluargaPage() {
+interface IDataPendudukPage {
+  masters: Masters;
+}
+
+function DataPendudukPage({ masters }: IDataPendudukPage) {
   return (
     <Content>
       <BlockHead size="sm">
         <BlockBetween>
           <BlockHeadContent>
             <BlockTitle page tag="h3">
-              Data Keluarga
+              Data Penduduk
             </BlockTitle>
             <BlockDes className="text-soft">
-              <p>Berikut merupakan data keluarga yang terdaftar</p>
+              <p>Berikut merupakan data penduduk yang terdaftar</p>
             </BlockDes>
           </BlockHeadContent>
           <BlockHeadContent>
             <HeadActionResponsive>
               <HeadActionItem>
-                <FormTambahToggle />
+                <FormTambahToggle masters={masters} />
               </HeadActionItem>
             </HeadActionResponsive>
           </BlockHeadContent>
@@ -42,10 +48,12 @@ export default function KeluargaPage() {
       <Block>
         <Row className="g-gs">
           <Col xxl={8}>
-            <TableKeluarga />
+            <TablePenduduk />
           </Col>
         </Row>
       </Block>
     </Content>
   );
 }
+
+export default DataPendudukPage;

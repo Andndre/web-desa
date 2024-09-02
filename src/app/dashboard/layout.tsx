@@ -24,7 +24,9 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <Layout>{children}</Layout>
+      <Layout>
+        {children}
+      </Layout>
       <ToastContainer />
     </>
   );

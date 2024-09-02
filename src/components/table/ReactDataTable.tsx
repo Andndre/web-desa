@@ -1,14 +1,36 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import DataTable, { TableColumn } from "react-data-table-component";
+import DataTable from "react-data-table-component";
 import exportFromJSON from "export-from-json";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { Col, Modal, ModalBody, Row, Button } from "reactstrap";
+import { Col, Row, Button } from "reactstrap";
 import DataTablePagination from "@/components/pagination/DataTablePagination";
 import { TableProps } from "react-data-table-component/dist/DataTable/types";
-import { TableData, renderData } from "@/lib/utils";
+import { renderData } from "@/lib/utils";
 import Icon from "../icon/Icon";
+import Loader from "../common/Loader";
+
+interface ToggleDetailProps {
+  toggleDetail: () => void;
+  show: boolean;
+}
+
+export const ToggleDetailButton = ({
+  toggleDetail,
+  show,
+}: ToggleDetailProps) => {
+  return (
+    <div className="dt-buttons btn-group flex-wrap">
+      <button
+        className="btn btn-secondary buttons-html5"
+        type="button"
+        onClick={() => toggleDetail()}
+      >
+        <Icon name={show ? "eye-off" : "eye"} />
+      </button>
+    </div>
+  );
+};
 
 interface ExportProps<T> {
   data: T[];
@@ -44,7 +66,6 @@ export const Export = <T extends object>({ data }: ExportProps<T>) => {
 
   return (
     <>
-      <div className="dt-export-title d-none d-md-inline-block">Unduh</div>
       <div className="dt-buttons btn-group flex-wrap">
         <button
           className="btn btn-secondary buttons-csv buttons-html5"
@@ -71,7 +92,6 @@ interface RefreshProps {
 
 export const Refresh = ({ refreshData }: RefreshProps) => {
   const [loading, setLoading] = useState(false);
-  // refresh button, if it is clicked, loading is true, and the button icon is replaced by loading spinner
   const refresh = async () => {
     setLoading(true);
     await refreshData();
@@ -79,7 +99,6 @@ export const Refresh = ({ refreshData }: RefreshProps) => {
   };
   return (
     <>
-      <div className="dt-export-title d-none d-md-inline-block">Segarkan</div>
       <div className="dt-buttons btn-group flex-wrap">
         <Button
           className="buttons-html5"
@@ -98,6 +117,7 @@ const ReactDataTableServerSide = <T extends object>({
   columns,
   progressPending,
   actions,
+  actionsAfter,
   className,
   selectableRows,
   expandableRows,
@@ -110,7 +130,7 @@ const ReactDataTableServerSide = <T extends object>({
   expandableRowsComponent,
   onRowClicked,
   conditionalRowStyles,
-}: TableProps<T>) => {
+}: TableProps<T> & { actionsAfter?: React.ReactNode | React.ReactNode[] }) => {
   const [tableData, setTableData] = useState(data);
   const [searchText, setSearchText] = useState("");
   const [rowsPerPageS, setRowsPerPage] = useState(10);
@@ -169,7 +189,7 @@ const ReactDataTableServerSide = <T extends object>({
         <Col className="col-5 text-end" sm="8">
           <div className="datatable-filter">
             <div className="d-flex justify-content-end g-2">
-              <div className="dt-export-buttons d-flex align-center">
+              <div className="dt-export-buttons d-flex align-center g-2">
                 {actions}
               </div>
               <div className="dataTables_length" id="DataTables_Table_0_length">
@@ -193,6 +213,9 @@ const ReactDataTableServerSide = <T extends object>({
                   </div>
                 </label>
               </div>
+              <div className="dt-export-buttons d-flex align-center g-2">
+                {actionsAfter}
+              </div>
             </div>
           </div>
         </Col>
@@ -201,6 +224,7 @@ const ReactDataTableServerSide = <T extends object>({
         data={tableData}
         columns={columns}
         className={className}
+        progressComponent={<Loader customHeight="200px" />}
         progressPending={progressPending}
         selectableRows={selectableRows}
         paginationTotalRows={paginationTotalRows}
