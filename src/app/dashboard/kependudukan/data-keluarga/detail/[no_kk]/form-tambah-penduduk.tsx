@@ -1,8 +1,8 @@
 "use client";
 
 import { Input } from "@/components/Form/Input";
-import { Select } from "@/components/Form/Select";
 import { SelectType } from "@/components/Form/SelectType";
+import { TextareaInput } from "@/components/Form/TextareaInput";
 import { pendudukActions } from "@/server/actions";
 import { PendudukFormSchema } from "@/server/actions/formschemas";
 import { MastersType } from "@/server/data/pendudukData";
@@ -118,7 +118,7 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
           setValue("agama_id", value, { shouldValidate: true });
         }}
       />
-      <Input
+      <TextareaInput
         label="Alamat"
         {...register("alamat")}
         error={errors.alamat?.message}

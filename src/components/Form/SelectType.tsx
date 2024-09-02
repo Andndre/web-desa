@@ -110,7 +110,7 @@ export const SelectType = forwardRef<HTMLSelectElement, Props>(
         ref={wrapperRef}
         className={cn(`form-group position-relative`, className)}
       >
-        <label htmlFor={name} className="form-label">
+        <label htmlFor={`${name}-input`} className="form-label">
           {label}
           {required && <span className="text-danger">*</span>}
         </label>

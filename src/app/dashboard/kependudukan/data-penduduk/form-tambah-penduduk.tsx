@@ -1,9 +1,9 @@
 "use client";
 
 import { Input } from "@/components/Form/Input";
-import { Select } from "@/components/Form/Select";
 import { SelectSearch } from "@/components/Form/SelectSearch";
 import { SelectType } from "@/components/Form/SelectType";
+import { TextareaInput } from "@/components/Form/TextareaInput";
 import { pendudukActions } from "@/server/actions";
 import { PendudukFormSchema } from "@/server/actions/formschemas";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Button, Form } from "reactstrap";
+import { Button, Form, Spinner } from "reactstrap";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
@@ -25,7 +25,6 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-    reset,
   } = useForm<PendudukFormSchema.DataPendudukFormSchemaInputType>({
     resolver: zodResolver(
       PendudukFormSchema.tambahDataPendudukSchema,
@@ -46,18 +45,16 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
         data[key as keyof PendudukFormSchema.DataPendudukFormSchemaInputType]
       );
     }
-    toggleDrawer();
     await toast.promise(pendudukActions.tambahDataPenduduk(formData), {
       pending: "Menambahkan data penduduk...",
       success: {
         render() {
-          reset();
+          toggleDrawer();
           return "Data penduduk berhasil ditambahkan";
         },
       },
       error: {
         render() {
-          toggleDrawer();
           return "Terjadi kesalahan saat menambahkan data penduduk";
         },
       },
@@ -144,7 +141,7 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
           setValue("agama_id", value, { shouldValidate: true });
         }}
       />
-      <Input
+      <TextareaInput
         label="Alamat"
         {...register("alamat")}
         error={errors.alamat?.message}
@@ -261,7 +258,11 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
         error={errors.telepon?.message}
       />
       <Button type="submit" className="btn-primary btn-sm">
-        {isSubmitting ? "Loading..." : "Tambah Data"}
+        {isSubmitting ? (
+          <Spinner size="sm" color="light" />
+        ) : (
+          "Tambah Data Penduduk"
+        )}
       </Button>
     </Form>
   );

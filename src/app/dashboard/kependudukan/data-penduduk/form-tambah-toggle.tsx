@@ -3,19 +3,22 @@
 import Button from "@/components/button/Button";
 import Icon from "@/components/icon/Icon";
 import React, { useState } from "react";
-import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
+import { Offcanvas, OffcanvasHeader } from "reactstrap";
 import FormTambahPenduduk, {
   IFormTambahPenduduk,
 } from "./form-tambah-penduduk";
+import SimpleBar from "simplebar-react";
 
-function FormTambahToggle({ masters }: IFormTambahPenduduk) {
+function FormTambahToggle({
+  masters,
+}: Omit<IFormTambahPenduduk, "toggleDrawer">) {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
 
   return (
     <>
       <Button color="primary" onClick={() => setShowOffcanvas(!showOffcanvas)}>
         <Icon name="plus" />
-        <span>Tambah Data</span>
+        <span>Tambah Penduduk</span>
       </Button>
       <Offcanvas
         direction="end"
@@ -25,12 +28,12 @@ function FormTambahToggle({ masters }: IFormTambahPenduduk) {
         <OffcanvasHeader toggle={() => setShowOffcanvas(!showOffcanvas)}>
           Tambah Data Penduduk
         </OffcanvasHeader>
-        <OffcanvasBody>
+        <SimpleBar className="offcanvas-body h-100">
           <FormTambahPenduduk
             masters={masters}
             toggleDrawer={() => setShowOffcanvas(!showOffcanvas)}
           />
-        </OffcanvasBody>
+        </SimpleBar>
       </Offcanvas>
     </>
   );
