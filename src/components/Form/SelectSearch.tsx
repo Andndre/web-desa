@@ -7,6 +7,7 @@ import {
   useState,
   useEffect,
   useRef,
+  KeyboardEvent,
 } from "react";
 import { Button } from "reactstrap";
 
@@ -19,8 +20,6 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
   label: string;
   searchfunction: (value: string) => Promise<Data[]>;
-  actionactive: boolean;
-  actionfunction: () => void;
   actiontitle: string;
   setvalue: (value: string) => void;
 }
@@ -34,9 +33,7 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
     className,
     setvalue,
     searchfunction,
-    actionactive,
     actiontitle,
-    actionfunction,
     ...rest
   },
   ref
@@ -45,10 +42,11 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
   const [loading, setLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [data, setData] = useState<Data[]>([]);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const wrapperRef = useRef<HTMLFieldSetElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = async (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         wrapperRef.current &&
         !wrapperRef.current.contains(event.target as Node)
@@ -60,11 +58,62 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [wrapperRef]);
+  }, []);
+
+  const handleInputChange = async (inputValue: string) => {
+    setValue(inputValue);
+    if (loading) return;
+    setLoading(true);
+    const results = await searchfunction(inputValue);
+    setData(results);
+    setLoading(false);
+    setShowDropdown(true);
+    setHighlightedIndex(0); // Reset highlighted index when options change
+  };
+
+  const handleOptionSelect = (selectedId: string) => {
+    const selectedOption = data.find((option) => option.id === selectedId);
+    if (selectedOption) {
+      setValue(selectedOption.id);
+      setvalue(selectedOption.id);
+      setShowDropdown(false);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (!showDropdown || data.length === 0) return;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prevIndex) =>
+          prevIndex < data.length - 1 ? prevIndex + 1 : 0
+        );
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prevIndex) =>
+          prevIndex > 0 ? prevIndex - 1 : data.length - 1
+        );
+        break;
+      case "Enter":
+        e.preventDefault();
+        const selectedOption = data[highlightedIndex];
+        if (selectedOption) {
+          handleOptionSelect(selectedOption.id);
+        }
+        break;
+      case "Escape":
+        setShowDropdown(false);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <fieldset ref={wrapperRef} className={cn(`form-group`, className)}>
-      <label htmlFor={name} className="form-label form-label">
+      <label htmlFor={name} className="form-label">
         {label}
         {required && <span className="text-danger">*</span>}
       </label>
@@ -74,39 +123,31 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
           id={name}
           name={name}
           value={value}
-          onInput={async (value) => {
-            setValue(value.currentTarget.value);
-            if (loading) return; // TODO: improve this handle
-            setLoading(true);
-            setData(await searchfunction(value.currentTarget.value));
-            setLoading(false);
-            setShowDropdown(true);
-          }}
-          {...rest}
+          onInput={(e) => handleInputChange(e.currentTarget.value)}
+          onKeyDown={handleKeyDown}
           onFocus={() => setShowDropdown(true)}
+          {...rest}
           className="form-control"
+          autoComplete="off"
         />
       </div>
       {error && <span className="text-sm text-danger">{error}</span>}
       {showDropdown && (
-        <div className="absolute bg-white p-4 shadow border border-stroke top-19">
+        <div className="absolute bg-white p-4 shadow border border-stroke top-19 w-100">
           {loading ? (
             "Loading"
           ) : (
             <>
               {data.length > 0 ? (
-                data.map((d) => (
+                data.map((d, index) => (
                   <Button
                     key={d.id}
                     type="button"
                     color=""
-                    onClick={async () => {
-                      setValue(d.id);
-                      setvalue(d.id);
-                      setShowDropdown(false);
-                    }}
-                    className="mt-1 w-100"
-                    // className="w-full text-left rounded-lg border-[1.5px] border-primary bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter"
+                    onClick={() => handleOptionSelect(d.id)}
+                    className={`mt-1 w-100 text-left ${
+                      index === highlightedIndex ? "bg-primary text-white" : ""
+                    }`}
                   >
                     {d.id} ({d.nama})
                   </Button>
@@ -119,20 +160,6 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
                 </span>
               )}
             </>
-          )}
-
-          <div className="pt-3"></div>
-          <div className="border-t border-stroke"></div>
-          {actionactive && (
-            <div className="flex pt-3">
-              <Button
-                type="button"
-                color="primary"
-                onClick={() => actionfunction()}
-              >
-                {actiontitle}
-              </Button>
-            </div>
           )}
         </div>
       )}

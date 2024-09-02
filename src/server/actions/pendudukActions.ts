@@ -2,26 +2,31 @@
 
 import { prisma } from "@/lib/db";
 import { PendudukFormSchema } from "@/server/actions/formschemas";
-
 export async function tambahDataPenduduk(formData: FormData) {
-  const data: { [key: string]: any } = {};
-  formData.forEach((value, key) => (data[key] = value));
+  try {
+    const data: { [key: string]: any } = {};
+    formData.forEach((value, key) => (data[key] = value));
 
-  const maxUrutan = await prisma.penduduk.findFirst({
-    orderBy: {
-      urutan: "desc",
-    },
-    select: {
-      urutan: true,
-    },
-  });
+    const maxUrutan = await prisma.penduduk.findFirst({
+      orderBy: {
+        urutan: "desc",
+      },
+      select: {
+        urutan: true,
+      },
+    });
 
-  data.urutan = maxUrutan?.urutan ? maxUrutan.urutan + 1 : 1;
-  const parsed = PendudukFormSchema.tambahDataPendudukSchema.safeParse(data);
+    data.urutan = maxUrutan?.urutan ? maxUrutan.urutan + 1 : 1;
+    const parsed = PendudukFormSchema.tambahDataPendudukSchema.safeParse(data);
 
-  if (parsed.success && parsed.data) {
+    // tidak mungkin terjadi
+    if (!parsed.success || !parsed.data) {
+      // Lempar error jika parsing gagal
+      throw new Error("Data tidak valid: " + JSON.stringify(parsed.error));
+    }
+
     await prisma.$transaction(async (prisma) => {
-      // create penduduk_kartu_keluarga if kk_id not exist
+      // Cek apakah kartu keluarga sudah ada
       const penduduk_kartu_keluarga =
         await prisma.penduduk_kartu_keluarga.findFirst({
           where: {
@@ -31,6 +36,7 @@ export async function tambahDataPenduduk(formData: FormData) {
 
       let newKK = !penduduk_kartu_keluarga;
 
+      // Buat kartu keluarga baru jika belum ada
       if (newKK) {
         await prisma.penduduk_kartu_keluarga.create({
           data: {
@@ -39,7 +45,7 @@ export async function tambahDataPenduduk(formData: FormData) {
         });
       }
 
-      // set urutan penduduk
+      // Tentukan urutan penduduk dalam kartu keluarga
       const maxUrutan = await prisma.penduduk.findFirst({
         where: {
           kk_id: parsed.data.kk_id,
@@ -59,7 +65,7 @@ export async function tambahDataPenduduk(formData: FormData) {
         },
       });
 
-      // set as kepala keluarga
+      // Set sebagai kepala keluarga jika kartu keluarga baru
       if (newKK) {
         await prisma.penduduk_kartu_keluarga.update({
           where: {
@@ -73,9 +79,8 @@ export async function tambahDataPenduduk(formData: FormData) {
     });
 
     return true;
+  } catch (error: any) {
+    // Lempar error agar bisa ditangkap oleh toast.promise
+    throw new Error(`Gagal menambahkan data penduduk: ${error.message}`);
   }
-
-  console.error("Parse error: " + parsed.error);
-
-  return false;
 }

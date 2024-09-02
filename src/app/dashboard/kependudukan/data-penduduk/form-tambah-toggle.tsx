@@ -26,7 +26,10 @@ function FormTambahToggle({ masters }: IFormTambahPenduduk) {
           Tambah Data Penduduk
         </OffcanvasHeader>
         <OffcanvasBody>
-          <FormTambahPenduduk masters={masters} />
+          <FormTambahPenduduk
+            masters={masters}
+            toggleDrawer={() => setShowOffcanvas(!showOffcanvas)}
+          />
         </OffcanvasBody>
       </Offcanvas>
     </>

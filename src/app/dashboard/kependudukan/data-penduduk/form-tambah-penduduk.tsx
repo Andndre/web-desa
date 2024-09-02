@@ -3,6 +3,7 @@
 import { Input } from "@/components/Form/Input";
 import { Select } from "@/components/Form/Select";
 import { SelectSearch } from "@/components/Form/SelectSearch";
+import { SelectType } from "@/components/Form/SelectType";
 import { pendudukActions } from "@/server/actions";
 import { PendudukFormSchema } from "@/server/actions/formschemas";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
@@ -10,13 +11,15 @@ import { MastersType } from "@/server/data/pendudukData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { Button, Form } from "reactstrap";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
+  toggleDrawer: () => void;
 }
 
-function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
+function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
   const {
     register,
     handleSubmit,
@@ -43,10 +46,22 @@ function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
         data[key as keyof PendudukFormSchema.DataPendudukFormSchemaInputType]
       );
     }
-
-    const success = await pendudukActions.tambahDataPenduduk(formData);
-    reset();
-    if (success) alert("Data berhasil ditambahkan");
+    toggleDrawer();
+    await toast.promise(pendudukActions.tambahDataPenduduk(formData), {
+      pending: "Menambahkan data penduduk...",
+      success: {
+        render() {
+          reset();
+          return "Data penduduk berhasil ditambahkan";
+        },
+      },
+      error: {
+        render() {
+          toggleDrawer();
+          return "Terjadi kesalahan saat menambahkan data penduduk";
+        },
+      },
+    });
   };
 
   return (
@@ -84,12 +99,8 @@ function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
           }
           return result;
         }}
-        actionactive={true}
-        actionfunction={() => {
-          // setShowDrawer(true);
-        }}
       />
-      <Select
+      <SelectType
         label="Jenis Kelamin"
         {...register("jenis_kelamin")}
         error={errors.jenis_kelamin?.message}
@@ -104,6 +115,11 @@ function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
             id: "Wanita",
           },
         ]}
+        setvalue={(value: string) => {
+          setValue("jenis_kelamin", value as "Pria" | "Wanita", {
+            shouldValidate: true,
+          });
+        }}
       />
       <Input
         label="Tanggal Lahir"
@@ -118,59 +134,80 @@ function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
         error={errors.tempat_lahir?.message}
         required
       />
-      <Select
+      <SelectType
         label="Agama"
         {...register("agama_id")}
         error={errors.agama_id?.message}
         required
         options={masters.agama}
+        setvalue={(value: string) => {
+          setValue("agama_id", value, { shouldValidate: true });
+        }}
       />
       <Input
         label="Alamat"
         {...register("alamat")}
         error={errors.alamat?.message}
       />
-      <Select
+      <SelectType
         label="Disabilitas"
         {...register("cacat_id")}
         error={errors.cacat_id?.message}
         required
         options={masters.disabilitas}
+        setvalue={(value: string) => {
+          setValue("cacat_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Hubungan"
         {...register("hubungan_id")}
         error={errors.hubungan_id?.message}
         required
         options={masters.hubungan}
+        setvalue={(value: string) => {
+          setValue("hubungan_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Golongan Darah"
         {...register("golongan_darah_id")}
         error={errors.golongan_darah_id?.message}
         required
         options={masters.golonganDarah}
+        setvalue={(value: string) => {
+          setValue("golongan_darah_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Sakit Menahun"
         {...register("sakit_menahun_id")}
         error={errors.sakit_menahun_id?.message}
         required
         options={masters.sakitMenahun}
+        setvalue={(value: string) => {
+          setValue("sakit_menahun_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Pekerjaan"
         {...register("pekerjaan_id")}
         error={errors.pekerjaan_id?.message}
         required
         options={masters.pekerjaan}
+        setvalue={(value: string) => {
+          setValue("pekerjaan_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Pendidikan"
         {...register("pendidikan_id")}
         error={errors.pendidikan_id?.message}
         required
         options={masters.pendidikan}
+        setvalue={(value: string) => {
+          setValue("pendidikan_id", value, { shouldValidate: true });
+        }}
       />
       <Input
         label="Nomor Akta Kelahiran"
@@ -178,33 +215,45 @@ function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
         error={errors.nomor_akta_lahir?.message}
         required
       />
-      <Select
+      <SelectType
         label="Status Dasar"
         {...register("status_dasar_id")}
         error={errors.status_dasar_id?.message}
         required
         options={masters.statusDasar}
+        setvalue={(value: string) => {
+          setValue("status_dasar_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Status"
         {...register("status_id")}
         error={errors.status_id?.message}
         required
         options={masters.status}
+        setvalue={(value: string) => {
+          setValue("status_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Suku"
         {...register("suku_id")}
         error={errors.suku_id?.message}
         required
         options={masters.suku}
+        setvalue={(value: string) => {
+          setValue("suku_id", value, { shouldValidate: true });
+        }}
       />
-      <Select
+      <SelectType
         label="Status Kawin"
         {...register("status_kawin_id")}
         error={errors.status_kawin_id?.message}
         required
         options={masters.statusKawin}
+        setvalue={(value: string) => {
+          setValue("status_kawin_id", value, { shouldValidate: true });
+        }}
       />
       <Input
         label="Telepon"
