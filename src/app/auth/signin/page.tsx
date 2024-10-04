@@ -80,8 +80,7 @@ const Login = () => {
             {errorVal && (
               <div className="mb-3">
                 <Alert color="danger" className="alert-icon">
-                  {" "}
-                  <Icon icon="alert-circle" /> Unable to login with credentials{" "}
+                  <Icon name="alert-circle" /> {errorVal}
                 </Alert>
               </div>
             )}

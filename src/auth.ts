@@ -61,7 +61,6 @@ export const {
             email: user.email,
           };
         } catch (error) {
-          console.error(error);
           throw new Error("Invalid credentials");
         }
       },
