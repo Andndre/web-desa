@@ -8,7 +8,8 @@ import ReactDataTableServerSide, {
   ToggleDetailButton,
 } from "@/components/table/ReactDataTable";
 import { renderData, renderKey } from "@/lib/utils";
-import { type PendudukData, pendudukData } from "@/server/data/types";
+import { getDataPenduduk, getTotalPenduduk } from "@/server/data/pendudukData";
+import { type PendudukData } from "@/server/data/types";
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 
@@ -29,8 +30,8 @@ function TablePenduduk() {
     setLoading(true);
 
     const [result, total] = await Promise.all([
-      pendudukData.getDataPenduduk(page, perPage),
-      pendudukData.getTotalPenduduk(),
+      getDataPenduduk(page, perPage),
+      getTotalPenduduk(),
     ]);
 
     setTotalRows(total);
@@ -65,7 +66,7 @@ function TablePenduduk() {
 
   const handlePerRowsChange = async (newPerPage: number, page: number) => {
     setLoading(true);
-    const result = await pendudukData.getDataPenduduk(page, perPage);
+    const result = await getDataPenduduk(page, perPage);
     setPerPage(newPerPage);
     setData(result);
     setLoading(false);

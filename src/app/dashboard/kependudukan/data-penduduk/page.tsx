@@ -1,10 +1,10 @@
-import { pendudukData } from "@/server/data/types";
+import { getMasters } from "@/server/data/pendudukData";
 import DataPendudukPage from "./data-penduduk";
 
-export type Masters = Awaited<ReturnType<typeof pendudukData.getMasters>>;
+export type Masters = Awaited<ReturnType<typeof getMasters>>;
 
 async function PendudukPage() {
-  const masters: Masters = await pendudukData.getMasters();
+  const masters: Masters = await getMasters();
   return <DataPendudukPage masters={masters} />;
 }
 
