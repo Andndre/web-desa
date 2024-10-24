@@ -8,11 +8,7 @@ function AppRoot({
   className?: string;
   children?: React.ReactNode;
 }) {
-  const compClass = classNames({
-    "nk-app-root": true,
-    [`${className}`]: className,
-  });
-  return <div className={compClass}>{props.children}</div>;
+  return <div className={"nk-app-root " + className}>{props.children}</div>;
 }
 
 export default AppRoot;

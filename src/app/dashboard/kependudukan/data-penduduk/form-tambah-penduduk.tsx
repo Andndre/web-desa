@@ -4,15 +4,14 @@ import { Input } from "@/components/Form/Input";
 import { SelectSearch } from "@/components/Form/SelectSearch";
 import { SelectType } from "@/components/Form/SelectType";
 import { TextareaInput } from "@/components/Form/TextareaInput";
-import { pendudukActions } from "@/server/actions";
-import { PendudukFormSchema } from "@/server/actions/formschemas";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
 import { MastersType } from "@/server/data/pendudukData";
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button, Form, Spinner } from "reactstrap";
+import { tambahDataPenduduk } from "@/actions/pendudukActions";
+import { useFormSubmit } from "@/hooks/form";
+import { DataPendudukFormSchemaInputType } from "@/actions/formschemas/pendudukSchemas";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
@@ -25,27 +24,8 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-  } = useForm<PendudukFormSchema.DataPendudukFormSchemaInputType>({
-    resolver: zodResolver(
-      PendudukFormSchema.tambahDataPendudukSchema,
-      {},
-      { raw: true }
-    ),
-    defaultValues: {},
-  });
-
-  const onSubmit: SubmitHandler<
-    PendudukFormSchema.DataPendudukFormSchemaInputType
-  > = async (data) => {
-    const formData = new FormData();
-
-    for (const key in data) {
-      formData.append(
-        key,
-        data[key as keyof PendudukFormSchema.DataPendudukFormSchemaInputType]
-      );
-    }
-    await toast.promise(pendudukActions.tambahDataPenduduk(formData), {
+  } = useFormSubmit<DataPendudukFormSchemaInputType>(async (data, setError) => {
+    await toast.promise(tambahDataPenduduk(data), {
       pending: "Menambahkan data penduduk...",
       success: {
         render() {
@@ -59,10 +39,10 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
         },
       },
     });
-  };
+  });
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit()}>
       <Input
         label="Nama"
         {...register("nama")}

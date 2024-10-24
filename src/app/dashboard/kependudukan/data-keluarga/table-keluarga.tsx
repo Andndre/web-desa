@@ -6,7 +6,11 @@ import ReactDataTableServerSide, {
   Refresh,
 } from "@/components/table/ReactDataTable";
 import { renderKey, renderData } from "@/lib/utils";
-import { KeluargaData, kartuKeluargaData } from "@/server/data";
+import { KeluargaData } from "@/server/data/types";
+import {
+  getDataKeluarga,
+  getTotalKeluarga,
+} from "@/server/data/kartuKeluargaData";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -21,8 +25,8 @@ function TableKeluarga() {
     setLoading(true);
 
     const [result, total] = await Promise.all([
-      kartuKeluargaData.getDataKeluarga(page, perPage),
-      kartuKeluargaData.getTotalKeluarga(),
+      getDataKeluarga(page, perPage),
+      getTotalKeluarga(),
     ]);
 
     setTotalRows(total);
@@ -51,7 +55,7 @@ function TableKeluarga() {
 
   const handlePerRowsChange = async (newPerPage: number, page: number) => {
     setLoading(true);
-    const result = await kartuKeluargaData.getDataKeluarga(page, perPage);
+    const result = await getDataKeluarga(page, perPage);
     setPerPage(newPerPage);
     setData(result);
     setLoading(false);
@@ -99,7 +103,11 @@ function TableKeluarga() {
       paginationTotalRows={totalRows}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
-      actions={<><Export data={data} /> <Refresh refreshData={fetchKeluarga} /> </>}
+      actions={
+        <>
+          <Export data={data} /> <Refresh refreshData={fetchKeluarga} />{" "}
+        </>
+      }
     />
   );
 }

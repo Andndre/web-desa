@@ -1,13 +1,15 @@
 "use client";
 
 import { Input } from "@/components/Form/Input";
-import { kkActions } from "@/server/actions";
-import { KKFormSchema } from "@/server/actions/formschemas";
+import { KKFormSchema } from "@/actions/formschemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Button, Form, Spinner } from "reactstrap";
+import { tambahDataKK } from "@/actions/kkActions";
+import { DataKKFormSchemaInputType } from "@/actions/formschemas/keluargaSchemas";
+import { useFormSubmit } from "@/hooks/form";
 
 export interface IFormTambahPenduduk {
   toggleDrawer: () => void;
@@ -18,24 +20,8 @@ function FormTambahPenduduk({ toggleDrawer }: IFormTambahPenduduk) {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<KKFormSchema.DataKKFormSchemaInputType>({
-    resolver: zodResolver(KKFormSchema.tambahDataKKSchema, {}, { raw: true }),
-    defaultValues: {},
-  });
-
-  const onSubmit: SubmitHandler<
-    KKFormSchema.DataKKFormSchemaInputType
-  > = async (data) => {
-    const formData = new FormData();
-
-    for (const key in data) {
-      formData.append(
-        key,
-        data[key as keyof KKFormSchema.DataKKFormSchemaInputType]
-      );
-    }
-
-    await toast.promise(kkActions.tambahDataKK(formData), {
+  } = useFormSubmit<DataKKFormSchemaInputType>(async (data, setError) => {
+    await toast.promise(tambahDataKK(data), {
       pending: "Menambahkan data kartu keluarga...",
       success: {
         render() {
@@ -49,10 +35,10 @@ function FormTambahPenduduk({ toggleDrawer }: IFormTambahPenduduk) {
         },
       },
     });
-  };
+  });
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit()}>
       <Input
         label="Nomor Kartu Keluarga"
         {...register("kk_id")}

@@ -1,7 +1,7 @@
 import { Row, Col } from "reactstrap";
 import Link from "next/link";
 
-const AuthFooter = () => {
+const Footer = () => {
   return (
     <div className="nk-footer nk-auth-footer-full">
       <div className="container wide-lg">
@@ -45,4 +45,4 @@ const AuthFooter = () => {
     </div>
   );
 };
-export default AuthFooter;
+export default Footer;

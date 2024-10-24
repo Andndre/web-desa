@@ -1,6 +1,6 @@
 "use server";
 
-import { loginSchema } from "@/app/auth/signin/page";
+import { LoginSchema } from "@/app/auth/signin/page";
 import { signIn, signOut } from "@/auth";
 
 export async function doSocialLogin(formData: FormData) {
@@ -8,7 +8,7 @@ export async function doSocialLogin(formData: FormData) {
   await signIn(action as string, { redirectTo: "/dashboard" });
 }
 
-export async function doCredentialsLogin(formData: loginSchema) {
+export async function doCredentialsLogin(formData: LoginSchema) {
   try {
     const response = await signIn("credentials", {
       email: formData.email,

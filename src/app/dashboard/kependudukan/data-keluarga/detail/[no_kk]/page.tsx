@@ -8,7 +8,6 @@ import {
 } from "@/components/block/Block";
 import { Col, Row } from "@/components/grid/Grid";
 import Content from "@/layout/admin/content/Content";
-import { kartuKeluargaData, pendudukData } from "@/server/data";
 import React from "react";
 import TableAnggotaKeluarga from "./table-anggota-keluarga";
 import FormTambahToggle from "./form-tambah-toogle";
@@ -16,14 +15,16 @@ import {
   HeadActionResponsive,
   HeadActionItem,
 } from "@/components/block/HeadActionResponsive";
+import { getDetailKartuKeluarga } from "@/server/data/kartuKeluargaData";
+import { getMasters } from "@/server/data/pendudukData";
 
 interface DetailKeluargaProps {
   params: { no_kk: string };
 }
 
 async function DetailKeluarga({ params: { no_kk } }: DetailKeluargaProps) {
-  const dataKeluarga = await kartuKeluargaData.getDetailKartuKeluarga(no_kk);
-  const masters = await pendudukData.getMasters();
+  const dataKeluarga = await getDetailKartuKeluarga(no_kk);
+  const masters = await getMasters();
 
   if (!dataKeluarga) {
     return <Content>404</Content>;

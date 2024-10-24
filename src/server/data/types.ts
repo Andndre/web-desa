@@ -1,7 +1,5 @@
 import * as pendudukData from "./pendudukData";
 import * as kartuKeluargaData from "./kartuKeluargaData";
-export { pendudukData, kartuKeluargaData };
-
 
 export type PendudukData = Awaited<ReturnType<typeof pendudukData.getDataPenduduk>>;
 export type PendudukDataRow = PendudukData[number];

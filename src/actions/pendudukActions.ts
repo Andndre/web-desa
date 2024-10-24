@@ -1,12 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import { PendudukFormSchema } from "@/server/actions/formschemas";
-export async function tambahDataPenduduk(formData: FormData) {
+import { PendudukFormSchema } from "@/actions/formschemas";
+import { DataPendudukFormSchemaInputType } from "./formschemas/pendudukSchemas";
+export async function tambahDataPenduduk(
+  data: DataPendudukFormSchemaInputType & { urutan?: number | null }
+) {
   try {
-    const data: { [key: string]: any } = {};
-    formData.forEach((value, key) => (data[key] = value));
-
     const maxUrutan = await prisma.penduduk.findFirst({
       orderBy: {
         urutan: "desc",

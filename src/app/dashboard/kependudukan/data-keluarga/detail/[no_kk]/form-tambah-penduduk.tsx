@@ -3,13 +3,18 @@
 import { Input } from "@/components/Form/Input";
 import { SelectType } from "@/components/Form/SelectType";
 import { TextareaInput } from "@/components/Form/TextareaInput";
-import { pendudukActions } from "@/server/actions";
-import { PendudukFormSchema } from "@/server/actions/formschemas";
+import { PendudukFormSchema } from "@/actions/formschemas";
 import { MastersType } from "@/server/data/pendudukData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, Form, Spinner } from "reactstrap";
+import {
+  DataPendudukTanpaKKFormSchemaInputType,
+  tambahDataPendudukTanpaKKSchema,
+} from "@/actions/formschemas/pendudukSchemas";
+import { useFormSubmit } from "@/hooks/form";
+import { tambahDataPenduduk } from "@/actions/pendudukActions";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
@@ -23,45 +28,26 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
     setValue,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType>({
-    resolver: zodResolver(
-      PendudukFormSchema.tambahDataPendudukTanpaKKSchema,
-      {},
-      { raw: true }
-    ),
-    defaultValues: {},
-  });
-
-  const onSubmit: SubmitHandler<
-    PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType
-  > = async (data) => {
-    console.log("submitting");
-    const formData = new FormData();
-
-    for (const key in data) {
-      formData.append(
-        key,
-        data[
-          key as keyof PendudukFormSchema.DataPendudukTanpaKKFormSchemaInputType
-        ]
-      );
+  } = useFormSubmit<DataPendudukTanpaKKFormSchemaInputType>(
+    async (data, setError) => {
+      try {
+        const success = await tambahDataPenduduk({ ...data, kk_id: nomor_kk });
+        reset();
+        if (success) {
+          alert("Berhasil");
+          // reload page
+          window.location.reload();
+        } else {
+          alert("Gagal");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-
-    formData.append("kk_id", nomor_kk);
-
-    const success = await pendudukActions.tambahDataPenduduk(formData);
-    reset();
-    if (success) {
-      alert("Berhasil");
-      // reload page
-      window.location.reload();
-    } else {
-      alert("Gagal");
-    }
-  };
+  );
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit()}>
       <Input
         label="Nama"
         {...register("nama")}

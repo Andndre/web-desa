@@ -1,23 +1,20 @@
+"use server";
+
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/db";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth({
+NextAuth({
   session: {
     strategy: "jwt",
   },
   providers: [
     GoogleProvider({
       id: "google",
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
           prompt: "consent",
@@ -70,8 +67,8 @@ export const {
     signIn: "/auth/signin",
   },
   callbacks: {
-    async signIn({account, profile}) {
-      if(account?.provider === 'google') {
+    async signIn({ account, profile }) {
+      if (account?.provider === "google") {
         // google
         if (!profile?.email) {
           return false;
@@ -86,7 +83,7 @@ export const {
           // TODO: pertimbangkan membuatkan akun ketika belum ada di database
           return false;
         }
-        
+
         // update photo profil dan nama
         await prisma.user.update({
           where: {
@@ -94,11 +91,11 @@ export const {
           },
           data: {
             name: profile?.name,
-            image: profile?.picture,
+            image: profile?.image,
           },
         });
       }
       return true;
-    }
-  }
+    },
+  },
 });

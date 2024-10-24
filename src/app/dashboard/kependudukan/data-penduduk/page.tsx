@@ -1,4 +1,4 @@
-import { pendudukData } from "@/server/data";
+import { pendudukData } from "@/server/data/types";
 import DataPendudukPage from "./data-penduduk";
 
 export type Masters = Awaited<ReturnType<typeof pendudukData.getMasters>>;

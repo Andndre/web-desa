@@ -8,7 +8,7 @@ import ReactDataTableServerSide, {
   ToggleDetailButton,
 } from "@/components/table/ReactDataTable";
 import { renderData, renderKey } from "@/lib/utils";
-import { type PendudukData, pendudukData } from "@/server/data";
+import { type PendudukData, pendudukData } from "@/server/data/types";
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 
