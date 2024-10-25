@@ -16,7 +16,6 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = async ({ children }) => {
   const session = await getServerSession();
-  console.log(session);
   if (!session) {
     return redirect("/auth/signin");
   }

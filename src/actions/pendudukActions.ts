@@ -3,20 +3,11 @@
 import { prisma } from "@/lib/db";
 import { PendudukFormSchema } from "@/actions/formschemas";
 import { DataPendudukFormSchemaInputType } from "./formschemas/pendudukSchemas";
+
 export async function tambahDataPenduduk(
   data: DataPendudukFormSchemaInputType & { urutan?: number | null }
 ) {
   try {
-    const maxUrutan = await prisma.penduduk.findFirst({
-      orderBy: {
-        urutan: "desc",
-      },
-      select: {
-        urutan: true,
-      },
-    });
-
-    data.urutan = maxUrutan?.urutan ? maxUrutan.urutan + 1 : 1;
     const parsed = PendudukFormSchema.tambahDataPendudukSchema.safeParse(data);
 
     // tidak mungkin terjadi
@@ -66,7 +57,7 @@ export async function tambahDataPenduduk(
       });
 
       // Set sebagai kepala keluarga jika kartu keluarga baru
-      if (newKK) {
+      if (newKK || !maxUrutan) {
         await prisma.penduduk_kartu_keluarga.update({
           where: {
             nomor_kk: parsed.data.kk_id,

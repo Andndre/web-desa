@@ -6,33 +6,25 @@ import ReactDataTableServerSide, {
   Refresh,
 } from "@/components/table/ReactDataTable";
 import { renderKey, renderData } from "@/lib/utils";
-import { KeluargaData } from "@/server/data/types";
 import {
   getDataKeluarga,
   getTotalKeluarga,
 } from "@/server/data/kartuKeluargaData";
 import Link from "next/link";
-import { useState } from "react";
+import { useDataTable } from "@/hooks/useDataTable";
 
 function TableKeluarga() {
-  const [data, setData] = useState<KeluargaData>([]);
-  const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(10);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-
-  async function fetchKeluarga() {
-    setLoading(true);
-
-    const [result, total] = await Promise.all([
-      getDataKeluarga(page, perPage),
-      getTotalKeluarga(),
-    ]);
-
-    setTotalRows(total);
-    setData(result);
-    setLoading(false);
-  }
+  const {
+    data,
+    loading,
+    totalRows,
+    handlePageChange,
+    handlePerRowsChange,
+    fetchData,
+  } = useDataTable({
+    getData: getDataKeluarga,
+    getTotal: getTotalKeluarga,
+  });
 
   const renderItem = <T extends object>(item: T) => {
     return (
@@ -46,19 +38,6 @@ function TableKeluarga() {
         ))}
       </>
     );
-  };
-
-  const handlePageChange = (page: number) => {
-    setPage(page);
-    fetchKeluarga();
-  };
-
-  const handlePerRowsChange = async (newPerPage: number, page: number) => {
-    setLoading(true);
-    const result = await getDataKeluarga(page, perPage);
-    setPerPage(newPerPage);
-    setData(result);
-    setLoading(false);
   };
 
   return (
@@ -105,7 +84,7 @@ function TableKeluarga() {
       onChangePage={handlePageChange}
       actions={
         <>
-          <Export data={data} /> <Refresh refreshData={fetchKeluarga} />{" "}
+          <Export data={data} /> <Refresh refreshData={fetchData} />{" "}
         </>
       }
     />
