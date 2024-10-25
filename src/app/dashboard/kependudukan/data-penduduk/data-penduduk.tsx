@@ -1,5 +1,4 @@
 import React from "react";
-import { Masters } from "./page";
 import {
   Block,
   BlockBetween,
@@ -16,9 +15,10 @@ import { Col, Row } from "@/components/grid/Grid";
 import Content from "@/layout/admin/content/Content";
 import FormTambahToggle from "./form-tambah-toggle";
 import TablePenduduk from "./table-penduduk";
+import { getMasters } from "@/server/data/pendudukData";
 
 interface IDataPendudukPage {
-  masters: Masters;
+  masters: Awaited<ReturnType<typeof getMasters>>;
 }
 
 function DataPendudukPage({ masters }: IDataPendudukPage) {

@@ -7,6 +7,10 @@ export async function getTotalPenduduk() {
   return await prisma.penduduk.count();
 }
 
+export type ReturnTypeOfGetDataPenduduk = Awaited<
+  ReturnType<typeof getDataPenduduk>
+>[number];
+
 export async function getDataPenduduk(
   searchPage: number,
   searchPerPage: number

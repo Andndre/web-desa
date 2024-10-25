@@ -7,29 +7,26 @@ import ReactDataTableServerSide, {
   Refresh,
   ToggleDetailButton,
 } from "@/components/table/ReactDataTable";
-import { useDataTable } from "@/hooks/useDataTable";
 import { renderData, renderKey } from "@/lib/utils";
-import { getDataPenduduk, getTotalPenduduk } from "@/server/data/pendudukData";
+import React, { useContext } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
+import { TablePendudukContext } from "./providers";
 
 function TablePenduduk() {
   const {
-    data,
-    loading,
-    totalRows,
-    perPage,
-    handlePageChange,
-    handlePerRowsChange,
-    page,
-    selectedItem,
-    setSelectedItem,
-    showDetail,
-    toggleShowDetail,
-    fetchData,
-  } = useDataTable({
-    getData: getDataPenduduk,
-    getTotal: getTotalPenduduk,
-  });
+    dataTable: {
+      data,
+      fetchData,
+      handlePageChange,
+      handlePerRowsChange,
+      loading,
+      totalRows,
+      showDetail,
+      toggleShowDetail,
+      selectedItem,
+      setSelectedItem,
+    },
+  } = useContext(TablePendudukContext)!;
 
   const renderItem = <T extends object>(item: T) => {
     return (

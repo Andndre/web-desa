@@ -1,13 +1,12 @@
 import { getMasters } from "@/server/data/pendudukData";
 import DataPendudukPage from "./data-penduduk";
+import Providers from "./providers";
 
-export type Masters = Awaited<ReturnType<typeof getMasters>>;
-
-async function PendudukPage() {
-  const masters: Masters = await getMasters();
-  return <DataPendudukPage masters={masters} />;
-}
-
-export default function Page() {
-  return <PendudukPage />;
+export default async function Page() {
+  const masters = await getMasters();
+  return (
+    <Providers>
+      <DataPendudukPage masters={masters} />
+    </Providers>
+  );
 }

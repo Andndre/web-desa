@@ -2,17 +2,18 @@
 
 import Button from "@/components/button/Button";
 import Icon from "@/components/icon/Icon";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Offcanvas, OffcanvasHeader } from "reactstrap";
 import FormTambahPenduduk, {
   IFormTambahPenduduk,
 } from "./form-tambah-penduduk";
 import SimpleBar from "simplebar-react";
+import { TablePendudukContext } from "./providers";
 
 function FormTambahToggle({
   masters,
 }: Omit<IFormTambahPenduduk, "toggleDrawer">) {
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const { showOffcanvas, setShowOffcanvas } = useContext(TablePendudukContext)!;
 
   return (
     <>
@@ -29,10 +30,7 @@ function FormTambahToggle({
           Tambah Data Penduduk
         </OffcanvasHeader>
         <SimpleBar className="offcanvas-body h-100">
-          <FormTambahPenduduk
-            masters={masters}
-            toggleDrawer={() => setShowOffcanvas(!showOffcanvas)}
-          />
+          <FormTambahPenduduk masters={masters} />
         </SimpleBar>
       </Offcanvas>
     </>

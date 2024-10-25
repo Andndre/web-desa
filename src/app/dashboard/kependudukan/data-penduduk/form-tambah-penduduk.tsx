@@ -6,19 +6,24 @@ import { SelectType } from "@/components/Form/SelectType";
 import { TextareaInput } from "@/components/Form/TextareaInput";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
 import { MastersType } from "@/server/data/pendudukData";
-import React from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import { Button, Form, Spinner } from "reactstrap";
 import { tambahDataPenduduk } from "@/actions/pendudukActions";
 import { useFormSubmit } from "@/hooks/form";
 import { DataPendudukFormSchemaInputType } from "@/actions/formschemas/pendudukSchemas";
+import { TablePendudukContext } from "./providers";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
-  toggleDrawer: () => void;
 }
 
-function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
+function FormTambahPenduduk({ masters }: IFormTambahPenduduk) {
+  const {
+    dataTable: { fetchData },
+    setShowOffcanvas,
+  } = useContext(TablePendudukContext)!;
+
   const {
     register,
     handleSubmit,
@@ -28,8 +33,9 @@ function FormTambahPenduduk({ masters, toggleDrawer }: IFormTambahPenduduk) {
     await toast.promise(tambahDataPenduduk(data), {
       pending: "Menambahkan data penduduk...",
       success: {
-        render() {
-          toggleDrawer();
+        async render() {
+          await fetchData();
+          setShowOffcanvas(false);
           return "Data penduduk berhasil ditambahkan";
         },
       },
