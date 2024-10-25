@@ -116,7 +116,7 @@ const ReactDataTableServerSide = <T extends object>({
   data,
   columns,
   progressPending,
-  actions,
+  actionsBefore,
   actionsAfter,
   className,
   selectableRows,
@@ -130,7 +130,11 @@ const ReactDataTableServerSide = <T extends object>({
   expandableRowsComponent,
   onRowClicked,
   conditionalRowStyles,
-}: TableProps<T> & { actionsAfter?: React.ReactNode | React.ReactNode[] }) => {
+  ...rest
+}: TableProps<T> & {
+  actionsAfter?: React.ReactNode[];
+  actionsBefore?: React.ReactNode[];
+}) => {
   const [tableData, setTableData] = useState(data);
   const [searchText, setSearchText] = useState("");
   const [rowsPerPageS, setRowsPerPage] = useState(10);
@@ -173,7 +177,9 @@ const ReactDataTableServerSide = <T extends object>({
         className ? className : ""
       }`}
     >
-      <Row className={`justify-between g-2 ${actions ? "with-export" : ""}`}>
+      <Row
+        className={`justify-between g-2 ${actionsBefore ? "with-export" : ""}`}
+      >
         <Col className="col-7 text-start" sm="4">
           <div id="DataTables_Table_0_filter" className="dataTables_filter">
             <label>
@@ -190,7 +196,7 @@ const ReactDataTableServerSide = <T extends object>({
           <div className="datatable-filter">
             <div className="d-flex justify-content-end g-2">
               <div className="dt-export-buttons d-flex align-center g-2">
-                {actions}
+                {actionsBefore}
               </div>
               <div className="dataTables_length" id="DataTables_Table_0_length">
                 <label>
@@ -262,6 +268,7 @@ const ReactDataTableServerSide = <T extends object>({
             setRowsPerPage={setRowsPerPage}
           />
         )}
+        {...rest}
       ></DataTable>
     </div>
   );

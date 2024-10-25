@@ -7,37 +7,29 @@ import ReactDataTableServerSide, {
   Refresh,
   ToggleDetailButton,
 } from "@/components/table/ReactDataTable";
+import { useDataTable } from "@/hooks/useDataTable";
 import { renderData, renderKey } from "@/lib/utils";
 import { getDataPenduduk, getTotalPenduduk } from "@/server/data/pendudukData";
-import { type PendudukData } from "@/server/data/types";
-import React, { useState } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 
 function TablePenduduk() {
-  const [data, setData] = useState<PendudukData>([]);
-  const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(10);
-  const [loading, setLoading] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("");
-  const [page, setPage] = useState(1);
-
-  const [showDetailPenduduk, setShowDetailPenduduk] = useState(false);
-  function toggleShowDetailPenduduk() {
-    setShowDetailPenduduk(!showDetailPenduduk);
-  }
-
-  async function fetchPenduduk() {
-    setLoading(true);
-
-    const [result, total] = await Promise.all([
-      getDataPenduduk(page, perPage),
-      getTotalPenduduk(),
-    ]);
-
-    setTotalRows(total);
-    setData(result);
-    setLoading(false);
-  }
+  const {
+    data,
+    loading,
+    totalRows,
+    perPage,
+    handlePageChange,
+    handlePerRowsChange,
+    page,
+    selectedItem,
+    setSelectedItem,
+    showDetail,
+    toggleShowDetail,
+    fetchData,
+  } = useDataTable({
+    getData: getDataPenduduk,
+    getTotal: getTotalPenduduk,
+  });
 
   const renderItem = <T extends object>(item: T) => {
     return (
@@ -59,22 +51,9 @@ function TablePenduduk() {
     return <ul>{renderItem(item)}</ul>;
   };
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-    fetchPenduduk();
-  };
-
-  const handlePerRowsChange = async (newPerPage: number, page: number) => {
-    setLoading(true);
-    const result = await getDataPenduduk(page, perPage);
-    setPerPage(newPerPage);
-    setData(result);
-    setLoading(false);
-  };
-
   return (
     <Row className="g-gs">
-      <Col lg={showDetailPenduduk ? 8 : 12}>
+      <Col lg={showDetail ? 8 : 12}>
         <ReactDataTableServerSide
           columns={[
             {
@@ -121,22 +100,20 @@ function TablePenduduk() {
           paginationTotalRows={totalRows}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
-          actions={
-            <>
-              <Export data={data} /> <Refresh refreshData={fetchPenduduk} />{" "}
-            </>
-          }
-          actionsAfter={
-            <>
-              <ToggleDetailButton
-                show={showDetailPenduduk}
-                toggleDetail={toggleShowDetailPenduduk}
-              />
-            </>
-          }
+          actionsBefore={[
+            <Export key="export" data={data} />,
+            <Refresh key="refresh" refreshData={fetchData} />,
+          ]}
+          actionsAfter={[
+            <ToggleDetailButton
+              key="toggle-detail"
+              show={showDetail}
+              toggleDetail={toggleShowDetail}
+            />,
+          ]}
           conditionalRowStyles={[
             {
-              when: (row) => showDetailPenduduk && row.nik == selectedItem,
+              when: (row) => showDetail && row.nik == selectedItem,
               style: {
                 backgroundColor: "#0fac8124",
               },
@@ -144,14 +121,14 @@ function TablePenduduk() {
           ]}
         />
       </Col>
-      {showDetailPenduduk && (
+      {showDetail && (
         <Col lg={4} className="d-none d-lg-block">
           <Card>
             <CardHeader className="d-flex justify-content-between align-items-center">
               Detail Penduduk
               <button
                 className="bg-transparent p-0 btn shadow-none"
-                onClick={toggleShowDetailPenduduk}
+                onClick={toggleShowDetail}
               >
                 <Icon name="cross" />
               </button>
