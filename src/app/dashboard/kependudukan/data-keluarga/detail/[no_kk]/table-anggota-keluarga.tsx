@@ -1,6 +1,6 @@
 "use client";
 
-import Icon from "@/components/icon/Icon";
+import Icon from "@/lib/components/icon/Icon";
 import {
   DetailKartuKeluargaResponse,
   applyUrutan,

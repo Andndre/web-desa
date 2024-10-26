@@ -1,9 +1,9 @@
 "use client";
 
-import { Input } from "@/components/Form/Input";
-import { SelectSearch } from "@/components/Form/SelectSearch";
-import { SelectType } from "@/components/Form/SelectType";
-import { TextareaInput } from "@/components/Form/TextareaInput";
+import { Input } from "@/lib/components/Form/Input";
+import { SelectSearch } from "@/lib/components/Form/SelectSearch";
+import { SelectType } from "@/lib/components/Form/SelectType";
+import { TextareaInput } from "@/lib/components/Form/TextareaInput";
 import { searchKartuKeluarga } from "@/server/data/kartuKeluargaData";
 import { MastersType } from "@/server/data/pendudukData";
 import React, { useContext } from "react";

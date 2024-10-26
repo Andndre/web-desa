@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/server/db";
 import { PendudukFormSchema } from "@/actions/formschemas";
 import { DataPendudukFormSchemaInputType } from "./formschemas/pendudukSchemas";
 

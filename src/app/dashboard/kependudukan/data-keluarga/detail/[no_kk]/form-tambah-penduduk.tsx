@@ -1,8 +1,8 @@
 "use client";
 
-import { Input } from "@/components/Form/Input";
-import { SelectType } from "@/components/Form/SelectType";
-import { TextareaInput } from "@/components/Form/TextareaInput";
+import { Input } from "@/lib/components/Form/Input";
+import { SelectType } from "@/lib/components/Form/SelectType";
+import { TextareaInput } from "@/lib/components/Form/TextareaInput";
 import { PendudukFormSchema } from "@/actions/formschemas";
 import { MastersType } from "@/server/data/pendudukData";
 import { zodResolver } from "@hookform/resolvers/zod";

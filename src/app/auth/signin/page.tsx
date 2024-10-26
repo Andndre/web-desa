@@ -6,12 +6,12 @@ import LogoDark from "@/images/logo-dark.png";
 import Footer from "./footer";
 
 import { Form, Spinner, Alert, Button } from "reactstrap";
-import Icon from "@/components/icon/Icon";
+import Icon from "@/lib/components/icon/Icon";
 import Link from "next/link";
 import Image from "next/image";
 import { credentialLogin, socialLogin } from "@/actions/auth/login";
 import { useFormSubmit } from "@/hooks/form";
-import { LoginSchema } from "@/types/login";
+import { LoginSchema } from "@/lib/types/login";
 import { useRouter } from "next/navigation";
 
 const Login = () => {

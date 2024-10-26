@@ -1,10 +1,10 @@
 "use client";
 
-import Icon from "@/components/icon/Icon";
+import Icon from "@/lib/components/icon/Icon";
 import ReactDataTableServerSide, {
   Export,
   Refresh,
-} from "@/components/table/ReactDataTable";
+} from "@/lib/components/table/ReactDataTable";
 import { renderKey, renderData } from "@/lib/utils";
 import {
   getDataKeluarga,

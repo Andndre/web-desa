@@ -1,4 +1,4 @@
-import { LoginSchema } from "@/types/login";
+import { LoginSchema } from "@/lib/types/login";
 import { signIn } from "next-auth/react";
 
 export async function socialLogin(formData: FormData) {

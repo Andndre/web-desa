@@ -6,13 +6,13 @@ import {
   BlockHead,
   BlockHeadContent,
   BlockTitle,
-} from "@/components/block/Block";
+} from "@/lib/components/block/Block";
 import {
   HeadActionItem,
   HeadActionResponsive,
-} from "@/components/block/HeadActionResponsive";
-import { Col, Row } from "@/components/grid/Grid";
-import Content from "@/layout/admin/content/Content";
+} from "@/lib/components/block/HeadActionResponsive";
+import { Col, Row } from "@/lib/components/grid/Grid";
+import Content from "@/lib/components/layout/admin/content/Content";
 import FormTambahToggle from "./form-tambah-toggle";
 import TablePenduduk from "./table-penduduk";
 import { getMasters } from "@/server/data/pendudukData";

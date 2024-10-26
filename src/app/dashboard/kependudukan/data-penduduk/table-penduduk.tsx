@@ -1,12 +1,12 @@
 "use client";
 
-import { Col, Row } from "@/components/grid/Grid";
-import Icon from "@/components/icon/Icon";
+import { Col, Row } from "@/lib/components/grid/Grid";
+import Icon from "@/lib/components/icon/Icon";
 import ReactDataTableServerSide, {
   Export,
   Refresh,
   ToggleDetailButton,
-} from "@/components/table/ReactDataTable";
+} from "@/lib/components/table/ReactDataTable";
 import { renderData, renderKey } from "@/lib/utils";
 import React, { useContext } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";

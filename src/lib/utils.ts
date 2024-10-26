@@ -1,4 +1,4 @@
-import { Menu, SubMenuItem } from "@/layout/admin/menu/MenuData";
+import { Menu, SubMenuItem } from "@/lib/components/layout/admin/menu/MenuData";
 import { type ClassValue, clsx } from "clsx";
 
 export function cn(...inputs: ClassValue[]) {

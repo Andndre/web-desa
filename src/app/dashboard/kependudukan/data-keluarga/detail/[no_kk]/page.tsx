@@ -5,16 +5,16 @@ import {
   BlockTitle,
   BlockDes,
   Block,
-} from "@/components/block/Block";
-import { Col, Row } from "@/components/grid/Grid";
-import Content from "@/layout/admin/content/Content";
+} from "@/lib/components/block/Block";
+import { Col, Row } from "@/lib/components/grid/Grid";
+import Content from "@/lib/components/layout/admin/content/Content";
 import React from "react";
 import TableAnggotaKeluarga from "./table-anggota-keluarga";
 import FormTambahToggle from "./form-tambah-toogle";
 import {
   HeadActionResponsive,
   HeadActionItem,
-} from "@/components/block/HeadActionResponsive";
+} from "@/lib/components/block/HeadActionResponsive";
 import { getDetailKartuKeluarga } from "@/server/data/kartuKeluargaData";
 import { getMasters } from "@/server/data/pendudukData";
 

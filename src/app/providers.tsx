@@ -1,7 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import ThemeProvider from "@/layout/admin/provider/Theme";
+import ThemeProvider from "@/lib/components/layout/admin/provider/Theme";
 import React from "react";
 
 type Props = {

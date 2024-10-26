@@ -7,13 +7,13 @@ import {
   BlockHead,
   BlockHeadContent,
   BlockTitle,
-} from "@/components/block/Block";
+} from "@/lib/components/block/Block";
 import {
   HeadActionResponsive,
   HeadActionItem,
-} from "@/components/block/HeadActionResponsive";
-import { Col, Row } from "@/components/grid/Grid";
-import Content from "@/layout/admin/content/Content";
+} from "@/lib/components/block/HeadActionResponsive";
+import { Col, Row } from "@/lib/components/grid/Grid";
+import Content from "@/lib/components/layout/admin/content/Content";
 import TableKeluarga from "./table-keluarga";
 import FormTambahToggle from "./form-tambah-toggle";
 

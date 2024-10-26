@@ -1,13 +1,5 @@
-import { auth } from "@/auth";
-import { Layout } from "@/layout/auth";
-import { redirect } from "next/navigation";
+import { Layout as LayoutComponent } from "@/lib/components/layout/auth";
 
-export default async function ({ children }: { children: React.ReactNode }) {
-  // const session = await auth()
-
-  // if (session) {
-  //   redirect("/dashboard")
-  // }
-
-  return <Layout>{children}</Layout>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <LayoutComponent>{children}</LayoutComponent>;
 }

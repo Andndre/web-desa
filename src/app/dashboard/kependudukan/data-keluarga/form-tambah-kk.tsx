@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@/components/Form/Input";
+import { Input } from "@/lib/components/Form/Input";
 import { KKFormSchema } from "@/actions/formschemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";

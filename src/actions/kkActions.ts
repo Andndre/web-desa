@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/server/db";
 import { DataKKFormSchemaInputType } from "./formschemas/keluargaSchemas";
 
 export async function tambahDataKK(data: DataKKFormSchemaInputType) {

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/server/db";
 import { compare } from "bcryptjs";
 
 const handler = NextAuth({

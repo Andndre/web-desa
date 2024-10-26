@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 
-export default function () {
+export default function Page() {
   const session = useSession();
   return (
     <div className="mx-auto max-w-242.5">
