@@ -1,6 +1,6 @@
 "use client";
 
-import { ReturnTypeOfUseDataTable, useDataTable } from "@/hooks/useDataTable";
+import { type UseDataTable, useDataTable } from "@/hooks/useDataTable";
 import {
   ReturnTypeOfGetDataPenduduk,
   getDataPenduduk,
@@ -11,7 +11,7 @@ import React from "react";
 interface ITablePendudukContext {
   showOffcanvas: boolean;
   setShowOffcanvas: React.Dispatch<React.SetStateAction<boolean>>;
-  dataTable: ReturnTypeOfUseDataTable<ReturnTypeOfGetDataPenduduk>;
+  dataTable: UseDataTable<ReturnTypeOfGetDataPenduduk>;
 }
 
 export const TablePendudukContext =

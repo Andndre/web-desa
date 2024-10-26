@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export type ReturnTypeOfUseDataTable<T> = ReturnType<typeof useDataTable<T>>;
+export type UseDataTable<T> = ReturnType<typeof useDataTable<T>>;
 
 export function useDataTable<DataType>({
   getData,
