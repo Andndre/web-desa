@@ -146,6 +146,7 @@ model penduduk_kartu_keluarga {
 model surat_template {
   id             Int              @id @default(autoincrement())
   nama           String           @db.VarChar(255)
+  text           String           @db.Text
   created_at     DateTime         @default(now())
   updated_at     DateTime?
   actions        surat_action[]
