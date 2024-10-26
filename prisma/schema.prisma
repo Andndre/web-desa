@@ -122,16 +122,17 @@ model penduduk {
   kartu_keluarga        penduduk_kartu_keluarga       @relation(fields: [kk_id], references: [nomor_kk])
   kartu_keluarga_kepala penduduk_kartu_keluarga?      @relation(name: "penduduk_kepala_keluarga")
 
-  pekerjaan_id      Int?
-  pendidikan_id     Int?
-  golongan_darah_id Int?
-  cacat_id          Int?
-  status_kawin_id   Int?
-  hubungan_id       Int?
-  status_id         Int?
-  status_dasar_id   Int?
-  sakit_menahun_id  Int?
-  suku_id           Int?
+  pekerjaan_id         Int?
+  pendidikan_id        Int?
+  golongan_darah_id    Int?
+  cacat_id             Int?
+  status_kawin_id      Int?
+  hubungan_id          Int?
+  status_id            Int?
+  status_dasar_id      Int?
+  sakit_menahun_id     Int?
+  suku_id              Int?
+  nilai_komponen_surat nilai_komponen_surat[]
 }
 
 model penduduk_kartu_keluarga {
@@ -140,4 +141,59 @@ model penduduk_kartu_keluarga {
 
   kepala_keluarga penduduk?  @relation(fields: [nik_kepala_keluarga], references: [nik], onDelete: Cascade, name: "penduduk_kepala_keluarga")
   penduduk        penduduk[]
+}
+
+model surat_template {
+  id             Int              @id @default(autoincrement())
+  nama           String           @db.VarChar(255)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime?
+  actions        surat_action[]
+  surat          surat[]
+  komponen_surat komponen_surat[]
+}
+
+model surat {
+  nomor_surat          String                 @id @db.VarChar(255)
+  template_id          Int
+  created_at           DateTime               @default(now())
+  updated_at           DateTime?
+  template             surat_template         @relation(fields: [template_id], references: [id])
+  nilai_komponen_surat nilai_komponen_surat[]
+}
+
+model komponen_surat {
+  id                   Int                    @id @default(autoincrement())
+  template_id          Int
+  nama                 String                 @db.VarChar(255) // Nama komponen, misalnya "nik pelapor", "lokasi kematian", dll.
+  tipe                 String                 @db.VarChar(50) // Jenis data, misalnya "text", "date", "select", dll.
+  is_relasi            Boolean                @default(false) // Apakah komponen ini berelasi ke penduduk atau tidak
+  label                String                 @db.VarChar(255) // Label yang ditampilkan di form
+  template             surat_template         @relation(fields: [template_id], references: [id])
+  nilai_komponen_surat nilai_komponen_surat[]
+}
+
+model nilai_komponen_surat {
+  id             Int            @id @default(autoincrement())
+  surat_id       String         @db.VarChar(255)
+  komponen_id    Int
+  nilai_teks     String? // Untuk tipe text, select, dll.
+  nilai_tanggal  DateTime? // Untuk tipe tanggal
+  nilai_file     String? // Menyimpan path file jika tipe file
+  penduduk_nik   String?        @db.VarChar(16) // Jika komponen berelasi ke penduduk @map("penduduk_id")
+  komponen_surat komponen_surat @relation(fields: [komponen_id], references: [id])
+  surat          surat          @relation(fields: [surat_id], references: [nomor_surat])
+  penduduk       penduduk?      @relation(fields: [penduduk_nik], references: [nik])
+}
+
+model surat_action {
+  id                Int            @id @default(autoincrement())
+  template_id       Int
+  target_table      String         @db.VarChar(50) // e.g., "penduduk"
+  target_field      String         @db.VarChar(50) // Field to be updated, e.g., "status_kawin"
+  target_value      String         @db.VarChar(255) // Value to be set, e.g., "Menikah"
+  conditional_field String?        @db.VarChar(50) // Optional condition field, e.g., "status_kawin"
+  conditional_value String?        @db.VarChar(255) // Optional condition value, e.g., "Belum Menikah"
+  related_fields    String         @db.Text // JSON string representing related fields, e.g., `["nik1", "nik2"]`
+  template          surat_template @relation(fields: [template_id], references: [id])
 }
