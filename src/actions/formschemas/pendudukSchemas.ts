@@ -2,7 +2,9 @@ import { JenisKelamin } from "@prisma/client";
 import { z } from "zod";
 
 export const tambahDataPendudukSchema = z.object({
-  nama: z.string().trim().min(1, { message: "Nama harus diisi" }),
+  nama: z.string().trim().min(1, { message: "Nama harus diisi" }).max(50, {
+    message: "Maksimal 50 karakter",
+  }),
   nik: z
     .string()
     .trim()
