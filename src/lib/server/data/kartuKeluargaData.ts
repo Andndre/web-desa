@@ -1,5 +1,6 @@
 "use server";
 
+import { DatatableType } from "@/app/dashboard/kependudukan/data-keluarga/detail/[no_kk]/providers";
 import { prisma } from "@/lib/server/db";
 import { Prisma } from "@prisma/client";
 
@@ -54,10 +55,6 @@ export async function updateKepalaKeluargaKartuKeluarga(
   });
 }
 
-export type ReturnTypeOfGetDataKeluarga = Awaited<
-  ReturnType<typeof getDataKeluarga>
->[number];
-
 export async function getDataKeluarga(page: number, take: number) {
   return await prisma.penduduk_kartu_keluarga.findMany({
     include: {
@@ -104,13 +101,6 @@ export async function getDetailKartuKeluarga(
   });
 }
 
-export type ReturnTypeOfGetDetailKartuKeluarga = Awaited<
-  ReturnType<typeof getDetailKartuKeluarga>
->;
-
-export type ReturnTypeOfGetDetailKartuKeluargaItem =
-  ReturnTypeOfGetDetailKartuKeluarga[number];
-
 export async function getDetailKartuKeluargaTotal(nomor_kk: string) {
   return await prisma.penduduk.count({
     where: {
@@ -119,7 +109,7 @@ export async function getDetailKartuKeluargaTotal(nomor_kk: string) {
   });
 }
 
-export async function applyUrutan(dataNew: ReturnTypeOfGetDetailKartuKeluarga) {
+export async function applyUrutan(dataNew: DatatableType[]) {
   await prisma.$transaction(async (tx) => {
     // update kepala keluarga ke anggota keluarga teratas
     const p = await tx.penduduk.findUnique({

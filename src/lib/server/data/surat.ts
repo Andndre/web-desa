@@ -13,8 +13,10 @@ export async function getSuratTemplate(page: number, take: number) {
   });
 }
 
-export type ReturnTypeOfGetSuratTemplate = Awaited<
-  ReturnType<typeof getSuratTemplate>
->;
-export type ReturnTypeOfGetSuratTemplateItem =
-  ReturnTypeOfGetSuratTemplate[number];
+export async function getSuratTemplateFields(id: number) {
+  return await prisma.komponen_surat.findMany({
+    where: {
+      template_id: id,
+    },
+  });
+}

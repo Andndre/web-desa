@@ -2,16 +2,18 @@
 
 import { type UseDataTable, useDataTable } from "@/hooks/useDataTable";
 import {
+  getDetailKartuKeluarga,
   getDetailKartuKeluargaTotal,
-  ReturnTypeOfGetDetailKartuKeluarga,
-  ReturnTypeOfGetDetailKartuKeluargaItem,
 } from "@/lib/server/data/kartuKeluargaData";
+import { ReturnTypeItemAsync } from "@/lib/server/data/types";
 import React from "react";
+
+export type DatatableType = ReturnTypeItemAsync<typeof getDetailKartuKeluarga>;
 
 interface ITablePendudukContext {
   showOffcanvas: boolean;
   setShowOffcanvas: React.Dispatch<React.SetStateAction<boolean>>;
-  dataTable: UseDataTable<ReturnTypeOfGetDetailKartuKeluargaItem>;
+  dataTable: UseDataTable<DatatableType>;
 }
 
 export const TablePendudukContext =
@@ -22,7 +24,7 @@ interface ProvidersParams {
   getDetailKartuKeluarga: (
     page: number,
     perPage: number
-  ) => Promise<ReturnTypeOfGetDetailKartuKeluarga>;
+  ) => Promise<DatatableType[]>;
 }
 
 export default function Providers({
@@ -31,7 +33,7 @@ export default function Providers({
 }: ProvidersParams) {
   const [showOffcanvas, setShowOffcanvas] = React.useState(false);
 
-  const dataTable = useDataTable<ReturnTypeOfGetDetailKartuKeluargaItem>({
+  const dataTable = useDataTable<DatatableType>({
     getData: getDetailKartuKeluarga,
     getTotal: getDetailKartuKeluargaTotal,
   });
