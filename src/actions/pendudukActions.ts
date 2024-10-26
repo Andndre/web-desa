@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/server/db";
-import { PendudukFormSchema } from "@/actions/formschemas";
+import * as PendudukFormSchema from "@/actions/formschemas/pendudukSchemas";
 import { DataPendudukFormSchemaInputType } from "./formschemas/pendudukSchemas";
 
 export async function tambahDataPenduduk(
