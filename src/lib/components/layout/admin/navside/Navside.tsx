@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import LogoSmall from "@/images/logo-small.png";
-import LogoDark from "@/images/logo-dark-small.png";
+import LogoSmall from "@/assets/images/logo-small.png";
+import LogoDark from "@/assets/images/logo-dark-small.png";
 import SimpleBar from "simplebar-react";
 import menu, { Menu, SubMenuItem } from "../menu/MenuData";
 import classNames from "classnames";

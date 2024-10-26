@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import {
   InputHTMLAttributes,
   forwardRef,
@@ -112,7 +111,7 @@ export const SelectSearch = forwardRef<HTMLInputElement, Props>(function Input(
   };
 
   return (
-    <fieldset ref={wrapperRef} className={cn(`form-group`, className)}>
+    <fieldset ref={wrapperRef} className={`form-group ${className}`}>
       <label htmlFor={name} className="form-label">
         {label}
         {required && <span className="text-danger">*</span>}

@@ -5,7 +5,7 @@ import {
   ReturnTypeOfGetDataPenduduk,
   getDataPenduduk,
   getTotalPenduduk,
-} from "@/server/data/pendudukData";
+} from "@/lib/server/data/pendudukData";
 import React from "react";
 
 interface ITablePendudukContext {

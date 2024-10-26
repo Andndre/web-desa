@@ -8,8 +8,8 @@ export function useDataTable<DataType>({
   getData,
   getTotal,
 }: {
-  getData: (page: number, perPage: number) => Promise<DataType[]>;
-  getTotal: () => Promise<number>;
+  getData: (page: number, perPage: number, ...args: any) => Promise<DataType[]>;
+  getTotal: (...args: any) => Promise<number>;
 }) {
   const [data, setData] = useState<DataType[]>([]);
   const [totalRows, setTotalRows] = useState(0);
@@ -62,5 +62,6 @@ export function useDataTable<DataType>({
     handlePerRowsChange,
     setSelectedItem,
     fetchData,
+    setData,
   };
 }

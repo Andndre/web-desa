@@ -1,7 +1,5 @@
-"use server";
-
-import { LoginSchema } from "@/app/auth/signin/page";
-import { signIn, signOut } from "@/auth";
+import { LoginSchema } from "@/lib/types/login";
+import { signIn, signOut } from "next-auth/react";
 
 export async function doSocialLogin(formData: FormData) {
   const action = formData.get("action");
@@ -22,5 +20,5 @@ export async function doCredentialsLogin(formData: LoginSchema) {
 }
 
 export async function doLogout() {
-  await signOut({ redirectTo: "/" });
+  await signOut({ redirect: true });
 }

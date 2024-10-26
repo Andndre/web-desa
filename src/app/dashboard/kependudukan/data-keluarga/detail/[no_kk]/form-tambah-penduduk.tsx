@@ -3,18 +3,14 @@
 import { Input } from "@/lib/components/Form/Input";
 import { SelectType } from "@/lib/components/Form/SelectType";
 import { TextareaInput } from "@/lib/components/Form/TextareaInput";
-import { PendudukFormSchema } from "@/actions/formschemas";
-import { MastersType } from "@/server/data/pendudukData";
-import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { MastersType } from "@/lib/server/data/pendudukData";
 import { Button, Form, Spinner } from "reactstrap";
-import {
-  DataPendudukTanpaKKFormSchemaInputType,
-  tambahDataPendudukTanpaKKSchema,
-} from "@/actions/formschemas/pendudukSchemas";
+import { DataPendudukTanpaKKFormSchemaInputType } from "@/actions/formschemas/pendudukSchemas";
 import { useFormSubmit } from "@/hooks/form";
 import { tambahDataPenduduk } from "@/actions/pendudukActions";
+import { TablePendudukContext } from "./providers";
+import { useContext } from "react";
+import { toast } from "react-toastify";
 
 export interface IFormTambahPenduduk {
   masters: MastersType;
@@ -23,6 +19,11 @@ export interface IFormTambahPenduduk {
 
 function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
   const {
+    dataTable: { fetchData },
+    setShowOffcanvas,
+  } = useContext(TablePendudukContext)!;
+
+  const {
     register,
     handleSubmit,
     setValue,
@@ -30,19 +31,21 @@ function FormTambahPenduduk({ masters, nomor_kk }: IFormTambahPenduduk) {
     reset,
   } = useFormSubmit<DataPendudukTanpaKKFormSchemaInputType>(
     async (data, setError) => {
-      try {
-        const success = await tambahDataPenduduk({ ...data, kk_id: nomor_kk });
-        reset();
-        if (success) {
-          alert("Berhasil");
-          // reload page
-          window.location.reload();
-        } else {
-          alert("Gagal");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      await toast.promise(tambahDataPenduduk({ ...data, kk_id: nomor_kk }), {
+        pending: "Menambahkan data penduduk...",
+        success: {
+          async render() {
+            await fetchData();
+            setShowOffcanvas(false);
+            return "Data penduduk berhasil ditambahkan";
+          },
+        },
+        error: {
+          render() {
+            return "Terjadi kesalahan saat menambahkan data penduduk";
+          },
+        },
+      });
     }
   );
 

@@ -5,26 +5,22 @@ import ReactDataTableServerSide, {
   Export,
   Refresh,
 } from "@/lib/components/table/ReactDataTable";
-import { renderKey, renderData } from "@/lib/utils";
-import {
-  getDataKeluarga,
-  getTotalKeluarga,
-} from "@/server/data/kartuKeluargaData";
+import { renderKey, renderData } from "@/lib/utils/Utils";
 import Link from "next/link";
-import { useDataTable } from "@/hooks/useDataTable";
+import { useContext } from "react";
+import { TableKeluargaContext } from "./providers";
 
 function TableKeluarga() {
   const {
-    data,
-    loading,
-    totalRows,
-    handlePageChange,
-    handlePerRowsChange,
-    fetchData,
-  } = useDataTable({
-    getData: getDataKeluarga,
-    getTotal: getTotalKeluarga,
-  });
+    dataTable: {
+      data,
+      fetchData,
+      handlePageChange,
+      handlePerRowsChange,
+      loading,
+      totalRows,
+    },
+  } = useContext(TableKeluargaContext)!;
 
   const renderItem = <T extends object>(item: T) => {
     return (

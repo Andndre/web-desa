@@ -1,125 +1,136 @@
 "use client";
 
 import Icon from "@/lib/components/icon/Icon";
-import {
-  DetailKartuKeluargaResponse,
-  applyUrutan,
-} from "@/server/data/kartuKeluargaData";
-import React, { useState } from "react";
-import { Button, Card } from "reactstrap";
+import { applyUrutan } from "@/lib/server/data/kartuKeluargaData";
+import React, { useContext, useState } from "react";
+import { Button, Card, Col, Row } from "reactstrap";
+import { TablePendudukContext } from "./providers";
+import ReactDataTableServerSide, {
+  Export,
+  Refresh,
+} from "@/lib/components/table/ReactDataTable";
+import { renderData, renderKey } from "@/lib/utils/Utils";
 
-interface TableAnggotaKeluargaProps {
-  data: DetailKartuKeluargaResponse;
-}
+function TableAnggotaKeluarga() {
+  const {
+    dataTable: {
+      data,
+      fetchData,
+      handlePageChange,
+      handlePerRowsChange,
+      loading,
+      totalRows,
+      setData,
+    },
+  } = useContext(TablePendudukContext)!;
 
-function TableAnggotaKeluarga({ data }: TableAnggotaKeluargaProps) {
-  const [dataTable, setData] = useState<DetailKartuKeluargaResponse>(data);
+  // const [dataTable, setData] = useState<DetailKartuKeluargaResponse>(data);
   const [saveButton, setSaveButton] = useState(false);
 
   async function simpan() {
-    await applyUrutan(dataTable.penduduk);
+    await applyUrutan(data);
     setSaveButton(false);
   }
 
   function moveUp(index: number) {
     if (index === 0) return;
     setSaveButton(true);
-    const updatedData = [...dataTable.penduduk];
+    const updatedData = [...data];
     updatedData[index].urutan -= 1;
     updatedData[index - 1].urutan += 1;
     [updatedData[index], updatedData[index - 1]] = [
       updatedData[index - 1],
       updatedData[index],
     ];
-    setData({
-      ...dataTable,
-      penduduk: updatedData,
-    });
+    setData(updatedData);
   }
 
   function moveDown(index: number) {
-    if (index === dataTable.penduduk.length - 1) return;
+    if (index === data.length - 1) return;
     setSaveButton(true);
-    const updatedData = [...dataTable.penduduk];
+    const updatedData = [...data];
     updatedData[index].urutan += 1;
     updatedData[index + 1].urutan -= 1;
     [updatedData[index], updatedData[index + 1]] = [
       updatedData[index + 1],
       updatedData[index],
     ];
-    setData({
-      ...dataTable,
-      penduduk: updatedData,
-    });
+    setData(updatedData);
   }
 
+  const renderItem = <T extends object>(item: T) => {
+    return (
+      <>
+        {Object.entries(item).map(([key, value]) => (
+          <li key={key}>
+            <span className="dtr-title fw-bold">{renderKey(key)}</span>
+            {": "}
+            <span className="dtr-data">{renderData(value)}</span>
+          </li>
+        ))}
+      </>
+    );
+  };
+
   return (
-    <Card className="card-bordered card-preview">
-      {saveButton && (
-        <Button onClick={() => simpan()} color="primary" className="mb-1">
-          <Icon name="save" className="me-2" /> Simpan
-        </Button>
-      )}
-      <table className="table">
-        <thead>
-          <tr>
-            <th>
-              <span className="overline-title">#</span>
-            </th>
-            <th>
-              <span className="overline-title">Nama</span>
-            </th>
-            <th>
-              <span className="overline-title">NIK</span>
-            </th>
-            <th>
-              <span className="overline-title">Jenis Kelamin</span>
-            </th>
-            <th>
-              <span className="overline-title">Peran</span>
-            </th>
-            <th>
-              <span className="overline-title">Aksi</span>
-            </th>
-            <th>
-              <span className="overline-title"></span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataTable.penduduk.map((anggota, i) => {
-            return (
-              <tr key={anggota.nik}>
-                <td>{anggota.urutan}</td>
-                <td>{anggota.nama}</td>
-                <td>{anggota.nik}</td>
-                <td>{anggota.jenis_kelamin}</td>
-                <td>
-                  {anggota.hubungan?.nama || "BELUM DIATUR"}{" "}
-                  {i == 0 && " | KEPALA KELUARGA"}
-                </td>
-                <td>
-                  {i != 0 && (
-                    <Button
-                      className="me-1"
-                      size="sm"
-                      onClick={() => moveUp(i)}
-                    >
-                      <Icon name="arrow-up" />
-                    </Button>
-                  )}
-                  {i != dataTable.penduduk.length - 1 && (
-                    <Button size="sm" onClick={() => moveDown(i)}>
-                      <Icon name="arrow-down" />
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Card>
+    <Row className="g-gs">
+      <Col>
+        `{" "}
+        {saveButton && (
+          <Button onClick={() => simpan()} color="primary" className="mb-1">
+            <Icon name="save" className="me-2" /> Simpan
+          </Button>
+        )}
+        <ReactDataTableServerSide
+          columns={[
+            {
+              name: "NIK",
+              selector: (row) => row.nik,
+              sortable: true,
+            },
+            {
+              name: "NO KK",
+              selector: (row) => row.kk_id,
+              sortable: true,
+            },
+            {
+              name: "Nama",
+              selector: (row) => row.nama,
+              sortable: true,
+            },
+            {
+              name: "Jenis Kelamin",
+              selector: (row) => row.jenis_kelamin,
+            },
+            {
+              name: "Hubungan",
+              selector: (row) => row.hubungan?.nama || "Tidak Ada",
+            },
+            {
+              name: "Status",
+              selector: (row) => row.status?.nama || "Tidak Ada",
+            },
+          ]}
+          data={data}
+          pagination
+          paginationServer
+          expandableRows
+          expandableRowsComponent={(props) => (
+            <ul className="dtr-details p-2 border-bottom ms-1">
+              {renderItem(props.data)}
+            </ul>
+          )}
+          progressPending={loading}
+          paginationTotalRows={totalRows}
+          onChangeRowsPerPage={handlePerRowsChange}
+          onChangePage={handlePageChange}
+          actionsBefore={[
+            <Export key="export" data={data} />,
+            <Refresh key="refresh" refreshData={fetchData} />,
+          ]}
+        />
+      </Col>
+    </Row>
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 
-import LogoLight2x from "@/images/logo2x.png";
-import LogoDark2x from "@/images/logo-dark2x.png";
+import LogoLight2x from "@/assets/images/logo2x.png";
+import LogoDark2x from "@/assets/images/logo-dark2x.png";
 import Link from "next/link";
 import Image from "next/image";
 

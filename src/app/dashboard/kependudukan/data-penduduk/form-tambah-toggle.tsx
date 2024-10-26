@@ -1,9 +1,8 @@
 "use client";
 
-import Button from "@/lib/components/button/Button";
 import Icon from "@/lib/components/icon/Icon";
 import React, { useContext } from "react";
-import { Offcanvas, OffcanvasHeader } from "reactstrap";
+import { Button, Offcanvas, OffcanvasHeader } from "reactstrap";
 import FormTambahPenduduk, {
   IFormTambahPenduduk,
 } from "./form-tambah-penduduk";

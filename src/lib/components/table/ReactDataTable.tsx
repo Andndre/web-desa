@@ -6,7 +6,7 @@ import exportFromJSON from "export-from-json";
 import { Col, Row, Button } from "reactstrap";
 import DataTablePagination from "@/lib/components/pagination/DataTablePagination";
 import { TableProps } from "react-data-table-component/dist/DataTable/types";
-import { renderData } from "@/lib/utils";
+import { renderData } from "@/lib/utils/Utils";
 import Icon from "../icon/Icon";
 import Loader from "../common/Loader";
 
@@ -18,19 +18,17 @@ interface ToggleDetailProps {
 export const ToggleDetailButton = ({
   toggleDetail,
   show,
-}: ToggleDetailProps) => {
-  return (
-    <div className="dt-buttons btn-group flex-wrap">
-      <button
-        className="btn btn-secondary buttons-html5"
-        type="button"
-        onClick={() => toggleDetail()}
-      >
-        <Icon name={show ? "eye-off" : "eye"} />
-      </button>
-    </div>
-  );
-};
+}: ToggleDetailProps) => (
+  <div className="dt-buttons btn-group flex-wrap">
+    <button
+      className="btn btn-secondary buttons-html5 action-button"
+      type="button"
+      onClick={() => toggleDetail()}
+    >
+      <Icon name={show ? "eye-off" : "eye"} />
+    </button>
+  </div>
+);
 
 interface ExportProps<T> {
   data: T[];
@@ -40,49 +38,34 @@ export const Export = <T extends object>({ data }: ExportProps<T>) => {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    if (modal === true) {
+    if (modal) {
       setTimeout(() => setModal(false), 2000);
     }
   }, [modal]);
 
   const fileName = "user-data";
 
-  const formattedData = data.map((item) => {
-    return Object.entries(item).reduce((acc, [key, value]) => {
+  const formattedData = data.map((item) =>
+    Object.entries(item).reduce((acc, [key, value]) => {
       acc[key] = renderData(value);
       return acc;
-    }, {} as any);
-  });
-
-  const exportCSV = () => {
-    const exportType = exportFromJSON.types.csv;
-    exportFromJSON({ data: formattedData, fileName, exportType });
-  };
+    }, {} as any)
+  );
 
   const exportExcel = () => {
-    const exportType = exportFromJSON.types.xls;
-    exportFromJSON({ data: formattedData, fileName, exportType });
+    exportFromJSON({
+      data: formattedData,
+      fileName,
+      exportType: exportFromJSON.types.xls,
+    });
   };
 
   return (
-    <>
-      <div className="dt-buttons btn-group flex-wrap">
-        <button
-          className="btn btn-secondary buttons-csv buttons-html5"
-          type="button"
-          onClick={() => exportCSV()}
-        >
-          <span>CSV</span>
-        </button>{" "}
-        <button
-          className="btn btn-secondary buttons-excel buttons-html5"
-          type="button"
-          onClick={() => exportExcel()}
-        >
-          <span>Excel</span>
-        </button>{" "}
-      </div>
-    </>
+    <div className="dt-buttons btn-group flex-wrap action-group">
+      <button className="btn btn-secondary action-button" onClick={exportExcel}>
+        <Icon name="download" />
+      </button>
+    </div>
   );
 };
 
@@ -92,23 +75,23 @@ interface RefreshProps {
 
 export const Refresh = ({ refreshData }: RefreshProps) => {
   const [loading, setLoading] = useState(false);
+
   const refresh = async () => {
     setLoading(true);
     await refreshData();
     setLoading(false);
   };
+
   return (
-    <>
-      <div className="dt-buttons btn-group flex-wrap">
-        <Button
-          className="buttons-html5"
-          onClick={() => refresh()}
-          disabled={loading}
-        >
-          <Icon name="reload" />
-        </Button>
-      </div>
-    </>
+    <div className="dt-buttons btn-group flex-wrap">
+      <Button
+        className="buttons-html5 action-button"
+        onClick={refresh}
+        disabled={loading}
+      >
+        <Icon name="reload" />
+      </Button>
+    </div>
   );
 };
 
@@ -141,19 +124,16 @@ const ReactDataTableServerSide = <T extends object>({
   const [mobileView, setMobileView] = useState<boolean>(false);
 
   useEffect(() => {
-    let defaultData = tableData;
-    if (searchText !== "") {
-      defaultData = data.filter((item) => {
-        return Object.values(item)
-          .join(" ")
-          .toLowerCase()
-          .includes(searchText.toLowerCase());
-      });
-      setTableData(defaultData);
-    } else {
-      setTableData(data);
-    }
-  }, [searchText, tableData, data]);
+    const defaultData = searchText
+      ? data.filter((item) =>
+          Object.values(item)
+            .join(" ")
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
+        )
+      : data;
+    setTableData(defaultData);
+  }, [searchText, data]);
 
   const viewChange = useCallback(() => {
     if (window.innerWidth < 960 && expandableRows) {
@@ -169,17 +149,15 @@ const ReactDataTableServerSide = <T extends object>({
     return () => {
       window.removeEventListener("resize", viewChange);
     };
-  }, [expandableRows, viewChange]);
+  }, [viewChange]);
 
   return (
     <div
       className={`dataTables_wrapper dt-bootstrap4 no-footer ${
-        className ? className : ""
+        className || ""
       }`}
     >
-      <Row
-        className={`justify-between g-2 ${actionsBefore ? "with-export" : ""}`}
-      >
+      <Row className="justify-between g-2 with-export">
         <Col className="col-7 text-start" sm="4">
           <div id="DataTables_Table_0_filter" className="dataTables_filter">
             <label>
@@ -187,25 +165,28 @@ const ReactDataTableServerSide = <T extends object>({
                 type="search"
                 className="form-control form-control-sm"
                 placeholder="Search"
-                onChange={(ev) => setSearchText(ev.target.value)}
+                onChange={(e) => setSearchText(e.target.value)}
               />
             </label>
           </div>
         </Col>
         <Col className="col-5 text-end" sm="8">
-          <div className="datatable-filter">
+          <div className="d-flex justify-content-end">
             <div className="d-flex justify-content-end g-2">
-              <div className="dt-export-buttons d-flex align-center g-2">
+              <div
+                className={`d-flex align-center g-2 ${
+                  mobileView ? "mobile-actions" : ""
+                }`}
+              >
                 {actionsBefore}
               </div>
-              <div className="dataTables_length" id="DataTables_Table_0_length">
+              <div className="dataTables_length">
                 <label>
-                  <span className="d-none d-sm-inline-block">Tampilkan</span>
+                  <span className="d-none d-sm-inline-block">Show</span>
                   <div className="form-control-select">
-                    {" "}
                     <select
                       name="DataTables_Table_0_length"
-                      className="custom-select custom-select-sm form-control form-control-sm"
+                      className="custom-select custom-select-sm"
                       onChange={(e) =>
                         setRowsPerPage(parseInt(e.target.value, 10))
                       }
@@ -215,11 +196,15 @@ const ReactDataTableServerSide = <T extends object>({
                       <option value="25">25</option>
                       <option value="40">40</option>
                       <option value="50">50</option>
-                    </select>{" "}
+                    </select>
                   </div>
                 </label>
               </div>
-              <div className="dt-export-buttons d-flex align-center g-2">
+              <div
+                className={`d-flex align-center g-2 ${
+                  mobileView ? "mobile-actions" : ""
+                }`}
+              >
                 {actionsAfter}
               </div>
             </div>
@@ -241,7 +226,7 @@ const ReactDataTableServerSide = <T extends object>({
         onRowClicked={onRowClicked}
         expandableRows={mobileView}
         expandableRowsComponent={expandableRowsComponent}
-        noDataComponent={<div className="p-2">Tidak ada data</div>}
+        noDataComponent={<div className="p-2">No Data Available</div>}
         sortIcon={
           <div>
             <span>&darr;</span>
@@ -269,7 +254,7 @@ const ReactDataTableServerSide = <T extends object>({
           />
         )}
         {...rest}
-      ></DataTable>
+      />
     </div>
   );
 };

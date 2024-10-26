@@ -7,7 +7,7 @@ import ReactDataTableServerSide, {
   Refresh,
   ToggleDetailButton,
 } from "@/lib/components/table/ReactDataTable";
-import { renderData, renderKey } from "@/lib/utils";
+import { renderData, renderKey } from "@/lib/utils/Utils";
 import React, { useContext } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import { TablePendudukContext } from "./providers";

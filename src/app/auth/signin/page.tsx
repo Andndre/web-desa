@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Logo from "@/images/logo.png";
-import LogoDark from "@/images/logo-dark.png";
+import Logo from "@/assets/images/logo.png";
+import LogoDark from "@/assets/images/logo-dark.png";
 import Footer from "./footer";
 
 import { Form, Spinner, Alert, Button } from "reactstrap";

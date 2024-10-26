@@ -54,6 +54,10 @@ export async function updateKepalaKeluargaKartuKeluarga(
   });
 }
 
+export type ReturnTypeOfGetDataKeluarga = Awaited<
+  ReturnType<typeof getDataKeluarga>
+>[number];
+
 export async function getDataKeluarga(page: number, take: number) {
   return await prisma.penduduk_kartu_keluarga.findMany({
     include: {
@@ -72,43 +76,50 @@ export async function getTotalKeluarga() {
   return await prisma.penduduk_kartu_keluarga.count();
 }
 
-export async function getDetailKartuKeluarga(nomor_kk: string) {
-  return await prisma.penduduk_kartu_keluarga.findUnique({
+export async function getDetailKartuKeluarga(
+  page: number,
+  perPage: number,
+  nomor_kk: string
+) {
+  return await prisma.penduduk.findMany({
     where: {
-      nomor_kk: nomor_kk,
+      kk_id: nomor_kk,
+    },
+    orderBy: {
+      urutan: "asc",
     },
     include: {
-      penduduk: {
-        orderBy: {
-          urutan: "asc",
-        },
-        include: {
-          hubungan: true,
-          status_dasar: true,
-          status: true,
-          status_kawin: true,
-          cacat: true,
-          golongan_darah: true,
-          agama: true,
-          suku: true,
-          sakit_menahun: true,
-          pekerjaan: true,
-          pendidikan: true,
-        },
-      },
-      kepala_keluarga: true,
+      hubungan: true,
+      status_dasar: true,
+      status: true,
+      status_kawin: true,
+      cacat: true,
+      golongan_darah: true,
+      agama: true,
+      suku: true,
+      sakit_menahun: true,
+      pekerjaan: true,
+      pendidikan: true,
     },
   });
 }
 
-export type DetailKartuKeluargaResponse = Exclude<
-  Awaited<ReturnType<typeof getDetailKartuKeluarga>>,
-  null
+export type ReturnTypeOfGetDetailKartuKeluarga = Awaited<
+  ReturnType<typeof getDetailKartuKeluarga>
 >;
 
-export async function applyUrutan(
-  dataNew: DetailKartuKeluargaResponse["penduduk"]
-) {
+export type ReturnTypeOfGetDetailKartuKeluargaItem =
+  ReturnTypeOfGetDetailKartuKeluarga[number];
+
+export async function getDetailKartuKeluargaTotal(nomor_kk: string) {
+  return await prisma.penduduk.count({
+    where: {
+      kk_id: nomor_kk,
+    },
+  });
+}
+
+export async function applyUrutan(dataNew: ReturnTypeOfGetDetailKartuKeluarga) {
   await prisma.$transaction(async (tx) => {
     // update kepala keluarga ke anggota keluarga teratas
     const p = await tx.penduduk.findUnique({

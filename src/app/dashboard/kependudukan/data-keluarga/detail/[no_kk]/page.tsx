@@ -15,50 +15,53 @@ import {
   HeadActionResponsive,
   HeadActionItem,
 } from "@/lib/components/block/HeadActionResponsive";
-import { getDetailKartuKeluarga } from "@/server/data/kartuKeluargaData";
-import { getMasters } from "@/server/data/pendudukData";
+import { getDetailKartuKeluarga } from "@/lib/server/data/kartuKeluargaData";
+import { getMasters } from "@/lib/server/data/pendudukData";
+import Providers from "./providers";
 
 interface DetailKeluargaProps {
   params: { no_kk: string };
 }
 
 async function DetailKeluarga({ params: { no_kk } }: DetailKeluargaProps) {
-  const dataKeluarga = await getDetailKartuKeluarga(no_kk);
-  const masters = await getMasters();
-
-  if (!dataKeluarga) {
-    return <Content>404</Content>;
+  async function fetchData(page: number, perPage: number) {
+    "use server";
+    return await getDetailKartuKeluarga(page, perPage, no_kk);
   }
 
+  const masters = await getMasters();
+
   return (
-    <Content>
-      <BlockHead size="sm">
-        <BlockBetween>
-          <BlockHeadContent>
-            <BlockTitle page tag="h3">
-              Detail Data Keluarga
-            </BlockTitle>
-            <BlockDes className="text-soft">
-              <p>Berikut merupakan data keluarga yang terdaftar</p>
-            </BlockDes>
-          </BlockHeadContent>
-          <BlockHeadContent>
-            <HeadActionResponsive>
-              <HeadActionItem>
-                <FormTambahToggle nomor_kk={no_kk} masters={masters} />
-              </HeadActionItem>
-            </HeadActionResponsive>
-          </BlockHeadContent>
-        </BlockBetween>
-      </BlockHead>
-      <Block>
-        <Row className="g-gs">
-          <Col xxl={8}>
-            <TableAnggotaKeluarga data={dataKeluarga} />
-          </Col>
-        </Row>
-      </Block>
-    </Content>
+    <Providers getDetailKartuKeluarga={fetchData}>
+      <Content>
+        <BlockHead size="sm">
+          <BlockBetween>
+            <BlockHeadContent>
+              <BlockTitle page tag="h3">
+                Detail Data Keluarga
+              </BlockTitle>
+              <BlockDes className="text-soft">
+                <p>Berikut merupakan data keluarga yang terdaftar</p>
+              </BlockDes>
+            </BlockHeadContent>
+            <BlockHeadContent>
+              <HeadActionResponsive>
+                <HeadActionItem>
+                  <FormTambahToggle nomor_kk={no_kk} masters={masters} />
+                </HeadActionItem>
+              </HeadActionResponsive>
+            </BlockHeadContent>
+          </BlockBetween>
+        </BlockHead>
+        <Block>
+          <Row className="g-gs">
+            <Col xxl={8}>
+              <TableAnggotaKeluarga />
+            </Col>
+          </Row>
+        </Block>
+      </Content>
+    </Providers>
   );
 }
 

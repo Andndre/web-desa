@@ -9,7 +9,6 @@ import {
   KeyboardEvent,
 } from "react";
 import { Button } from "reactstrap";
-import { cn } from "@/lib/utils";
 
 interface Option {
   nama: string;
@@ -108,7 +107,7 @@ export const SelectType = forwardRef<HTMLSelectElement, Props>(
     return (
       <fieldset
         ref={wrapperRef}
-        className={cn(`form-group position-relative`, className)}
+        className={`form-group position-relative ${className}`}
       >
         <label htmlFor={`${name}-input`} className="form-label">
           {label}

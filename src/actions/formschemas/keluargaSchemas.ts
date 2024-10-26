@@ -1,4 +1,4 @@
-import { isKartuKeluargaExists } from "@/server/data/kartuKeluargaData";
+import { isKartuKeluargaExists } from "@/lib/server/data/kartuKeluargaData";
 import { z } from "zod";
 
 export const tambahDataKKSchema = z.object({

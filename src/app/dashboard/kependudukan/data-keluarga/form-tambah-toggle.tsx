@@ -1,16 +1,13 @@
 "use client";
 
-import Button from "@/lib/components/button/Button";
 import Icon from "@/lib/components/icon/Icon";
-import React, { useState } from "react";
-import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
+import React, { useContext, useState } from "react";
+import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import FormTambahPenduduk from "./form-tambah-kk";
+import { TableKeluargaContext } from "./providers";
 
 function FormTambahToggle() {
-  const [showOffcanvas, setShowOffcanvas] = useState(false);
-  function toggleDrawer() {
-    setShowOffcanvas(!showOffcanvas);
-  }
+  const { showOffcanvas, setShowOffcanvas } = useContext(TableKeluargaContext)!;
 
   return (
     <>
@@ -27,7 +24,7 @@ function FormTambahToggle() {
           Tambah Data Kartu Keluarga
         </OffcanvasHeader>
         <OffcanvasBody>
-          <FormTambahPenduduk toggleDrawer={toggleDrawer} />
+          <FormTambahPenduduk />
         </OffcanvasBody>
       </Offcanvas>
     </>
