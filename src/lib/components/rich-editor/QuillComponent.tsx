@@ -3,26 +3,13 @@
 import React from "react";
 import { useQuill } from "react-quilljs";
 
-export const QuillComponent = () => {
-  let placeholder = "Hello World!";
-  const { quillRef } = useQuill({ placeholder });
-  return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div ref={quillRef} />
-    </div>
-  );
-};
-
-export const QuillComponentMinimal = ({
-  placeholder,
-}: {
-  placeholder: string;
-}) => {
+export const QuillComponent = ({ placeholder }: { placeholder: string }) => {
   const modules = {
     toolbar: [
-      ["bold", "italic", "underline", "strike"],
+      [{ font: [] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote", "code"],
       [{ align: [] }],
-
       [{ list: "ordered" }, { list: "bullet" }],
       [{ indent: "-1" }, { indent: "+1" }],
     ],
@@ -44,7 +31,14 @@ export const QuillComponentMinimal = ({
     "color",
     "background",
     "clean",
+    "code",
+    "formula",
+    "blockquote",
+    "code-block",
+    "table",
+    "font",
   ];
+
   const { quillRef } = useQuill({ modules, formats, placeholder });
   return (
     <div style={{ width: "100%", height: "100%" }}>

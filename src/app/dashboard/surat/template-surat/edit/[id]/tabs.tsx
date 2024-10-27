@@ -1,8 +1,9 @@
 "use client";
 
 import classNames from "classnames";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useContext } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
+import { Context } from "./providers";
 
 interface TabsProps {
   titles: string[];
@@ -10,9 +11,10 @@ interface TabsProps {
 }
 
 export const Tabs = ({ titles, components }: TabsProps) => {
-  const [activeTab, setActivetab] = useState("0");
+  const [activeTab, setActivetab] = useState(0);
+  const { loading } = useContext(Context)!;
 
-  const toggle = (tab: string) => {
+  const toggle = (tab: number) => {
     setActivetab(tab);
   };
 
@@ -24,10 +26,10 @@ export const Tabs = ({ titles, components }: TabsProps) => {
             <NavLink
               tag="a"
               href="#tab"
-              className={classNames({ active: activeTab === index.toString() })}
+              className={classNames({ active: activeTab === index })}
               onClick={(ev) => {
                 ev.preventDefault();
-                toggle(index.toString());
+                toggle(index);
               }}
             >
               {title}

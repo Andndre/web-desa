@@ -5,6 +5,7 @@ export const tambahSuratTemplateSchema = z.object({
     .string()
     .min(1, { message: "Nama template tidak boleh kosong" })
     .max(255, { message: "Nama template tidak boleh lebih dari 255 karakter" }),
+  text: z.string(),
 });
 
 export type InputType = z.input<typeof tambahSuratTemplateSchema>;

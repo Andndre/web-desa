@@ -7,6 +7,8 @@ import ReactDataTableServerSide, {
 import { renderKey, renderData } from "@/lib/utils/Utils";
 import { useContext } from "react";
 import { Context } from "./providers";
+import Icon from "@/lib/components/icon/Icon";
+import Link from "next/link";
 
 function TableSuratTemplate() {
   const {
@@ -38,6 +40,26 @@ function TableSuratTemplate() {
     <ReactDataTableServerSide
       columns={[
         {
+          name: "No",
+          cell: (_, index) => {
+            return index + 1;
+          },
+          width: "50px",
+        },
+        {
+          name: "Aksi",
+          cell: (row) => {
+            return (
+              <Link href={`/dashboard/surat/template-surat/edit/${row.id}`}>
+                <div className="btn btn-sm btn-warning">
+                  <Icon name="edit-fill" />
+                </div>
+              </Link>
+            );
+          },
+          width: "200px",
+        },
+        {
           name: "Nama",
           selector: (row) => row.nama,
           sortable: true,
@@ -47,21 +69,6 @@ function TableSuratTemplate() {
           selector: (row) => row.created_at.toString(),
           sortable: true,
         },
-        // {
-        //   name: "Aksi",
-        //   cell: (row) => {
-        //     return (
-        //       <Link
-        //         href={`/dashboard/kependudukan/data-keluarga/detail/${row.nomor_kk}`}
-        //         color="warning"
-        //       >
-        //         <div className="btn btn-sm btn-warning">
-        //           <Icon name="edit-fill" />
-        //         </div>
-        //       </Link>
-        //     );
-        //   },
-        // },
       ]}
       data={data}
       pagination

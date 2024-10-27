@@ -8,20 +8,23 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
-  { name, error, label, required, className, ...rest },
+  { name, error, label, required, className, hidden, ...rest },
   ref
 ) {
   return (
     <fieldset className={`form-group ${className ? className : ""}`}>
-      <label htmlFor={name} className="form-label form-label">
-        {label}
-        {required && <span className="text-danger">*</span>}
-      </label>
+      {!hidden && (
+        <label htmlFor={name} className="form-label form-label">
+          {label}
+          {required && <span className="text-danger">*</span>}
+        </label>
+      )}
       <div className="form-control-wrap">
         <input
           ref={ref}
           id={name}
           name={name}
+          hidden={hidden}
           {...rest}
           className="form-control"
         />

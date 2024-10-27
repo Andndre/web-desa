@@ -45,6 +45,14 @@ function FormTambah() {
         error={errors.nama?.message}
         required
       />
+      <Input
+        label="Teks"
+        {...register("text")}
+        error={errors.nama?.message}
+        required
+        value={""}
+        hidden
+      />
       <Button
         type="submit"
         color="primary"

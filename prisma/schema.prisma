@@ -167,11 +167,17 @@ model komponen_surat {
   id                   Int                    @id @default(autoincrement())
   template_id          Int
   nama                 String                 @db.VarChar(255) // Nama komponen, misalnya "nik pelapor", "lokasi kematian", dll.
-  tipe                 String                 @db.VarChar(50) // Jenis data, misalnya "text", "date", "select", dll.
-  is_relasi            Boolean                @default(false) // Apakah komponen ini berelasi ke penduduk atau tidak
+  tipe                 tipe_komponen_surat
   label                String                 @db.VarChar(255) // Label yang ditampilkan di form
   template             surat_template         @relation(fields: [template_id], references: [id])
   nilai_komponen_surat nilai_komponen_surat[]
+}
+
+enum tipe_komponen_surat {
+  teks
+  tanggal
+  penduduk
+  file
 }
 
 model nilai_komponen_surat {

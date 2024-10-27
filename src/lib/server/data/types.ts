@@ -1,3 +1,5 @@
-export type ReturnTypeItemAsync<
-  T extends (page: number, perPage: number, ...args: any[]) => Promise<any[]>
-> = Awaited<ReturnType<T>>[number];
+export type ReturnTypeAsync<T extends (...args: any[]) => Promise<any[]>> =
+  Awaited<ReturnType<T>>;
+
+export type ReturnTypeItemAsync<T extends (...args: any[]) => Promise<any[]>> =
+  Awaited<ReturnType<T>>[number];
