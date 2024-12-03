@@ -90,6 +90,7 @@ const Navside: React.FC<NavsideProps> = ({ setCurrentMenuTab, setLoading }) => {
             <div className="nk-sidebar-menu">
               <ul className="nk-menu apps-menu">
                 {menu.map((item, index) => {
+                  console.log(item);
                   return (
                     <React.Fragment key={index}>
                       <li
