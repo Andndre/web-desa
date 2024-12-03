@@ -24,10 +24,10 @@ export default async function Page() {
           <BlockBetween>
             <BlockHeadContent>
               <BlockTitle page tag="h3">
-                Data Penduduk
+                Data Template Surat
               </BlockTitle>
               <BlockDes className="text-soft">
-                <p>Berikut merupakan data penduduk yang terdaftar</p>
+                <p>Berikut merupakan data template surat yang terdaftar</p>
               </BlockDes>
             </BlockHeadContent>
             <BlockHeadContent>

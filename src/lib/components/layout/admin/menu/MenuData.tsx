@@ -32,6 +32,17 @@ const menu: Menu[] = [
       },
     ],
   },
+  {
+    heading: "Surat Menyurat",
+    icon: "menu-circled",
+    subMenu: [
+      {
+        text: "Template Surat",
+        icon: "users-fill",
+        link: "/dashboard/surat/template-surat",
+      },
+    ],
+  },
 ];
 
 export default menu;

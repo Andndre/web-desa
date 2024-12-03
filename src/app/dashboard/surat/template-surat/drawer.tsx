@@ -13,7 +13,7 @@ function Drawer() {
     <>
       <Button color="primary" onClick={() => setShowOffcanvas(!showOffcanvas)}>
         <Icon name="plus" />
-        <span>Tambah Kartu Keluarga</span>
+        <span>Tambah Template Surat</span>
       </Button>
       <Offcanvas
         direction="end"
@@ -21,7 +21,7 @@ function Drawer() {
         toggle={() => setShowOffcanvas(!showOffcanvas)}
       >
         <OffcanvasHeader toggle={() => setShowOffcanvas(!showOffcanvas)}>
-          Tambah Data Kartu Keluarga
+          Tambah Template Surat
         </OffcanvasHeader>
         <OffcanvasBody>
           <FormTambah />
